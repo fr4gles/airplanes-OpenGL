@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -14,6 +17,7 @@ namespace AirPlanesServer
 		}
 
 		private const short UdpPort = 3000;
+		private List<EndPoint> _listOfConnectesClients; 
 		public Thread Udpthread;
 
 		public UdpServer()
@@ -21,7 +25,8 @@ namespace AirPlanesServer
 			try
 			{
 				//Starting the UDP Server thread.
-				Udpthread = new Thread(new ThreadStart(StartReceiveFrom2));
+				_listOfConnectesClients =  new List<EndPoint>();
+				Udpthread = new Thread(new ThreadStart(ReceiveAndSendBack));
 				Udpthread.Start();
 				Console.WriteLine("Started Server / UDP Sender-Receiver Thread!\n");
 			}
@@ -61,7 +66,7 @@ namespace AirPlanesServer
 			return localIP;
 		}
 
-		public void StartReceiveFrom2()
+		public void ReceiveAndSendBack()
 		{
 			try
 			{
@@ -72,19 +77,30 @@ namespace AirPlanesServer
 				Console.WriteLine(" >> SERVER INFO << IP: {0}, UDP port: {1}",localIP.ToString(), UdpPort);
 				var localIpEndPoint = new IPEndPoint(localIP, UdpPort);
 				soUdp.Bind(localIpEndPoint);
-				
+
 				while (true)
 				{
 					var received = new Byte[256];
 					var tmpIpEndPoint = new IPEndPoint(localIP, UdpPort);
-					EndPoint remoteEP = (tmpIpEndPoint);
+					//var remoteEP = new List<EndPoint>();
+					//remoteEP.Add(tmpIpEndPoint);
+					//remoteEP.IndexOf(0);
+
+					EndPoint remoteEP = tmpIpEndPoint;
 					var bytesReceived = soUdp.ReceiveFrom(received, ref remoteEP);
 					var dataReceived = System.Text.Encoding.ASCII.GetString(received);
 					Console.WriteLine("SampleClient is connected through UDP. | {0}",remoteEP.ToString());
 					Console.WriteLine(dataReceived);
 					var returningString = "The Server got your message through UDP:" + dataReceived.ToString(CultureInfo.InvariantCulture);
 					var returningByte = System.Text.Encoding.ASCII.GetBytes(returningString.ToCharArray());
-					soUdp.SendTo(returningByte, remoteEP);
+					_listOfConnectesClients.Add(remoteEP);
+					_listOfConnectesClients = _listOfConnectesClients.Distinct().ToList();
+					
+					foreach (var nr in _listOfConnectesClients)
+					{
+						soUdp.SendTo(returningByte, nr);
+					}
+					
 				}
 			}
 			catch (SocketException se)

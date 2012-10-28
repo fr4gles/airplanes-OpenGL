@@ -12,17 +12,16 @@ namespace AirPlanesClient
 			//Console.WriteLine("Usage: sampleTcpUdpClient2 <TCP or UDP> <Server Name or IP Address> Message");
 			//Console.WriteLine("Example: sampleTcpUdpClient2 TCP localhost ''hello. how are you?''");
 			
-			var client = new MyUdpClient();
+			
 			Console.WriteLine("Wprowadź adres ip serwera: (pozostaw puste jeśli adres ip to 192.168.0.100)");
-			var ip = "";
-			Console.ReadLine();
-			if (ip == "")
-				ip = "192.168.0.100";
+			var ip = Console.ReadLine();
+			if (ip == "") ip = "192.168.0.100";
+			
 			Console.Clear();
-			Console.WriteLine("Połączenie z serwerem : {0}",ip);
+			Console.WriteLine("Połączenie z serwerem : {0}, port: {1}",ip,UdPport);
 
-			client.InitializeUdpClient(ip);
-
+			var client = new MyUdpClient(ip);
+			
 			while (true)
 			{
 				Console.Write("Wiadomosc (q = quit): ");
@@ -35,8 +34,15 @@ namespace AirPlanesClient
 		}
 
 		private const short UdPport = 3000;
-		private UdpClient _udpClient;			
-		private IPEndPoint _remoteIpEndPoint;	
+		private UdpClient	_udpClient;
+		private IPEndPoint	_remoteIpEndPoint;
+		private EndPoint	_localIPEndPoint;
+		private IPAddress	_remoteHostEntry;
+
+		public MyUdpClient(string ip)
+		{
+			InitializeUdpClient(ip);
+		}
 
 		private static IPAddress GetLocalHosts()
 		{
@@ -72,8 +78,11 @@ namespace AirPlanesClient
 			try
 			{
 				_udpClient = new UdpClient(serverName, UdPport);
-				var remoteHostEntry = GetLocalHosts();
-				_remoteIpEndPoint = new IPEndPoint(remoteHostEntry, UdPport);
+				_localIPEndPoint = _udpClient.Client.LocalEndPoint;
+				_remoteHostEntry = GetLocalHosts();
+				_remoteIpEndPoint = new IPEndPoint(_remoteHostEntry, UdPport);
+
+				Console.WriteLine(" IP klienta: {0} , port : {1}", _remoteHostEntry, _localIPEndPoint);
 			}
 			catch (Exception e)
 			{
