@@ -1,36 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace AirPlanesServer
 {
-	class UDPServer
+	class UdpServer
 	{
 		static void Main(string[] args)
 		{
-			UDPServer game_server = new UDPServer(); 
+			new UdpServer();
 		}
 
-		private const short _udpPort = 3000;
-		public Thread sampleUdpThread;
+		private const short UdpPort = 3000;
+		public Thread Udpthread;
 
-		public UDPServer()
+		public UdpServer()
 		{
 			try
 			{
 				//Starting the UDP Server thread.
-				sampleUdpThread = new Thread(new ThreadStart(StartReceiveFrom2));
-				sampleUdpThread.Start();
-				Console.WriteLine("Started SampleTcpUdpServer's UDP Receiver Thread!\n");
+				Udpthread = new Thread(new ThreadStart(StartReceiveFrom2));
+				Udpthread.Start();
+				Console.WriteLine("Started Server / UDP Sender-Receiver Thread!\n");
 			}
 			catch (Exception e)
 			{
 				Console.WriteLine("An UDP Exception has occurred!" + e.ToString());
-				sampleUdpThread.Abort();
+				Udpthread.Abort();
 			}
 		}
 
@@ -49,7 +47,7 @@ namespace AirPlanesServer
 				return null;
 			}
 
-			foreach (IPAddress ip in localHostEntry.AddressList)
+			foreach (var ip in localHostEntry.AddressList)
 			{
 				if (ip.AddressFamily == AddressFamily.InterNetwork)
 				{
@@ -68,24 +66,24 @@ namespace AirPlanesServer
 			try
 			{
 				//Create a UDP socket.
-				Socket soUdp = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-				IPAddress localIP = getLocalHosts();
+				var soUdp = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+				var localIP = getLocalHosts();
 
-				Console.WriteLine(" >> SERVER INFO << IP: {0}, UDP port: {1}",localIP.ToString(), _udpPort);
-				IPEndPoint localIpEndPoint = new IPEndPoint(localIP, _udpPort);
+				Console.WriteLine(" >> SERVER INFO << IP: {0}, UDP port: {1}",localIP.ToString(), UdpPort);
+				var localIpEndPoint = new IPEndPoint(localIP, UdpPort);
 				soUdp.Bind(localIpEndPoint);
 				
 				while (true)
 				{
-					Byte[] received = new Byte[256];
-					IPEndPoint tmpIpEndPoint = new IPEndPoint(localIP, _udpPort);
+					var received = new Byte[256];
+					var tmpIpEndPoint = new IPEndPoint(localIP, UdpPort);
 					EndPoint remoteEP = (tmpIpEndPoint);
-					int bytesReceived = soUdp.ReceiveFrom(received, ref remoteEP);
-					String dataReceived = System.Text.Encoding.ASCII.GetString(received);
-					Console.WriteLine("SampleClient is connected through UDP.");
+					var bytesReceived = soUdp.ReceiveFrom(received, ref remoteEP);
+					var dataReceived = System.Text.Encoding.ASCII.GetString(received);
+					Console.WriteLine("SampleClient is connected through UDP. | {0}",remoteEP.ToString());
 					Console.WriteLine(dataReceived);
-					String returningString = "The Server got your message through UDP:" + dataReceived;
-					Byte[] returningByte = System.Text.Encoding.ASCII.GetBytes(returningString.ToCharArray());
+					var returningString = "The Server got your message through UDP:" + dataReceived.ToString(CultureInfo.InvariantCulture);
+					var returningByte = System.Text.Encoding.ASCII.GetBytes(returningString.ToCharArray());
 					soUdp.SendTo(returningByte, remoteEP);
 				}
 			}
