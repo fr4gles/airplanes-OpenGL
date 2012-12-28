@@ -1,22 +1,38 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace AirPlanesClient
 {
 	class MyUdpClient
 	{
+
+		[DllImport("DLLGRAFIKA3D.dll", EntryPoint = "StartProgram")]
+		public static extern int StartProgram();
+
+		//[DllImport("testDll.dll", EntryPoint = "Add", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		//public static extern int Add(int a, int b);
+
 		static void Main()
 		{
 			//Console.WriteLine("Usage: sampleTcpUdpClient2 <TCP or UDP> <Server Name or IP Address> Message");
 			//Console.WriteLine("Example: sampleTcpUdpClient2 TCP localhost ''hello. how are you?''");
-			
-			
+
+			//Console.WriteLine(" - - - " + Add(4, 5) + System.Environment.NewLine);
+
+			StartProgram();
+
 			Console.WriteLine("Wprowadź adres ip serwera: (pozostaw puste jeśli adres ip to 192.168.0.100)");
 			var ip = Console.ReadLine();
 			if (ip == "") ip = "192.168.0.100";
-			
+
+			//Grafika::StartProgram();
+
+
+
+
 			Console.Clear();
 			Console.WriteLine("Połączenie z serwerem : {0}, port: {1}",ip,UdPport);
 
