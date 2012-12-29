@@ -229,3 +229,4 @@ packages/
 *.lai
 *.la
 *.a
+*.layout

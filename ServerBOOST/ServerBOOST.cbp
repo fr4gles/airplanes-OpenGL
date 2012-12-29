@@ -32,7 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename="chat_message.hpp" />
+		<Unit filename="chat_server.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
