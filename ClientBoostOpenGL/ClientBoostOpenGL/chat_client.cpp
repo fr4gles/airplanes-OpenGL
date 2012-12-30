@@ -8,10 +8,12 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <cstdlib>
 #include <deque>
 #include <iostream>
-#include <unistd.h>
+//#include <unistd.h>
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread/thread.hpp>
@@ -104,7 +106,7 @@ private:
 
             }
 
-            std::cout << strs[0] << ',' << global_vec[0] << ',' << global_vec[1] << ',' << global_vec[2] << ',' << global_vec[3] << std::endl;
+            //std::cout << strs[0] << ',' << global_vec[0] << ',' << global_vec[1] << ',' << global_vec[2] << ',' << global_vec[3] << std::endl;
       }
 
       boost::asio::async_read(socket_,
@@ -173,7 +175,7 @@ int main(int argc, char* argv[])
     if (argc != 3)
     {
       std::cerr << "Usage: chat_client <host> <port>\n";
-      return 1;
+      //return 1;
     }
 
 
@@ -185,7 +187,7 @@ int main(int argc, char* argv[])
     boost::asio::io_service io_service;
 
     tcp::resolver resolver(io_service);
-    tcp::resolver::query query(argv[1], argv[2]);
+    tcp::resolver::query query("192.168.0.100"/*argv[1]*/, "1234"/*argv[2]*/);
     tcp::resolver::iterator iterator = resolver.resolve(query);
 
     chat_client c(io_service, iterator);
