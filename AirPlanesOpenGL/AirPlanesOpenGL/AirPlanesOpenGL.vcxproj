@@ -90,10 +90,10 @@
     <Library Include="lib\tbb_debug.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\chat_client.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\chat_client.hpp" />
     <ClInclude Include="src\chat_message.hpp" />
     <ClInclude Include="src\glfw.h" />
     <ClInclude Include="src\obj.h" />

@@ -32,14 +32,6 @@
     </Library>
   </ItemGroup>
   <ItemGroup>
-    <None Include="lib\freeglut.dll">
-      <Filter>lib</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\chat_client.cpp">
-      <Filter>src\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>src\Source Files</Filter>
     </ClCompile>
@@ -57,5 +49,13 @@
     <ClInclude Include="src\targa.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\chat_client.hpp">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="lib\freeglut.dll">
+      <Filter>lib</Filter>
+    </None>
   </ItemGroup>
 </Project>

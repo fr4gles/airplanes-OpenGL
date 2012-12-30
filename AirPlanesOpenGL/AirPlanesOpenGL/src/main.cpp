@@ -1,4 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
+//
+//#include <cstdlib>
+//#include <iostream>
+//#include <string>
+
+#include "chat_client.hpp"
 
 #include <windows.h>
 #include <stdio.h>
@@ -26,7 +32,10 @@ float rot_x=0.0,rot_y=0.0,rot_z=0.0; // rotacja xyz
 
 int mouse_button,mouse_x,mouse_y; // ruchy mysza
 
-bool loaded = false;
+bool loaded = false; // 
+
+
+bool start_MP = false; // czy gra MP wystartowa³a?
 
 void handleKeys()
 {	
@@ -259,11 +268,34 @@ void drawScene()
 	glutPostRedisplay();
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
+	myPos[0]+=0.0001;
+	myPos[1]+=0.0005;
+	myPos[2]+=0.05;
+	myPos[3]+=0.2;
+
+	//if(myPos[3] == 0.2)
+	//	start_MP = true;
+
+	//if(start_MP)
+	//{
+		Connetion::getInstance().Start();
+	//	start_MP = false;
+	//}
 }
 
 
 int main(int argc, char **argv)
 {	
+	std::string ip, port, name;
+	std::cout << " Podaj NAZWE: " << std::endl;
+	std::cin >> name;
+	//std::cout << " Podaj IP: " << std::endl;
+	//std::cin >> ip;
+	//std::cout << " Podaj PORT: " << std::endl;
+	//std::cin >> port;
+
+	Connetion::getInstance().Init(name/*,ip,port*/);
+
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );
 	glutInitWindowSize(800,600);

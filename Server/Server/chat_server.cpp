@@ -68,7 +68,7 @@ public:
 
 private:
   std::set<chat_participant_ptr> participants_;
-  enum { max_recent_msgs = 100 };
+  enum { max_recent_msgs = 0 };
   chat_message_queue recent_msgs_;
 };
 
