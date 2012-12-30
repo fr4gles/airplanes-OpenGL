@@ -283,7 +283,6 @@ void drawScene()
 	//}
 }
 
-
 int main(int argc, char **argv)
 {	
 	std::string ip, port, name;
@@ -294,7 +293,7 @@ int main(int argc, char **argv)
 	//std::cout << " Podaj PORT: " << std::endl;
 	//std::cin >> port;
 
-	Connetion::getInstance().Init(name/*,ip,port*/);
+	Connetion::getInstance().Init(name);
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );
@@ -315,6 +314,8 @@ int main(int argc, char **argv)
 	glutMouseWheelFunc(mouseWheel);
 
 	glutMainLoop();
+
+	Connetion::getInstance().Stop();
 
 	return 0;
 }
