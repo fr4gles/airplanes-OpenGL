@@ -1,53 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{b53edf26-c4f7-4854-85ed-5f9023d373b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{6dfef713-26b2-4517-9bf7-f4326b6abed4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="src\Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="glfw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="obj.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targa.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="freeglut\freeglut.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="freeglut\freeglut_ext.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="freeglut\freeglut_std.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="freeglut\glut.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <Library Include="lib\freeglut.lib">
+      <Filter>lib</Filter>
+    </Library>
+    <Library Include="lib\tbb.lib">
+      <Filter>lib</Filter>
+    </Library>
+    <Library Include="lib\tbb_debug.lib">
+      <Filter>lib</Filter>
+    </Library>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
+    <None Include="lib\freeglut.dll">
+      <Filter>lib</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\chat_client.cpp">
+      <Filter>src\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="lib\freeglut.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="lib\freeglut.lib" />
-    <Library Include="lib\tbb.lib" />
-    <Library Include="lib\tbb_debug.lib" />
+    <ClInclude Include="src\chat_message.hpp">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\glfw.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\obj.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\targa.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
