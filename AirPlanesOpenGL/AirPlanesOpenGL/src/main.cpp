@@ -21,8 +21,8 @@
 
 //#include "lib3ds\lib3ds.h"
 
-//#include "targa.h"
-//#include "obj.h"
+#include "targa.h"
+#include "obj.h"
 
 //#include "glm.h"
 //#include "glm.h"
@@ -49,6 +49,10 @@ bool start_MP = false; // czy gra MP wystartowa³a?
 
 GLuint tmp;
 GLuint texture[10],tex_num;
+
+
+	CModel3DS *monkey;
+
 
 void handleKeys()
 {	
@@ -282,7 +286,11 @@ void drawScene()
 		glPushMatrix();
 		glScalef(0.1f,0.1f,0.1f);
 		glRotatef(-90.0f,1,0,0);
-		//glCallList(tmp);
+
+		glCallList(tmp);
+
+		// Draw our model
+        //monkey->Draw();
 
 		glDisable(GL_LIGHTING);
 
@@ -320,6 +328,18 @@ int main(int argc, char **argv)
 
 	//Connetion::getInstance().Init(name,ip , port);
 
+		      //  try
+        //{
+        //        monkey = new CModel3DS("obj/Airplane HARR/Airplane HARR.3ds");
+        //}
+        //catch(std::string error_str)
+        //{
+        //        std::cerr << "Error: " << error_str << std::endl;
+        //        exit(1);
+        //}
+
+			
+
 	Connetion::getInstance().Init("Mihal","192.168.1.105" , "1234");
 
 	glutInit(&argc, argv);
@@ -328,13 +348,14 @@ int main(int argc, char **argv)
 	glutInitWindowPosition(100,100);
 	glutCreateWindow("Air DESTROYYYYYER");
 
+	
+
+
 	initOpenGL();
 	glewInit();
 	//glfwInit();
 
-	//load_obj("obj/F-2/F-2.obj", tmp, texture, tex_num);
-	//load_materials("obj/F-2/F-2.mtl");
-
+	load_obj("obj/F-2/F-2.obj", tmp, texture, tex_num);
 	
 	glutDisplayFunc(drawScene);
 	glutReshapeFunc(reshapeSceen);
@@ -349,6 +370,8 @@ int main(int argc, char **argv)
 
 	glutTimerFunc(0, sendAndRecv, 0);
 
+	//monkey->CreateVBO();
+	
 	glutMainLoop();
 
 	Connetion::getInstance().Stop();
