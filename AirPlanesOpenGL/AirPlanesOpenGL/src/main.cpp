@@ -288,12 +288,12 @@ int main(int argc, char **argv)
 	std::string ip, port, name;
 	std::cout << " Podaj NAZWE: " << std::endl;
 	std::cin >> name;
-	//std::cout << " Podaj IP: " << std::endl;
-	//std::cin >> ip;
-	//std::cout << " Podaj PORT: " << std::endl;
-	//std::cin >> port;
+	std::cout << " Podaj IP: " << std::endl;
+	std::cin >> ip;
+	std::cout << " Podaj PORT: " << std::endl;
+	std::cin >> port;
 
-	Connetion::getInstance().Init(name);
+	Connetion::getInstance().Init(name,ip , port);
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );

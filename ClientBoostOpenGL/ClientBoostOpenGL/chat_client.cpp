@@ -106,7 +106,7 @@ private:
 
             }
 
-            //std::cout << strs[0] << ',' << global_vec[0] << ',' << global_vec[1] << ',' << global_vec[2] << ',' << global_vec[3] << std::endl;
+            std::cout << strs[0] << ',' << global_vec[0] << ',' << global_vec[1] << ',' << global_vec[2] << ',' << global_vec[3] << std::endl;
       }
 
       boost::asio::async_read(socket_,
@@ -187,7 +187,7 @@ int main(int argc, char* argv[])
     boost::asio::io_service io_service;
 
     tcp::resolver resolver(io_service);
-    tcp::resolver::query query("192.168.0.100"/*argv[1]*/, "1234"/*argv[2]*/);
+    tcp::resolver::query query("192.168.1.105"/*argv[1]*/, "1234"/*argv[2]*/);
     tcp::resolver::iterator iterator = resolver.resolve(query);
 
     chat_client c(io_service, iterator);

@@ -128,7 +128,7 @@ private:
 			std::cout << strs[0] << ',' << opPos[0] << ',' << opPos[1] << ',' << opPos[2] << ',' << opPos[3] << std::endl;
 	  }
 
-	  //std::cout << strs[0] << ',' << opPos[0] << ',' << opPos[1] << ',' << opPos[2] << ',' << opPos[3] << std::endl;
+	 //std::cout << strs[0] << ',' << opPos[0] << ',' << opPos[1] << ',' << opPos[2] << ',' << opPos[3] << std::endl;
 
 	  boost::asio::async_read(socket_,
 		  boost::asio::buffer(read_msg_.data(), chat_message::header_length),
@@ -280,7 +280,7 @@ private:
 class Connetion
  {
   public:
-		void Init(const std::string &imie,const std::string &ip = "192.168.0.100",const std::string &port = "1234")
+		void Init(std::string imie, std::string ip = "192.168.1.105",std::string port = "1234")
 		{
 			_ip = ip;
 			_port = port;
@@ -291,7 +291,7 @@ class Connetion
 
 			tcp::resolver resolver(io_service);
 
-			tcp::resolver::query query("192.168.0.100"/*argv[1]*/, "1234"/*argv[2]*/);
+			tcp::resolver::query query(ip, port);
 			tcp::resolver::iterator iterator = resolver.resolve(query);
 
 			//chat_client c(io_service, iterator);
@@ -344,7 +344,6 @@ private:
 		Connetion& operator=(const Connetion&);
 
 		boost::asio::io_service				io_service;
-
 
 		chat_client*						_c;
 		boost::thread*						_t;
