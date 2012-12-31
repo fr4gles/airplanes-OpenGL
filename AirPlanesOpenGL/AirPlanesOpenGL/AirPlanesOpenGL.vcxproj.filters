@@ -30,6 +30,12 @@
     <Library Include="lib\tbb_debug.lib">
       <Filter>lib</Filter>
     </Library>
+    <Library Include="lib\glew32.lib">
+      <Filter>lib</Filter>
+    </Library>
+    <Library Include="lib\lib3ds.lib">
+      <Filter>lib</Filter>
+    </Library>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -40,21 +46,21 @@
     <ClInclude Include="src\chat_message.hpp">
       <Filter>src\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\glfw.h">
-      <Filter>src\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\obj.h">
-      <Filter>src\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\targa.h">
-      <Filter>src\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\chat_client.hpp">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3dsModel.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\freeglut.dll">
+      <Filter>lib</Filter>
+    </None>
+    <None Include="lib\glew32.dll">
+      <Filter>lib</Filter>
+    </None>
+    <None Include="lib\lib3ds-1_3d.dll">
       <Filter>lib</Filter>
     </None>
   </ItemGroup>

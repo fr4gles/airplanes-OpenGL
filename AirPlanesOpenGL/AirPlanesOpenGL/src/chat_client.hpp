@@ -320,7 +320,7 @@ class Connetion
 			_msg.body_length(_sstr.str().length());
 			std::memcpy(_msg.body(), _sstr.str().c_str(), _msg.body_length());
 			_msg.encode_header();
-				boost::this_thread::sleep(boost::posix_time::milliseconds(10));
+			//	boost::this_thread::sleep(boost::posix_time::milliseconds(10));
 			_c->write(_msg);
 			
 			//}

@@ -60,7 +60,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>lib/tbb.lib;lib/tbb_debug.lib;</AdditionalDependencies>
+      <AdditionalDependencies>lib/tbb.lib;lib/tbb_debug.lib;lib/lib3ds.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -78,14 +78,18 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>lib/tbb.lib;lib/tbb_debug.lib;</AdditionalDependencies>
+      <AdditionalDependencies>lib/tbb.lib;lib/tbb_debug.lib;lib/lib3ds.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="lib\freeglut.dll" />
+    <None Include="lib\glew32.dll" />
+    <None Include="lib\lib3ds-1_3d.dll" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\freeglut.lib" />
+    <Library Include="lib\glew32.lib" />
+    <Library Include="lib\lib3ds.lib" />
     <Library Include="lib\tbb.lib" />
     <Library Include="lib\tbb_debug.lib" />
   </ItemGroup>
@@ -93,11 +97,9 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\3dsModel.h" />
     <ClInclude Include="src\chat_client.hpp" />
     <ClInclude Include="src\chat_message.hpp" />
-    <ClInclude Include="src\glfw.h" />
-    <ClInclude Include="src\obj.h" />
-    <ClInclude Include="src\targa.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

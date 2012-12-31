@@ -6,6 +6,10 @@
 
 #include "chat_client.hpp"
 
+
+#include "glew.h"
+//#include "glfw.h"
+
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,8 +17,16 @@
 
 #include "freeglut/freeglut.h"
 
-#include "targa.h"
-#include "obj.h"
+#include "3dsModel.h"
+
+//#include "lib3ds\lib3ds.h"
+
+//#include "targa.h"
+//#include "obj.h"
+
+//#include "glm.h"
+//#include "glm.h"
+//#include "object.h"
 
 bool keys[256], specialkeys[256];
 
@@ -29,13 +41,14 @@ float pos_x=0.0,pos_y=0.0,pos_z=0.0; // pozycja xyz
 float scale_x=1.0,scale_y=1.0,scale_z=1.0; // skala xyz
 float rot_x=0.0,rot_y=0.0,rot_z=0.0; // rotacja xyz
 
-
 int mouse_button,mouse_x,mouse_y; // ruchy mysza
 
 bool loaded = false; // 
 
-
 bool start_MP = false; // czy gra MP wystartowa³a?
+
+GLuint tmp;
+GLuint texture[10],tex_num;
 
 void handleKeys()
 {	
@@ -137,19 +150,19 @@ void mouseWheel(int button, int dir, int x, int y)
 
 void reshapeSceen(int w, int h)
 {
-	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
+	glViewport(0,0,(GLsizei)w,(GLsizei)h);
 	glMatrixMode(GL_PROJECTION);
-	gluPerspective( 35.0f, (GLfloat)w/(GLfloat)h, 0.1f, 100.0f);
+	glLoadIdentity(); // !!
+	gluPerspective(45.0f,(GLfloat)w/(GLfloat)h, 0.1f, 100.0f);
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	glLoadIdentity(); // !! inaczej nie ma resize
 }
 
 void initOpenGL()
 {
-	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-	glEnable(GL_NORMALIZE|GL_LIGHTING);
-	//glEnable(GL_LIGHT0);
-
+	glClearColor(1.0f,1.0f,1.0f,0.0f);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_LIGHT0);
 }
 
 void drawScene()
@@ -261,6 +274,20 @@ void drawScene()
 			i+=0.1f;
 		}
 	}
+	if(figura==4)
+	{
+		glDisable(GL_COLOR_MATERIAL);
+		//glDisable(GL_TEXTURE_2D);
+		glEnable(GL_LIGHTING);
+		glPushMatrix();
+		glScalef(0.1f,0.1f,0.1f);
+		glRotatef(-90.0f,1,0,0);
+		//glCallList(tmp);
+
+		glDisable(GL_LIGHTING);
+
+	}
+
 
 
 	glFlush ();
@@ -272,36 +299,43 @@ void drawScene()
 	myPos[1]+=0.0005;
 	myPos[2]+=0.05;
 	myPos[3]+=0.2;
+}
 
-	//if(myPos[3] == 0.2)
-	//	start_MP = true;
+void sendAndRecv(int v)
+{
+	Connetion::getInstance().Start();
 
-	//if(start_MP)
-	//{
-		Connetion::getInstance().Start();
-	//	start_MP = false;
-	//}
+	glutTimerFunc(50, sendAndRecv, 0);
 }
 
 int main(int argc, char **argv)
 {	
-	std::string ip, port, name;
-	std::cout << " Podaj NAZWE: " << std::endl;
-	std::cin >> name;
-	std::cout << " Podaj IP: " << std::endl;
-	std::cin >> ip;
-	std::cout << " Podaj PORT: " << std::endl;
-	std::cin >> port;
+	//std::string ip, port, name;
+	//std::cout << " Podaj NAZWE: " << std::endl;
+	//std::cin >> name;
+	//std::cout << " Podaj IP: " << std::endl;
+	//std::cin >> ip;
+	//std::cout << " Podaj PORT: " << std::endl;
+	//std::cin >> port;
 
-	Connetion::getInstance().Init(name,ip , port);
+	//Connetion::getInstance().Init(name,ip , port);
+
+	Connetion::getInstance().Init("Mihal","192.168.1.105" , "1234");
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );
 	glutInitWindowSize(800,600);
 	glutInitWindowPosition(100,100);
-	glutCreateWindow("OpenGL first");
+	glutCreateWindow("Air DESTROYYYYYER");
 
 	initOpenGL();
+	glewInit();
+	//glfwInit();
+
+	//load_obj("obj/F-2/F-2.obj", tmp, texture, tex_num);
+	//load_materials("obj/F-2/F-2.mtl");
+
+	
 	glutDisplayFunc(drawScene);
 	glutReshapeFunc(reshapeSceen);
 	glutKeyboardFunc(keyDown);
@@ -312,6 +346,8 @@ int main(int argc, char **argv)
 	glutMouseFunc(mouseButton);
 	glutMotionFunc(mouseMotion);
 	glutMouseWheelFunc(mouseWheel);
+
+	glutTimerFunc(0, sendAndRecv, 0);
 
 	glutMainLoop();
 
