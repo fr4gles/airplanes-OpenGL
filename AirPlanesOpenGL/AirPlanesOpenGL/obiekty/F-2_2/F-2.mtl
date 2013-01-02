@@ -1,0 +1,70 @@
+# 
+# Wavefront material file
+# Converted by the DEEP Exploration  Deep Exploration 5 5.0.0.1399 Release
+# Right Hemisphere, LTD
+# http://www.righthemisphere.com/
+# 
+
+newmtl plane
+Ka 0.117647 0.117647 0.117647
+Kd 1 1 1
+Ks 0.752941 0.752941 0.752941
+illum 2
+Ns 8
+map_Kd E:\Moje\_projekty_git\airplanes-OpenGL\AirPlanesOpenGL\AirPlanesOpenGL\obj\F-2_2\F-2_P01.tga
+map_bump E:\Moje\_projekty_git\airplanes-OpenGL\AirPlanesOpenGL\AirPlanesOpenGL\obj\F-2_2\F-2_N.tga
+bump E:\Moje\_projekty_git\airplanes-OpenGL\AirPlanesOpenGL\AirPlanesOpenGL\obj\F-2_2\F-2_N.tga
+map_opacity 
+map_d 
+refl 
+map_kS 
+map_kA 
+map_Ns 
+
+newmtl glass
+Ka 0.117647 0.117647 0.117647
+Kd 1 1 1
+Ks 0.752941 0.752941 0.752941
+illum 2
+Ns 8
+map_Kd E:\Moje\_projekty_git\airplanes-OpenGL\AirPlanesOpenGL\AirPlanesOpenGL\obj\F-2_2\Glass_Cockpit.tga
+map_bump 
+bump 
+map_opacity 
+map_d 
+refl 
+map_kS 
+map_kA 
+map_Ns 
+
+newmtl seat
+Ka 0.117647 0.117647 0.117647
+Kd 1 1 1
+Ks 0.752941 0.752941 0.752941
+illum 2
+Ns 8
+map_Kd E:\Moje\_projekty_git\airplanes-OpenGL\AirPlanesOpenGL\AirPlanesOpenGL\obj\F-2_2\Eject_Seat.tga
+map_bump 
+bump 
+map_opacity 
+map_d 
+refl 
+map_kS 
+map_kA 
+map_Ns 
+
+newmtl pilot
+Ka 0.117647 0.117647 0.117647
+Kd 1 1 1
+Ks 0.752941 0.752941 0.752941
+illum 2
+Ns 8
+map_Kd E:\Moje\_projekty_git\airplanes-OpenGL\AirPlanesOpenGL\AirPlanesOpenGL\obj\F-2_2\Pilot_usa.tga
+map_bump 
+bump 
+map_opacity 
+map_d 
+refl 
+map_kS 
+map_kA 
+map_Ns 
