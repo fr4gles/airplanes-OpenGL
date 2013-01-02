@@ -67,6 +67,9 @@
     <ClInclude Include="src\Camera.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\vsync.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\freeglut.dll">
