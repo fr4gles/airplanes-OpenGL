@@ -24,16 +24,7 @@
     <Library Include="lib\freeglut.lib">
       <Filter>lib</Filter>
     </Library>
-    <Library Include="lib\tbb.lib">
-      <Filter>lib</Filter>
-    </Library>
-    <Library Include="lib\tbb_debug.lib">
-      <Filter>lib</Filter>
-    </Library>
     <Library Include="lib\glew32.lib">
-      <Filter>lib</Filter>
-    </Library>
-    <Library Include="lib\lib3ds.lib">
       <Filter>lib</Filter>
     </Library>
   </ItemGroup>
@@ -55,9 +46,6 @@
       <Filter>lib</Filter>
     </None>
     <None Include="lib\glew32.dll">
-      <Filter>lib</Filter>
-    </None>
-    <None Include="lib\lib3ds-1_3d.dll">
       <Filter>lib</Filter>
     </None>
   </ItemGroup>

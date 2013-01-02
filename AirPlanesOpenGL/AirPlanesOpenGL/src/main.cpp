@@ -343,12 +343,10 @@ int main(int argc, char **argv)
 	glutInitWindowPosition(100,100);
 	glutCreateWindow("Air DESTROYYYYYER");
 
-	
-
 
 	initOpenGL();
 	glewInit();
-	//glfwInit();
+
 
 	glutDisplayFunc(drawScene);
 	glutReshapeFunc(reshapeSceen);
@@ -357,14 +355,15 @@ int main(int argc, char **argv)
 	glutSpecialFunc(specialKeyDown);
 	glutSpecialUpFunc(specialKeyUp);
 
+
 	glutMouseFunc(mouseButton);
 	glutMotionFunc(mouseMotion);
 	glutMouseWheelFunc(mouseWheel);
 
+
+	// aktualizowanie pozycji gracza
 	glutTimerFunc(0, sendAndRecv, 0);
 
-	//monkey->CreateVBO();
-	
 	glutMainLoop();
 
 	Connetion::getInstance().Stop();
