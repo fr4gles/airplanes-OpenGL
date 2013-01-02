@@ -32,12 +32,18 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\RootObject.cpp">
+      <Filter>src\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chat_message.hpp">
       <Filter>src\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\chat_client.hpp">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RootObject.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
