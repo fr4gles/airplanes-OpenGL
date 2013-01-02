@@ -6,6 +6,7 @@
 class RootObject
 {
 public:
+	// konstruktory
 	RootObject(void);
 	RootObject(GLuint listID);
 
@@ -31,10 +32,11 @@ public:
 	}
 	
 	virtual void doSth() = 0;
-	virtual void render() {};
+	virtual void render() = 0;
 
 	virtual ~RootObject(void);
 
+protected:
 	GLuint	_listID;
 
 	//1 elem pos , 2 elem rot 
