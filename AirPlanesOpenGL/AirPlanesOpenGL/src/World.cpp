@@ -13,30 +13,30 @@ World::World(int groundSize) : _groundSize(groundSize)
 void World::initLoad()
 {
 	// tu bedzie ladowanie
-	//load_texture("textures/ground.tga",textureGround);
+	load_texture("textures/ground.tga",textureGround);
 	
 	int w,h;
 	GLenum format, type;
 	GLvoid *data;
 
-	load_targa("textures/ground.tga", w,h, format, type, data);
-	glBindTexture( GL_TEXTURE_2D, textureGround );
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	//load_targa("textures/ground.tga", w,h, format, type, data);
+	//glBindTexture( GL_TEXTURE_2D, textureGround );
+	//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
-	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+	//glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+	//glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR );
 
-	gluBuild2DMipmaps( GL_TEXTURE_2D, 3, w, h, format, type, data );
+	//gluBuild2DMipmaps( GL_TEXTURE_2D, 3, w, h, format, type, data );
 
-	delete data;
+	//delete data;
 
 	//std::cout << " = = = " << textureGround << std::endl;
 
 	for(int i=0;i<5;++i)
 		std::cout << " = = = " << textureSky[i] << std::endl;
 
-//	load_texture("textures/front.tga",textureSky[0]);
-	load_targa("textures/front.tga", w,h, format, type, data);
+	load_texture("textures/front.tga",textureSky[0]);
+	/*load_targa("textures/front.tga", w,h, format, type, data);
 	glBindTexture( GL_TEXTURE_2D, textureSky[0] );
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
@@ -46,10 +46,10 @@ void World::initLoad()
 	gluBuild2DMipmaps( GL_TEXTURE_2D, 3, w, h, format, type, data );
 
 	delete data;
+*/
 
-
-//	load_texture("textures/right.tga",textureSky[1]);
-	load_targa("textures/right.tga", w,h, format, type, data);
+	load_texture("textures/right.tga",textureSky[1]);
+	/*load_targa("textures/right.tga", w,h, format, type, data);
 	glBindTexture( GL_TEXTURE_2D, textureSky[1] );
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
@@ -58,15 +58,15 @@ void World::initLoad()
 
 	gluBuild2DMipmaps( GL_TEXTURE_2D, 3, w, h, format, type, data );
 
-	delete data;
+	delete data;*/
 
 
 
-	//load_texture("textures/back.tga",textureSky[2]);
-	//load_texture("textures/left.tga",textureSky[3]);
+	load_texture("textures/back.tga",textureSky[2]);
+	load_texture("textures/left.tga",textureSky[3]);
 
-	//load_texture("textures/top.tga",textureSky[4]);
-		load_targa("textures/top.tga", w,h, format, type, data);
+	load_texture("textures/top.tga",textureSky[4]);
+	/*	load_targa("textures/top.tga", w,h, format, type, data);
 	glBindTexture( GL_TEXTURE_2D, textureSky[4] );
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
@@ -75,7 +75,7 @@ void World::initLoad()
 
 	gluBuild2DMipmaps( GL_TEXTURE_2D, 3, w, h, format, type, data );
 
-	delete data;
+	delete data;*/
 
 
 
@@ -95,7 +95,7 @@ void World::setFollow(RootObject *root)
 void World::render()
 {
 	renderSkybox();
-	//renderGround();
+	renderGround();
 }
 
 void World::renderGround()
@@ -165,6 +165,7 @@ void World::load_texture(char *fn, GLuint &texture)
 	GLvoid *data;
 
 	load_targa(fn, w,h, format, type, data);
+	glGenTextures(1,&texture);
 	glBindTexture( GL_TEXTURE_2D, texture );
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
