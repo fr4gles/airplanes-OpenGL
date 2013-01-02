@@ -97,7 +97,6 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\3dsModel.h" />
     <ClInclude Include="src\chat_client.hpp" />
     <ClInclude Include="src\chat_message.hpp" />
   </ItemGroup>

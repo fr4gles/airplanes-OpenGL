@@ -17,16 +17,8 @@
 
 #include "freeglut/freeglut.h"
 
-#include "3dsModel.h"
-
-//#include "lib3ds\lib3ds.h"
-
 #include "targa.h"
 #include "obj.h"
-
-//#include "glm.h"
-//#include "glm.h"
-//#include "object.h"
 
 bool keys[256], specialkeys[256];
 
@@ -47,11 +39,8 @@ bool loaded = false; //
 
 bool start_MP = false; // czy gra MP wystartowa³a?
 
-GLuint tmp;
+GLuint obj_samolot;
 GLuint texture[10],tex_num;
-
-
-	CModel3DS *monkey;
 
 
 void handleKeys()
@@ -287,7 +276,7 @@ void drawScene()
 		glScalef(0.1f,0.1f,0.1f);
 		glRotatef(-90.0f,1,0,0);
 
-		glCallList(tmp);
+		glCallList(obj_samolot);
 
 		// Draw our model
         //monkey->Draw();
@@ -314,6 +303,12 @@ void sendAndRecv(int v)
 	Connetion::getInstance().Start();
 
 	glutTimerFunc(50, sendAndRecv, 0);
+}
+
+void loadTextures()
+{
+	load_obj("obj/F-2/F-2.obj", obj_samolot, texture, tex_num);
+
 }
 
 int main(int argc, char **argv)
@@ -355,8 +350,6 @@ int main(int argc, char **argv)
 	glewInit();
 	//glfwInit();
 
-	load_obj("obj/F-2/F-2.obj", tmp, texture, tex_num);
-	
 	glutDisplayFunc(drawScene);
 	glutReshapeFunc(reshapeSceen);
 	glutKeyboardFunc(keyDown);
