@@ -35,11 +35,10 @@ float rot_x=0.0,rot_y=0.0,rot_z=0.0; // rotacja xyz
 
 int mouse_button,mouse_x,mouse_y; // ruchy mysza
 
-bool loaded = false; // 
-
-bool start_MP = false; // czy gra MP wystartowa³a?
 
 GLuint obj_samolot;
+
+// textury
 GLuint texture[10],tex_num;
 
 
