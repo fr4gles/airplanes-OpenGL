@@ -27,6 +27,12 @@
     <Library Include="lib\glew32.lib">
       <Filter>lib</Filter>
     </Library>
+    <Library Include="lib\GLFW.lib">
+      <Filter>lib</Filter>
+    </Library>
+    <Library Include="lib\GLFWDLL.lib">
+      <Filter>lib</Filter>
+    </Library>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

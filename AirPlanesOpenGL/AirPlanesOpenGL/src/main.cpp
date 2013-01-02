@@ -3,6 +3,7 @@
 #include "chat_client.hpp"
 
 #include "glew.h"
+#include "glfw.h"
 
 #include <windows.h>
 #include <stdio.h>
@@ -213,6 +214,7 @@ void drawScene()
 
 
 	glFlush ();
+	glfwSwapInterval(1);
 	glutSwapBuffers ();
 	glutPostRedisplay();
 
@@ -237,6 +239,8 @@ void initGame()
 	camera = new Camera();
 	camera->setFollow(world);
 }
+
+
 
 int main(int argc, char **argv)
 {	

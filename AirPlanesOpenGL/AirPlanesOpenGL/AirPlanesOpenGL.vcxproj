@@ -90,6 +90,8 @@
   <ItemGroup>
     <Library Include="lib\freeglut.lib" />
     <Library Include="lib\glew32.lib" />
+    <Library Include="lib\GLFW.lib" />
+    <Library Include="lib\GLFWDLL.lib" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp" />
