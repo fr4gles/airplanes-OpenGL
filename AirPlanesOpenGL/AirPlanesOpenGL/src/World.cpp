@@ -103,7 +103,7 @@ void World::renderGround()
 	glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, textureGround );
 		glPushMatrix();
-			glTranslated(floor(_existence[0][0]),0,floor(_existence[0][2]));
+			glTranslated(floor(_existence[0][0]),/*-_groundSize/2*/0,floor(_existence[0][2]));
 			for(int i=-_groundSize/2;i<_groundSize/2;i+=5.0f)
 				for(int j=-_groundSize/2;j<_groundSize/2;j+=5.0f)
 				{

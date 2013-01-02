@@ -137,7 +137,7 @@ void reshapeSceen(int w, int h)
 	glViewport(0,0,(GLsizei)w,(GLsizei)h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity(); // !!
-	gluPerspective(45.0f,(GLfloat)w/(GLfloat)h, 0.1f, 100.0f);
+	gluPerspective(45.0f,(GLfloat)w/(GLfloat)h, 0.1f, 600.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity(); // !! inaczej nie ma resize
 }
@@ -173,6 +173,11 @@ void drawScene()
 	//		scale_scene = 0.0;
 	//}
 
+	glEnable(GL_LIGHTING);
+	glPushMatrix();
+		world->render();
+	glDisable(GL_LIGHTING);
+
 	glTranslatef(pos_x,pos_y,pos_z);
 	glRotatef(rot_x,1,0,0);
 	glRotatef(rot_y,0,1,0);
@@ -197,11 +202,6 @@ void drawScene()
 
 	glEnd ();
 	glDisable(GL_LINE_STIPPLE);
-
-	glEnable(GL_LIGHTING);
-	glPushMatrix();
-		world->render();
-	glDisable(GL_LIGHTING);
 
 
 	glFlush ();
