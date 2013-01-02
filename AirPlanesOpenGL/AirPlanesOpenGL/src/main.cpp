@@ -1,14 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
-//
-//#include <cstdlib>
-//#include <iostream>
-//#include <string>
 
 #include "chat_client.hpp"
 
-
 #include "glew.h"
-//#include "glfw.h"
 
 #include <windows.h>
 #include <stdio.h>
@@ -17,8 +11,7 @@
 
 #include "freeglut/freeglut.h"
 
-#include "targa.h"
-#include "obj.h"
+#include "World.h"
 
 bool keys[256], specialkeys[256];
 
@@ -35,12 +28,11 @@ float rot_x=0.0,rot_y=0.0,rot_z=0.0; // rotacja xyz
 
 int mouse_button,mouse_x,mouse_y; // ruchy mysza
 
-
-GLuint obj_samolot;
-
 // textury
 GLuint texture[10],tex_num;
 
+// zmienne klas
+World* world;
 
 void handleKeys()
 {	
@@ -161,14 +153,12 @@ void drawScene()
 {
 	handleKeys();
 	glClearColor(1.0,1.0,1.0,1.0);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_LIGHTING);
-
 	glLoadIdentity();
-	//gluLookAt(3.0, 1.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
-	gluLookAt(camera_distance*cos(camera_theta)*cos(camera_fi),
+	gluLookAt(
+		camera_distance*cos(camera_theta)*cos(camera_fi),
 		camera_distance*sin(camera_theta),
 		camera_distance*cos(camera_theta)*sin(camera_fi),
 		0.0,0.0,0.0,
@@ -176,12 +166,12 @@ void drawScene()
 		camera_distance*sin(camera_theta+0.1),
 		camera_distance*cos(camera_theta+0.1)*sin(camera_fi));
 
-	if(scale_scene)
-	{
-		glScalef(scale_scene, scale_scene, scale_scene);
-		if(scale_scene>5.0f || scale_scene <-2.5f)
-			scale_scene = 0.0;
-	}
+	//if(scale_scene)
+	//{
+	//	glScalef(scale_scene, scale_scene, scale_scene);
+	//	if(scale_scene>5.0f || scale_scene <-2.5f)
+	//		scale_scene = 0.0;
+	//}
 
 	glTranslatef(pos_x,pos_y,pos_z);
 	glRotatef(rot_x,1,0,0);
@@ -189,107 +179,34 @@ void drawScene()
 	glRotatef(rot_z,0,0,1);
 	glScalef(scale_x,scale_y,scale_z);
 
-	float i=0.0, j=0.0;
-
 	/* uklad wspolrzednych */
 	glLineWidth(4);
 	glBegin(GL_LINES);
-		glColor3f(0.0,1.0,0.0);
-		glVertex3f( 0.0, 0.0, 0.0);
-		glVertex3f( 1.0, 0.0, 0.0);
-		glColor3f(1.0,0.0,0.0);
-		glVertex3f( 0.0, 0.0, 0.0);
-		glVertex3f( 0.0, 1.0, 0.0);
-		glColor3f(0.0,0.0,1.0);
-		glVertex3f( 0.0, 0.0, 0.0);
-		glVertex3f( 0.0, 0.0, 1.0);
+		glColor3f(0.0,1.0,0.0);glVertex3f( 0.0, 0.0, 0.0);glVertex3f( 1.0, 0.0, 0.0);
+		glColor3f(1.0,0.0,0.0);glVertex3f( 0.0, 0.0, 0.0);glVertex3f( 0.0, 1.0, 0.0);
+		glColor3f(0.0,0.0,1.0);glVertex3f( 0.0, 0.0, 0.0);glVertex3f( 0.0, 0.0, 1.0);
 	glEnd ();
 
 	/* linie ukaldu przedluzajace */
 	glLineStipple(1, 0xAAAA);
 	glEnable(GL_LINE_STIPPLE);
 	glBegin(GL_LINES);
-	glColor3f(0.0,0.0,0.0);
-	glVertex3f( 0.0, 0.0, 0.0);
-	glVertex3f( -1.0, 0.0, 0.0);
-	glColor3f(0.0,0.0,0.0);
-	glVertex3f( 0.0, 0.0, 0.0);
-	glVertex3f( 0.0, 0.0, -1.0);
-	glColor3f(0.0,0.0,0.0);
-	glVertex3f( 0.0, 0.0, 0.0);
-	glVertex3f( 0.0, -1.0, 0.0);
+		glColor3f(0.0,0.0,0.0);glVertex3f( 0.0, 0.0, 0.0);glVertex3f( -1.0, 0.0, 0.0);
+		glColor3f(0.0,0.0,0.0);glVertex3f( 0.0, 0.0, 0.0);glVertex3f( 0.0, 0.0, -1.0);
+		glColor3f(0.0,0.0,0.0);glVertex3f( 0.0, 0.0, 0.0);glVertex3f( 0.0, -1.0, 0.0);
 
 	glEnd ();
 	glDisable(GL_LINE_STIPPLE);
-	
-	if(figura==1)
-	{
-		//glEnable(GL_LIGHTING);
-		/* szescian */
-		glColor3f(0.0,0.0,0.0);
-		glPushMatrix();
-		glutWireCube(0.5);
-		glPopMatrix();
 
-		/* trojkat */
-		glPushMatrix();
-		glBegin(GL_TRIANGLES);
-			glColor3f(1.0,0.0,0.0); glVertex3f(-0.25f, 0.25f, 0.25f);
-			glColor3f(0.0,1.0,0.0); glVertex3f(0.25f, -0.25f, 0.25f);
-			glColor3f(0.0,0.0,1.0); glVertex3f(0.25f, 0.25f, -0.25f);
-		
-		glEnd();
-		glPopMatrix();
-	}
-
-	if(figura==2)
-	{
-		//glDisable(GL_LIGHTING);
-		/* obwazanek */
-		glPushMatrix();
-		glColor3f(0.3,0.5,0.2);
-		glutSolidTorus(0.1f, 0.5f,100,50);  
-		glPopMatrix();
-		//glEnable(GL_LIGHTING);
-	}
-
-	if(figura==3)
-	{
-		glEnable(GL_LIGHTING);
-		for(i=-7;i<7;i++)
-		{
-			for(j=-7;j<7;j++)
-			{
-				glRectf(i*0.1,j*0.1,i*0.1+0.1,j*0.1+0.1);
-				j+=0.1f;
-			}
-			i+=0.1f;
-		}
-	}
-	if(figura==4)
-	{
-		glDisable(GL_COLOR_MATERIAL);
-		//glDisable(GL_TEXTURE_2D);
-		glEnable(GL_LIGHTING);
-		glPushMatrix();
-		glScalef(0.1f,0.1f,0.1f);
-		glRotatef(-90.0f,1,0,0);
-
-		glCallList(obj_samolot);
-
-		// Draw our model
-        //monkey->Draw();
-
-		glDisable(GL_LIGHTING);
-
-	}
-
+	glEnable(GL_LIGHTING);
+	glPushMatrix();
+		world->render();
+	glDisable(GL_LIGHTING);
 
 
 	glFlush ();
 	glutSwapBuffers ();
 	glutPostRedisplay();
-	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 	myPos[0]+=0.0001;
 	myPos[1]+=0.0005;
@@ -304,10 +221,10 @@ void sendAndRecv(int v)
 	glutTimerFunc(50, sendAndRecv, 0);
 }
 
-void loadTextures()
+void initGame()
 {
-	load_obj("obj/F-2/F-2.obj", obj_samolot, texture, tex_num);
-
+	world = new World();
+	world->initLoad();
 }
 
 int main(int argc, char **argv)
@@ -346,6 +263,7 @@ int main(int argc, char **argv)
 	initOpenGL();
 	glewInit();
 
+	initGame();
 
 	glutDisplayFunc(drawScene);
 	glutReshapeFunc(reshapeSceen);

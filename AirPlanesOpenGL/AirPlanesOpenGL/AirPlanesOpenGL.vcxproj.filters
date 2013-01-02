@@ -52,6 +52,9 @@
     <ClInclude Include="src\World.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\targa.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\freeglut.dll">

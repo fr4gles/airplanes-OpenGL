@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef __TARGA__H__
 #define __TARGA__H__
 #include <GL/gl.h>

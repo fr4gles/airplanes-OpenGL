@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef __OBJ__H__
 #define __OBJ__H__
 
