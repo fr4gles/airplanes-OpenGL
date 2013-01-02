@@ -21,7 +21,7 @@ public:
 
 	// obrót obiektu
 	virtual void addRotate(GLfloat x, GLfloat y, GLfloat z);
-	inline GLfloat* getRotate() { return _existence[1] ; }
+	inline GLfloat* getRotation() { return _existence[1] ; }
 
 	// przesuniêcie
 	void move(GLfloat x, GLfloat y, GLfloat z) 

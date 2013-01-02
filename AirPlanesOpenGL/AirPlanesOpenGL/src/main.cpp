@@ -12,6 +12,7 @@
 #include "freeglut/freeglut.h"
 
 #include "World.h"
+#include "Camera.h"
 
 bool keys[256], specialkeys[256];
 
@@ -33,38 +34,45 @@ GLuint texture[10],tex_num;
 
 // zmienne klas
 World* world;
+Camera *camera;
 
 void handleKeys()
 {	
-	if (keys['1']) figura=1;
-	if (keys['2']) figura=2;
-	if (keys['3']) figura=3;
-	if (keys['4']) figura=4;
-	if (keys['5']) figura=5;
-	if (keys['6']) figura=6;	
-	if (keys['7']) figura=7;
+	//if (keys['1']) figura=1;
+	//if (keys['2']) figura=2;
+	//if (keys['3']) figura=3;
+	//if (keys['4']) figura=4;
+	//if (keys['5']) figura=5;
+	//if (keys['6']) figura=6;	
+	//if (keys['7']) figura=7;
 	
 	if (keys['9']) scale_scene+=0.02f;
 	if (keys['0']) scale_scene-=0.02f;
 
 	if(keys[27]) exit(0);
 
+	if (keys['a']) camera_fi-=0.01f;				// lewo
+	if (keys['d']) camera_fi+=0.01f;		// prawo
+	if (keys['s']) camera_theta+=0.01f;		// gora
+	if (keys['w']) camera_theta-=0.01f;		// dol
+
+
 	if (specialkeys[100]) camera_fi-=0.01f;        //lewo 
 	if (specialkeys[102]) camera_fi+=0.01f;        //prawo
 	if (specialkeys[101]) camera_theta+=0.01f;     //gora
 	if (specialkeys[103]) camera_theta-=0.01f;     //dol
 
-	if (keys[113]) pos_x-=0.01f; if (keys[119]) pos_x+=0.01f;
-	if (keys[97] ) pos_y-=0.01f; if (keys[115]) pos_y+=0.01f;
-	if (keys[122]) pos_z-=0.01f; if (keys[120]) pos_z+=0.01f;
+	//if (keys[113]) pos_x-=0.01f; if (keys[119]) pos_x+=0.01f;
+	//if (keys[97] ) pos_y-=0.01f; if (keys[115]) pos_y+=0.01f;
+	//if (keys[122]) pos_z-=0.01f; if (keys[120]) pos_z+=0.01f;
 
-	if (keys[101]) scale_x-=0.02f; if (keys[114]) scale_x+=0.02f;
-	if (keys[100]) scale_y-=0.02f; if (keys[102]) scale_y+=0.02f;
-	if (keys[99] ) scale_z-=0.02f; if (keys[118]) scale_z+=0.02f;
+	//if (keys[101]) scale_x-=0.02f; if (keys[114]) scale_x+=0.02f;
+	//if (keys[100]) scale_y-=0.02f; if (keys[102]) scale_y+=0.02f;
+	//if (keys[99] ) scale_z-=0.02f; if (keys[118]) scale_z+=0.02f;
 
-	if (keys[116]) rot_x-=0.5f; if (keys[121]) rot_x+=0.5f;
-	if (keys[103]) rot_y-=0.5f; if (keys[104]) rot_y+=0.5f;
-	if (keys[98] ) rot_z-=0.5f; if (keys[110]) rot_z+=0.5f;
+	//if (keys[116]) rot_x-=0.5f; if (keys[121]) rot_x+=0.5f;
+	//if (keys[103]) rot_y-=0.5f; if (keys[104]) rot_y+=0.5f;
+	//if (keys[98] ) rot_z-=0.5f; if (keys[110]) rot_z+=0.5f;
 
 }
 
@@ -225,6 +233,9 @@ void initGame()
 {
 	world = new World();
 	world->initLoad();
+
+	camera = new Camera();
+	camera->setFollow(world);
 }
 
 int main(int argc, char **argv)
