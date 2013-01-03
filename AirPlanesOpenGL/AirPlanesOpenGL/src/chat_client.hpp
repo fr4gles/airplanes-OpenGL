@@ -16,27 +16,32 @@
 #include <cstdlib>
 #include <deque>
 #include <iostream>
+#include <utility>
+
 //#include <unistd.h>
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+
 #include "chat_message.hpp"
 
 using boost::asio::ip::tcp;
 
 typedef std::deque<chat_message> chat_message_queue;
 
-static double i=0.0;
-
 double global_vec[4];
 std::string cli_name;
 
-static double			myPos[4]; // moja pozycja
-static double			opPos[4]; // pozycja przeiwnika
+//static double			myPos[4]; // moja pozycja
+//static double			opPos[4]; // pozycja przeiwnika
 
+static std::vector<double> tmp_Me(6,0.0f);
+std::vector<double> tmp_OP(6,0.0f);
 
+typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
+extern Player players;
 
 class chat_client
 {
@@ -111,22 +116,53 @@ private:
 	  std::vector<std::string> strs;
 	  boost::split(strs, tmp, boost::is_any_of(","));
 
-	  if(strs.size()>4 && cli_name != strs[0])
+	  if(strs.size()>7 && cli_name != strs[0])
 	  {
+
+
 			try
 			{
-				opPos[0] = boost::lexical_cast<double>(strs[1]);
-				opPos[1] = boost::lexical_cast<double>(strs[2]);
-				opPos[2] = boost::lexical_cast<double>(strs[3]);
-				opPos[3] = boost::lexical_cast<double>(strs[4]);
+				tmp_OP[0] = boost::lexical_cast<double>(strs[1]);
+				tmp_OP[1] = boost::lexical_cast<double>(strs[2]);
+				tmp_OP[2] = boost::lexical_cast<double>(strs[3]);
+				tmp_OP[3] = boost::lexical_cast<double>(strs[4]);
+				tmp_OP[4] = boost::lexical_cast<double>(strs[5]);
+				tmp_OP[5] = boost::lexical_cast<double>(strs[6]);
+				tmp_OP[6] = boost::lexical_cast<double>(strs[7]);
 			}
 			catch (boost::bad_lexical_cast &ex)
 			{
 
 			}
+		
+		if(players.size() == 0)
+			players.push_back(std::make_pair(strs[0],tmp_OP));
+		else
+		{
+			for(int i=0;i<players.size();++i)
+			{
+				if(players[i].first == strs[0])
+					players[i] = std::make_pair(strs[0],tmp_OP);
+			}
+		}
 
-			std::cout << strs[0] << ',' << opPos[0] << ',' << opPos[1] << ',' << opPos[2] << ',' << opPos[3] << std::endl;
 	  }
+	  //if(strs.size()>4 && cli_name != strs[0])
+	  //{
+			//try
+			//{
+			//	opPos[0] = boost::lexical_cast<double>(strs[1]);
+			//	opPos[1] = boost::lexical_cast<double>(strs[2]);
+			//	opPos[2] = boost::lexical_cast<double>(strs[3]);
+			//	opPos[3] = boost::lexical_cast<double>(strs[4]);
+			//}
+			//catch (boost::bad_lexical_cast &ex)
+			//{
+
+			//}
+
+			//std::cout << strs[0] << ',' << opPos[0] << ',' << opPos[1] << ',' << opPos[2] << ',' << opPos[3] << std::endl;
+	  //}
 
 	 //std::cout << strs[0] << ',' << opPos[0] << ',' << opPos[1] << ',' << opPos[2] << ',' << opPos[3] << std::endl;
 
@@ -286,8 +322,8 @@ class Connetion
 			_port = port;
 			cli_name =_imie = imie;
 
-			for(int i=0;i<3;++i)
-				myPos[i] = opPos[i] = 0.0;
+			//for(int i=0;i<3;++i)
+			//	myPos[i] = opPos[i] = 0.0;
 
 			tcp::resolver resolver(io_service);
 
@@ -314,7 +350,9 @@ class Connetion
 			// -----------------------------
 
 			_sstr.str( std::string() );
-			_sstr << cli_name << ',' << myPos[0] << ',' << myPos[1] << ',' << myPos[2] << ',' << myPos[3];
+			_sstr << cli_name << ',' << 
+				tmp_Me[0] << ',' << tmp_Me[1] << ',' << tmp_Me[2] << ',' << 
+				tmp_Me[3] << ',' << tmp_Me[4] << ',' << tmp_Me[5];
 
 			//chat_message msg;
 			_msg.body_length(_sstr.str().length());

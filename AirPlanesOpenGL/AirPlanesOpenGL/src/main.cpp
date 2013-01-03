@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <gl\GL.h>
+#include <string>
 
 #include "freeglut/freeglut.h"
 
@@ -41,7 +42,10 @@ const GLfloat accel = 0.05f;
 // zmienne klas
 World* world;
 Camera *camera;
-Aircraft *aircraft;
+static Aircraft *aircraft;
+
+typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
+Player players;
 
 //void handleKeys()
 //{	
@@ -248,7 +252,8 @@ void drawScene()
 	 */
 	GLfloat *p = camera->getPosition();
 
-	gluLookAt(p[0], p[1], p[2],
+	gluLookAt(
+		p[0], p[1], p[2],
 		camera->getLookAt()[0], camera->getLookAt()[1],  camera->getLookAt()[2],
 		0,1,0);
 	/*gluLookAt(
@@ -317,6 +322,12 @@ void drawScene()
 
 void sendAndRecv(int v)
 {
+	for(int i=0;i<3;++i)
+		tmp_Me[i] = aircraft->getPosition()[i];
+
+	for(int i=3,j=0;i<6;++i,++j)
+		tmp_Me[i] = aircraft->getRotation()[j];
+
 	Connetion::getInstance().Start();
 
 	glutTimerFunc(50, sendAndRecv, 0);
