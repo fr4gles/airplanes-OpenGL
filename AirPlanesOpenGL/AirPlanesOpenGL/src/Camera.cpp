@@ -30,7 +30,7 @@ void Camera::doSth()
 	
 
 	GLfloat x = followPos[0] + _distance[0]*sin((followRot[1]+_extraRot[1])*3.14f/180.f);
-	GLfloat y = followPos[1] /*+ _distance[1]/**sin((followRot[0]+_extraRot[1])*3.14f/180.f)*/;
+	GLfloat y = followPos[1] + _distance[1]*cos((followRot[0])*3.14f/180.f);
 	GLfloat z = followPos[2] + _distance[2]*cos((followRot[1]+_extraRot[1])*3.14f/180.f);
 
 

@@ -248,7 +248,9 @@ void drawScene()
 	 */
 	GLfloat *p = camera->getPosition();
 
-	gluLookAt(p[0], p[1], p[2],camera->getLookAt()[0], camera->getLookAt()[1],  camera->getLookAt()[2], 0,1,0);
+	gluLookAt(p[0], p[1], p[2],
+		camera->getLookAt()[0], camera->getLookAt()[1],  camera->getLookAt()[2],
+		0,1,0);
 	/*gluLookAt(
 		camera_distance*cos(camera_theta)*cos(camera_fi),
 		camera_distance*sin(camera_theta),
