@@ -42,7 +42,9 @@ const GLfloat accel = 0.05f;
 // zmienne klas
 World* world;
 Camera *camera;
-static Aircraft *aircraft;
+Aircraft *aircraft;
+
+std::vector<std::pair<std::string,Aircraft*>> przeciwnicy;
 
 typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
 Player players;
@@ -277,6 +279,15 @@ void drawScene()
 	//glPushMatrix();
 	world->render();
 	aircraft->render();
+
+	if(przeciwnicy.size() != 0 )
+	{
+		for(int i=0;i<przeciwnicy.size();++i)
+		{
+			przeciwnicy[i].second->render();
+		}
+	}
+
 	//glPopMatrix();
 	glDisable(GL_LIGHTING);
 
@@ -329,6 +340,20 @@ void sendAndRecv(int v)
 		tmp_Me[i] = aircraft->getRotation()[j];
 
 	Connetion::getInstance().Start();
+
+	if(players.size() != 0 && przeciwnicy.size() == 0)
+		przeciwnicy.push_back(std::make_pair(players[0].first, new Aircraft(players[0].second)));
+	else
+	{
+		for(int i=0;i<players.size();++i)
+		{
+			for(int j=0;j<przeciwnicy.size();++j)
+			{
+				if(players[i].first == przeciwnicy[j].first)
+					przeciwnicy[j] = std::make_pair(players[i].first, new Aircraft(players[i].second));
+			}
+		}
+	}
 
 	glutTimerFunc(50, sendAndRecv, 0);
 }

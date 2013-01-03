@@ -14,7 +14,17 @@ public:
 		_existence[0][0] = -10.0f;
 		_existence[0][1] = 0.35f;
 		_existence[0][2] = -10.0f;
-		_existence[1][1] = -0.0f;
+		_existence[1][1] = 0.0f;
+	}
+
+	Aircraft(std::vector<double> &tmp): RootObject()
+	{
+		_existence[0][0] = tmp[0];
+		_existence[0][1] = tmp[1];
+		_existence[0][2] = tmp[2];
+		_existence[1][0] = tmp[3];
+		_existence[1][1] = tmp[4];
+		_existence[1][2] = tmp[5];	
 	}
 
 	void doSth();
