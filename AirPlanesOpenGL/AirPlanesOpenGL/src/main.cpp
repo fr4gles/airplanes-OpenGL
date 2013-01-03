@@ -347,9 +347,21 @@ void sendAndRecv(int v)
 	// dodawanie przeciwników
 	if(players.size() != 0 && przeciwnicy.size() == 0)
 		przeciwnicy.push_back(std::make_pair(players[0].first, new Aircraft(players[0].second)));
-	else if (players.size() != 0 && przeciwnicy.size() != 0)
+	else if (players.size() != 0 /*&& przeciwnicy.size() != 0*/)
 	{
-		przeciwnicy.push_back(std::make_pair(players[players.size()-1].first, new Aircraft(players[players.size()-1].second)));
+		bool isNot = true;
+		for(int i=0;i<players.size();++i)
+		{
+			for(int j=0;j<przeciwnicy.size();++j)
+			{			
+				if(przeciwnicy[j].first == players[i].first)
+					isNot = false;
+			}
+		}
+
+		if(isNot)
+			przeciwnicy.push_back(std::make_pair(players[players.size()-1].first, new Aircraft(players[players.size()-1].second)));
+
 
 		for(int i=0;i<players.size();++i)
 		{
@@ -362,7 +374,7 @@ void sendAndRecv(int v)
 	}
 
 	// usuwanie przeciwnika jak zniknal
-	if(czyPapa.size() != 0)
+	if(!czyPapa.empty())
 		for(int i=0;i<czyPapa.size();++i)
 		{
 			for(int j=0;j<przeciwnicy.size();++j)
