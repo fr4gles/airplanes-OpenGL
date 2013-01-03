@@ -17,8 +17,9 @@ public:
 		_existence[1][1] = 0.0f;
 	}
 
-	Aircraft(std::vector<double> &tmp): RootObject()
+	Aircraft(std::vector<double> tmp): RootObject()
 	{
+		Aircraft();
 		_existence[0][0] = tmp[0];
 		_existence[0][1] = tmp[1];
 		_existence[0][2] = tmp[2];

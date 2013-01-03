@@ -43,6 +43,9 @@ std::vector<double> tmp_OP(6,0.0f);
 typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
 extern Player players;
 
+std::vector<std::pair<std::string,bool>> czyPapa;
+
+
 class chat_client
 {
 public:
@@ -116,10 +119,16 @@ private:
 	  std::vector<std::string> strs;
 	  boost::split(strs, tmp, boost::is_any_of(","));
 
+	  // papa
+	  if(strs.size() == 2)  
+	  {
+		  if(czyPapa.size() == 0)
+			  czyPapa.push_back(std::make_pair(strs[0],true));
+	  }
+
+	// play
 	  if(strs.size()>7 && cli_name != strs[0])
 	  {
-
-
 			try
 			{
 				tmp_OP[0] = boost::lexical_cast<double>(strs[1]);
@@ -143,6 +152,15 @@ private:
 			{
 				if(players[i].first == strs[0])
 					players[i] = std::make_pair(strs[0],tmp_OP);
+			}
+		}
+
+		for(int i=0;i<players.size();++i)
+		{
+			for(int j=0;j<czyPapa.size();++j)
+			{
+				if(players[i].first == czyPapa[j].first)
+					czyPapa[j].second = false;
 			}
 		}
 
@@ -368,6 +386,16 @@ class Connetion
 
 		void Stop()
 		{
+						_sstr.str( std::string() );
+			_sstr << cli_name << ',' << "papa";
+
+			//chat_message msg;
+			_msg.body_length(_sstr.str().length());
+			std::memcpy(_msg.body(), _sstr.str().c_str(), _msg.body_length());
+			_msg.encode_header();
+			//	boost::this_thread::sleep(boost::posix_time::milliseconds(10));
+			_c->write(_msg);
+
 			_c->close();
 			_t->join();
 		}

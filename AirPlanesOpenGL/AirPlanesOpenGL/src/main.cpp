@@ -91,7 +91,9 @@ Player players;
 
 void handleKeys(){
 	if(keys[27]) 
-		exit(0);
+	{
+		glutLeaveMainLoop();
+	}
 	////////////CAMERA
 	if(specialkeys[GLUT_KEY_LEFT]){
 		camera->addDistance(0.0f,-0.1f,0.0f);
@@ -341,10 +343,13 @@ void sendAndRecv(int v)
 
 	Connetion::getInstance().Start();
 
+	// dodawanie przeciwników
 	if(players.size() != 0 && przeciwnicy.size() == 0)
 		przeciwnicy.push_back(std::make_pair(players[0].first, new Aircraft(players[0].second)));
 	else
 	{
+		przeciwnicy.push_back(std::make_pair(players[players.size()-1].first, new Aircraft(players[players.size()-1].second)));
+
 		for(int i=0;i<players.size();++i)
 		{
 			for(int j=0;j<przeciwnicy.size();++j)
@@ -354,6 +359,17 @@ void sendAndRecv(int v)
 			}
 		}
 	}
+
+	// usuwanie przeciwnika jak zniknal
+	if(czyPapa.size() != 0)
+		for(int i=0;i<czyPapa.size();++i)
+		{
+			for(int j=0;j<przeciwnicy.size();++j)
+			{
+				if(czyPapa[i].first == przeciwnicy[j].first && ( czyPapa[i].second == true ))
+					przeciwnicy.erase(przeciwnicy.begin()+j);
+			}
+		}
 
 	glutTimerFunc(50, sendAndRecv, 0);
 }
