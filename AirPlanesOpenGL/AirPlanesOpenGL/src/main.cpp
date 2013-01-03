@@ -282,6 +282,7 @@ void drawScene()
 	world->render();
 	aircraft->render();
 
+	//dodawanie przeciwników
 	if(przeciwnicy.size() != 0 )
 	{
 		for(int i=0;i<przeciwnicy.size();++i)
@@ -346,7 +347,7 @@ void sendAndRecv(int v)
 	// dodawanie przeciwników
 	if(players.size() != 0 && przeciwnicy.size() == 0)
 		przeciwnicy.push_back(std::make_pair(players[0].first, new Aircraft(players[0].second)));
-	else
+	else if (players.size() != 0 && przeciwnicy.size() != 0)
 	{
 		przeciwnicy.push_back(std::make_pair(players[players.size()-1].first, new Aircraft(players[players.size()-1].second)));
 

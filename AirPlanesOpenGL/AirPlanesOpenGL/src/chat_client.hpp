@@ -120,10 +120,21 @@ private:
 	  boost::split(strs, tmp, boost::is_any_of(","));
 
 	  // papa
-	  if(strs.size() == 2)  
+	  if(strs.size() < 3)  
 	  {
-		  if(czyPapa.size() == 0)
+		  if(czyPapa.empty())
 			  czyPapa.push_back(std::make_pair(strs[0],true));
+		  else
+		  {
+			  bool is = false;
+			  for(int i=0;i<czyPapa.size();++i)
+			  {
+				  if(strs[0] == czyPapa[i].first)
+					  is = czyPapa[i].second = true;
+			  }
+			  if(is == true)
+				czyPapa.push_back(std::make_pair(strs[0],true));
+		  }
 	  }
 
 	// play
@@ -144,7 +155,7 @@ private:
 
 			}
 		
-		if(players.size() == 0)
+		if(players.empty())
 			players.push_back(std::make_pair(strs[0],tmp_OP));
 		else
 		{
