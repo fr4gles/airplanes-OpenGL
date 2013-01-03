@@ -93,6 +93,7 @@ void handleKeys(){
 	if(keys[27]) 
 	{
 		glutLeaveMainLoop();
+		Connection::getInstance().Stop();
 	}
 	////////////CAMERA
 	if(specialkeys[GLUT_KEY_LEFT]){
@@ -342,7 +343,7 @@ void sendAndRecv(int v)
 	for(int i=3,j=0;i<6;++i,++j)
 		tmp_Me[i] = aircraft->getRotation()[j];
 
-	Connetion::getInstance().Start();
+	Connection::getInstance().Start();
 
 	// dodawanie przeciwników
 	if(players.size() != 0 && przeciwnicy.size() == 0)
@@ -422,7 +423,7 @@ int main(int argc, char **argv)
 	//std::cout << " Podaj PORT: " << std::endl;
 	//std::cin >> port;
 
-	//Connetion::getInstance().Init(name,ip , port);
+	//Connection::getInstance().Init(name,ip , port);
 
 			  //  try
 		//{
@@ -436,7 +437,7 @@ int main(int argc, char **argv)
 
 			
 
-	Connetion::getInstance().Init("Mihal","192.168.1.105" , "1234");
+	Connection::getInstance().Init("Bartek","192.168.1.105" , "1234");
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );
@@ -473,7 +474,7 @@ int main(int argc, char **argv)
 
 	glutMainLoop();
 
-	Connetion::getInstance().Stop();
+	Connection::getInstance().Stop();
 
 	return 0;
 }

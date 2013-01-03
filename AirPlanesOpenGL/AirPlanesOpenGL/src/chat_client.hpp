@@ -265,7 +265,7 @@ private:
 //boost::thread		_t(boost::bind(&boost::asio::io_service::run, &io_service));
 //
 // //Definicja
-//class Connetion
+//class Connection
 // {
 //  public:
 //		void Init(const std::string &imie,const std::string &ip = "192.168.0.100",const std::string &port = "1234")
@@ -311,16 +311,16 @@ private:
 //			_t.join();
 //		}
 //
-//		static Connetion& getInstance()
+//		static Connection& getInstance()
 //		{
-//		  static Connetion instance;
+//		  static Connection instance;
 //		  return instance;
 //		}
 //
 //private:
-//		Connetion() {}
-//		Connetion(const Connetion &);
-//		Connetion& operator=(const Connetion&);
+//		Connection() {}
+//		Connection(const Connection &);
+//		Connection& operator=(const Connection&);
 //
 //		//boost::asio::io_service			io_service;
 //		//tcp::resolver					resolver;//(io_service);
@@ -342,7 +342,7 @@ private:
 // //std::cout << singleton::getInstance().method();
 
  //Definicja
-class Connetion
+class Connection
  {
   public:
 		void Init(std::string imie, std::string ip = "192.168.1.105",std::string port = "1234")
@@ -411,16 +411,16 @@ class Connetion
 			_t->join();
 		}
 
-		static Connetion& getInstance()
+		static Connection& getInstance()
 		{
-		  static Connetion instance;
+		  static Connection instance;
 		  return instance;
 		}
 
 private:
-		Connetion() {}
-		Connetion(const Connetion &);
-		Connetion& operator=(const Connetion&);
+		Connection() {}
+		Connection(const Connection &);
+		Connection& operator=(const Connection&);
 
 		boost::asio::io_service				io_service;
 
