@@ -94,12 +94,14 @@
     <Library Include="lib\GLFWDLL.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Aircraft.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\RootObject.cpp" />
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Aircraft.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\chat_client.hpp" />
     <ClInclude Include="src\chat_message.hpp" />

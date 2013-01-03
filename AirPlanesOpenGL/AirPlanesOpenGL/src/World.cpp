@@ -56,43 +56,38 @@ void World::renderGround()
 
 void World::renderSkybox()
 {
-//	glDisable(GL_LIGHT0);
-		glDisable(GL_DEPTH_TEST);
-			glPushMatrix();
-			glTranslated(_existence[0][0],_existence[0][1],_existence[0][2]);
-			glEnable( GL_TEXTURE_2D );
-			for(int i=0;i<5;i++)
-			{			
-				glBindTexture( GL_TEXTURE_2D, textureSky[i] );
-
-				float x = 1.0; // z dziwnego powodu jest przesuniecie:/;/ ktore musze likwidowac na czuja
-				float scale=(float)_groundSize;
-				float crossing = 0.5;
-				glPushMatrix();
-				if(i!=4)
-					glRotatef(-i*-90.0,0,1,0);
-				else
-					glRotatef(90.0,1,0,0);
-					glTranslated(-(x*scale)-scale/2.0,-scale/2.0,-scale/2.0+crossing);
-					glBegin( GL_QUADS );
-						glTexCoord2d(x,0); glVertex2d(x*scale,0.0);
-						glTexCoord2d(1.0,0.0); glVertex2d(scale,0.0);
-						glTexCoord2d(1.0,1.0); glVertex2d(scale,scale);
-						glTexCoord2d(x,1.0); glVertex2d(x*scale,scale);
-					glEnd();
-					glTranslated(scale,0.0,0.0);
-					glBegin( GL_QUADS );
-						glTexCoord2d(0,0); glVertex2d(0.0,0.0);
-						glTexCoord2d(x,0.0); glVertex2d(x*scale,0.0);
-						glTexCoord2d(x,1.0); glVertex2d(x*scale,scale);
-						glTexCoord2d(0,1.0); glVertex2d(0,scale);
-						glEnd();
-				glPopMatrix();
-			}
-			glDisable( GL_TEXTURE_2D );
-			glPopMatrix();
-		glEnable(GL_DEPTH_TEST);
-//	glEnable(GL_LIGHTING);
+	glPushMatrix();
+	glTranslated(_existence[0][0],_existence[0][1],_existence[0][2]);
+	for(int i=0;i<5;i++)
+	{
+		glEnable( GL_TEXTURE_2D );
+		glBindTexture( GL_TEXTURE_2D, textureSky[i] );
+		float scale=(float)_groundSize;
+		float crossing = 0.5;
+		glPushMatrix();
+		if(i!=4)
+			glRotatef(-i*-90.0,0,1,0);
+		else
+			glRotatef(90.0,1,0,0);
+			glTranslated(-(scale)-scale/2.0,-scale/2.0,-scale/2.0+crossing);
+			glBegin( GL_QUADS );
+				glTexCoord2d(1,0); glVertex2d(scale,0.0);
+				glTexCoord2d(1.0,0.0); glVertex2d(scale,0.0);
+				glTexCoord2d(1.0,1.0); glVertex2d(scale,scale);
+				glTexCoord2d(1,1.0); glVertex2d(scale,scale);
+			glEnd();
+			glTranslated(scale,0.0,0.0);
+			glBegin( GL_QUADS );
+				glTexCoord2d(0,0); glVertex2d(0.0,0.0);
+				glTexCoord2d(1,0.0); glVertex2d(scale,0.0);
+				glTexCoord2d(1,1.0); glVertex2d(scale,scale);
+				glTexCoord2d(0,1.0); glVertex2d(0,scale);
+				glEnd();
+		glDisable( GL_TEXTURE_2D );
+		glPopMatrix();
+	}
+	
+	glPopMatrix();
 }
 
 void World::load_texture(char *fn, GLuint &texture)
