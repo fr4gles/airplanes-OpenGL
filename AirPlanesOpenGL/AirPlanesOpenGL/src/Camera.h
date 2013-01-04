@@ -20,7 +20,7 @@ public:
 
 	~Camera(void);
 
-//private:
+private:
 	std::vector<GLfloat>	_lookAt,
 							_distance,
 							_extraRot;

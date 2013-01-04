@@ -94,9 +94,9 @@ bool exitProgram = false;
 template <typename T>
 void remove(std::vector<T>& vec, size_t pos)
 {
-    std::vector<T>::iterator it = vec.begin();
-    std::advance(it, pos);
-    vec.erase(it);
+	std::vector<T>::iterator it = vec.begin();
+	std::advance(it, pos);
+	vec.erase(it);
 }
 
 void handleKeys(){
@@ -353,7 +353,7 @@ void drawScene()
 
 void sendAndRecv(int v)
 {
-    if(exitProgram)
+	if(exitProgram)
 	{
 		for(int i=0;i<3;++i)
 			tmp_Me[i] = aircraft->getPosition()[i]+5000.0f;
@@ -361,11 +361,9 @@ void sendAndRecv(int v)
 		for(int i=3,j=0;i<6;++i,++j)
 			tmp_Me[i] = aircraft->getRotation()[j]+5000.0f;
 
-		//for(int i=0;i<4;++i)
-		//	Connection::getInstance().sendByebye();
-		//Connection::getInstance().Stop();
+		Connection::getInstance().Start();
+		Connection::getInstance().Stop();
 		glutLeaveMainLoop();
-		//return;
 	}
 	else
 	{
