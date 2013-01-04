@@ -20,8 +20,4 @@ void Bullet::doSth()
 	_existence[0][0] -= _move[0]*_speed;
 	_existence[0][1] -= _move[1]*_speed;
 	_existence[0][2] -= _move[2]*_speed;
-
-	for(int i=0;i<3;++i)
-		if(_existence[0][i] < -1000.0f)
-			_existence[0][i] = -1000.0f;
 }
