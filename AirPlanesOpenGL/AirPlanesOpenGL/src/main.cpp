@@ -155,8 +155,8 @@ void keyDown(unsigned char key, int x, int y)
 {
 	keys[key]=true;
 
-	if(keys[32])
-		boost::this_thread::sleep(boost::posix_time::milliseconds(100));
+	//if(keys[32])
+	//	boost::this_thread::sleep(boost::posix_time::milliseconds(100));
 
 	printf("%c\n",key);
 }
@@ -341,10 +341,9 @@ void aktualizujPozycjeGracza()
 		for(int i=3,j=0;i<6;++i,++j)
 			tmp_Me[i] = aircraft->getRotation()[j]+5000.0f;
 
-		//for(int i=0;i<iloscKul;++i)
-			
-
-		Connection::getInstance().Start();
+		for(int i=0;i<10;++i)
+			Connection::getInstance().Start();
+		
 		Connection::getInstance().Stop();
 		glutLeaveMainLoop();
 	}
