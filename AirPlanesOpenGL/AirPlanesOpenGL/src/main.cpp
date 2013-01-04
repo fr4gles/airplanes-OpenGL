@@ -46,55 +46,14 @@ Camera *camera;
 Aircraft *aircraft;
 std::vector<Bullet*> bullets;
 
-std::vector<std::pair<std::string,Aircraft*>> przeciwnicy;
+std::vector<std::pair<std::string,RootObject*>> przeciwnicy;
 
 typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
 Player players;
 
 bool exitProgram = false;
 bool strzelaj = false;
-int licznikStrzal = -1;
 int iloscKul = 20;
-
-//void handleKeys()
-//{	
-//	//if (keys['1']) figura=1;
-//	//if (keys['2']) figura=2;
-//	//if (keys['3']) figura=3;
-//	//if (keys['4']) figura=4;
-//	//if (keys['5']) figura=5;
-//	//if (keys['6']) figura=6;	
-//	//if (keys['7']) figura=7;
-//	
-//	if (keys['9']) scale_scene+=0.02f;
-//	if (keys['0']) scale_scene-=0.02f;
-//
-//	if(keys[27]) exit(0);
-//
-//	if (keys['a']) camera_fi-=0.01f;				// lewo
-//	if (keys['d']) camera_fi+=0.01f;		// prawo
-//	if (keys['s']) camera_theta+=0.01f;		// gora
-//	if (keys['w']) camera_theta-=0.01f;		// dol
-//
-//
-//	if (specialkeys[100]) camera_fi-=0.01f;        //lewo 
-//	if (specialkeys[102]) camera_fi+=0.01f;        //prawo
-//	if (specialkeys[101]) camera_theta+=0.01f;     //gora
-//	if (specialkeys[103]) camera_theta-=0.01f;     //dol
-//
-//	//if (keys[113]) pos_x-=0.01f; if (keys[119]) pos_x+=0.01f;
-//	//if (keys[97] ) pos_y-=0.01f; if (keys[115]) pos_y+=0.01f;
-//	//if (keys[122]) pos_z-=0.01f; if (keys[120]) pos_z+=0.01f;
-//
-//	//if (keys[101]) scale_x-=0.02f; if (keys[114]) scale_x+=0.02f;
-//	//if (keys[100]) scale_y-=0.02f; if (keys[102]) scale_y+=0.02f;
-//	//if (keys[99] ) scale_z-=0.02f; if (keys[118]) scale_z+=0.02f;
-//
-//	//if (keys[116]) rot_x-=0.5f; if (keys[121]) rot_x+=0.5f;
-//	//if (keys[103]) rot_y-=0.5f; if (keys[104]) rot_y+=0.5f;
-//	//if (keys[98] ) rot_z-=0.5f; if (keys[110]) rot_z+=0.5f;
-//
-//}
 
 template <typename T>
 void remove(std::vector<T>& vec, size_t pos)
@@ -276,7 +235,6 @@ void initOpenGL()
 
 void drawScene()
 {
-	//handleKeys();
 	glClearColor(1.0,1.0,1.0,1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_LIGHTING);
@@ -364,11 +322,6 @@ void drawScene()
 	//glFlush ();
 	glutSwapBuffers ();
 	glutPostRedisplay();
-
-	/*myPos[0]+=0.0001;
-	myPos[1]+=0.0005;
-	myPos[2]+=0.05;
-	myPos[3]+=0.2;*/
 }
 
 void sendAndRecv(int v)
@@ -426,37 +379,20 @@ void sendAndRecv(int v)
 		}
 	}
 
-	//// usuwanie przeciwnika jak zniknal
-	//if(czyPapa.size() != 0)
-	//	for(int i=0;i<czyPapa.size();++i)
-	//	{
-	//		for(int j=0;j<przeciwnicy.size();++j)
-	//		{
-	//			if(czyPapa[i].first == przeciwnicy[j].first && ( czyPapa[i].second == true ))
-	//			{
-	//				delete przeciwnicy[j].second;
-	//				remove(przeciwnicy, j);
-	//				remove(players,j);
-
-	//				boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
-	//				//przeciwnicy.erase(przeciwnicy.begin()+j);
-	//				//players.erase(players.begin()+j);					
-	//				//for(int k=0;k<players.size();++k)
-	//				//{
-
-	//				//}
-
-	//			}
-	//		}
-	//	}
-
 	glutTimerFunc(50, sendAndRecv, 0);
 }
 
 void bulletTime(int v)
 {
+	if(licznikStrzal > -1 && strzelaj)
+	{
+		bullets[licznikStrzal]->setPosition(aircraft->getPosition());
+		bullets[licznikStrzal]->addRotate(aircraft->getRotation());
 
-	glutTimerFunc(10, bulletTime, 0);
+		strzelaj = false;
+	}
+
+	glutTimerFunc(500, bulletTime, 0);
 }
 
 
@@ -468,14 +404,6 @@ void timer(int v)
 	camera->doSth();
 	world->doSth();
 	
-	if(licznikStrzal > -1 && strzelaj)
-	{
-		bullets[licznikStrzal]->setPosition(aircraft->getPosition());
-		bullets[licznikStrzal]->addRotate(aircraft->getRotation());
-
-		strzelaj = false;
-	}
-
 	for(int i=0;i<bullets.size();++i)
 		bullets[i]->doSth();
 

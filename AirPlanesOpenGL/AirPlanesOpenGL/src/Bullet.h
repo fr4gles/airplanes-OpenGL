@@ -6,7 +6,7 @@ class Bullet :
 public:
 	Bullet(): RootObject()
 	{
-		_speed = 0.05f;
+		_speed = 0.25f;
 		_move = std::vector<GLfloat>(3,0.0f);
 
 		//pos

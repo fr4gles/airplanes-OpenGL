@@ -7,7 +7,7 @@ public:
 	Aircraft(): RootObject()
 	{
 		_speed = 0.0f;
-		_maxSpeed = 1.0f;
+		_maxSpeed = 0.20f;
 		_minSpeed = 0.0f;
 		_move = std::vector<GLfloat>(3,0.0f);
 
