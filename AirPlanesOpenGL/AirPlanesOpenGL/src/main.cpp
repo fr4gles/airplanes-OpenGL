@@ -40,6 +40,7 @@ int mouse_button,mouse_x,mouse_y; // ruchy mysza
 GLuint texture[10],tex_num;
 
 const GLfloat accel = 0.005f;
+GLfloat fogDensity = 0.045f;
 
 // zmienne klas
 World* world;
@@ -132,24 +133,26 @@ void handleKeys(){
 		aircraft->speedDown(accel);
 
 	/////////////EXTRA VIEW
-
-	if(keys['1']||keys['!']) {
+	if(keys['1']) {
+		camera->setExtraRotation(0.0f,0.0f,0.0f);
+	}
+	if(keys['2']) {
 		camera->setExtraRotation(0.0f,-90.f,0.0f);
 	}
-	if(keys['2']||keys['@']) { 
+	if(keys['3']) { 
 		camera->setExtraRotation(0.0f,180.f,0.0f);
 	}
-	if(keys['3']||keys['#']) {
+	if(keys['4']) {
 		camera->setExtraRotation(0.0f,90.f,0.0f);
 	}
-	/*if(keys['4']||keys['$']) {
+	if(keys['5']) {
 		if(fogDensity<1.0)
 			fogDensity+=0.005f;
 	}
-	if(keys['5']||keys['%']) {
+	if(keys['6']) {
 		if(fogDensity>0.0)
 			fogDensity-=0.005f;
-	}*/
+	}
 }
 
 void keyUp(unsigned char key, int x, int y)
@@ -238,6 +241,21 @@ void initOpenGL()
 	glEnable(GL_LIGHT0);
 }
 
+void renderFog()
+{
+	GLfloat fogColor[] = {0.8f, 0.8f, 0.8f, 1.0f};
+						//{ 0.2f, 0.2f, 0.2f, 1.0f };
+	glEnable(GL_FOG);
+
+	glFogfv(GL_FOG_COLOR, fogColor);
+	glFogf( GL_FOG_DENSITY, fogDensity );
+	glFogf(GL_FOG_START, 10.0f);
+	glFogf(GL_FOG_END, 50.0f);
+	glHint(GL_FOG_HINT, GL_NICEST);
+	//glFogi(GL_FOG_MODE, GL_LINEAR);
+	glFogi( GL_FOG_MODE, GL_EXP );
+}
+
 void drawScene()
 {
 	glClearColor(1.0,1.0,1.0,1.0);
@@ -245,6 +263,8 @@ void drawScene()
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 	glLoadIdentity();
+
+	renderFog();
 
 	/* GLboolean isLighting;
 	 glGetBooleanv(GL_LIGHTING,&isLighting);
@@ -489,7 +509,7 @@ int main(int argc, char **argv)
 
 			
 
-	Connection::getInstance().Init("Mi","192.168.1.105" , "1234");
+	Connection::getInstance().Init("Bartek","192.168.1.105" , "1234");
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );

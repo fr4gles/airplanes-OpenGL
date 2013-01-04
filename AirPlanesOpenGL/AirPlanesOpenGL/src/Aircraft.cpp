@@ -23,6 +23,11 @@ void Aircraft::doSth()
 	_existence[0][0] -= _move[0]*_speed;
 	_existence[0][1] -= _move[1]*_speed;
 	_existence[0][2] -= _move[2]*_speed;
+
+	if(_existence[0][1] < 0.2f)
+		_existence[1][0] = -_existence[1][0];
+	else if(_existence[0][1] > 50.0f)
+		_existence[1][0] = -_existence[1][0];
 }
 
 void Aircraft::speedUp(GLfloat newSpeed)
