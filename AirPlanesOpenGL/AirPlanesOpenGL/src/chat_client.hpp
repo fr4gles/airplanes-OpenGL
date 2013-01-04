@@ -121,9 +121,11 @@ private:
 	  // papa
 	  
 	  /*if(strs.size() > 1 )*/  
-		  if(strs[1] == "papa")
+	  for(int k=0;k<strs.size();++k)
+	  {
+		  if(strs[k] == "papa")
 		  {
-			  if(czyPapa.empty())
+			  if(czyPapa.size() == 0)
 				  czyPapa.push_back(std::make_pair(strs[0],true));
 			  else
 			  {
@@ -137,10 +139,19 @@ private:
 					czyPapa.push_back(std::make_pair(strs[0],true));
 			  }
 		  }
+	  }
 
+	  if(cli_name != strs[0])
+	  {
+		  std::cout << ',' << strs[0]; 
+		  for(int k=1;k<strs.size();++k)
+			std::cout << ',' << strs[k]; 
+		
+		  std::cout << std::endl; 
+	  }
 	// play
 	  if(strs.size()>7 && cli_name != strs[0])
-	  {
+	  {  
 			try
 			{
 				tmp_OP[0] = boost::lexical_cast<double>(strs[1]);
@@ -379,7 +390,8 @@ class Connection
 			//  vec[3]+=0.2;
 			// -----------------------------
 
-			_sstr.str( std::string() );
+			//_sstr.str( std::string() );
+			std::stringstream _sstr;
 			_sstr << cli_name << ',' << 
 				tmp_Me[0] << ',' << tmp_Me[1] << ',' << tmp_Me[2] << ',' << 
 				tmp_Me[3] << ',' << tmp_Me[4] << ',' << tmp_Me[5];
@@ -435,7 +447,7 @@ private:
 		std::string			_ip;
 		std::string			_port;
 		std::string			_imie;
-		std::stringstream	_sstr;
+		//std::stringstream	_sstr;
 		chat_message			_msg;
  };
 

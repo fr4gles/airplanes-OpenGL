@@ -49,7 +49,7 @@ std::vector<std::pair<std::string,Aircraft*>> przeciwnicy;
 typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
 Player players;
 
-bool exit = false;
+bool exitProgram = false;
 
 //void handleKeys()
 //{	
@@ -99,7 +99,7 @@ void handleKeys(){
 		//for(int i=0;i<10;++i)
 		//	Connection::getInstance().sendByebye();
 		
-		exit = true;
+		exitProgram = true;
 
 //		glutLeaveMainLoop();
 	}
@@ -345,7 +345,7 @@ void drawScene()
 
 void sendAndRecv(int v)
 {
-	if(exit)
+	if(exitProgram)
 	{
 		Connection::getInstance().sendByebye();
 		return;
