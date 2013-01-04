@@ -9,7 +9,7 @@ public:
 	Camera(void);
 
 	void setLookAt(GLfloat x,GLfloat y,GLfloat z);
-	inline std::vector<GLfloat> Camera::getLookAt() { return _lookAt; }
+	inline const std::vector<GLfloat> &Camera::getLookAt() { return _lookAt; }
 
 	void doSth();
 	void render(){};

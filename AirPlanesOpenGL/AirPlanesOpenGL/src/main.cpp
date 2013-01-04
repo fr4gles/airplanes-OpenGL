@@ -378,23 +378,29 @@ void aktualizujPozycjeGracza()
 			push_backToPrzeciwnicy(players[players.size()-1].first,new Aircraft(players[players.size()-1].second));
 			//przeciwnicy.push_back(std::make_pair(players[players.size()-1].first, new Aircraft(players[players.size()-1].second)));
 
-
-		for(int i=0;i<players.size();++i)
+		try
 		{
-			for(int j=0;j<przeciwnicy.size();++j)
+			for(int i=0;i<players.size();++i)
 			{
-				if(players[i].first == przeciwnicy[j].first)
+				for(int j=0;j<przeciwnicy.size();++j)
 				{
-					przeciwnicy[j] = std::make_pair(players[i].first, new Aircraft(players[i].second));
-					
-					int tmp = /*static_cast<int>*/(players[i].second[players[i].second.size()-1]);
-					if(tmp > -1)
+					if(players[i].first == przeciwnicy[j].first)
 					{
-						bullets[(iloscKul-1)*(j+1)+tmp-1]->setPosition(przeciwnicy[j].second->getPosition());
-						bullets[(iloscKul-1)*(j+1)+tmp-1]->addRotate(przeciwnicy[j].second->getRotation());
+						przeciwnicy[j] = std::make_pair(players[i].first, new Aircraft(players[i].second));
+					
+						int tmp = /*static_cast<int>*/(players[i].second[players[i].second.size()-1]);
+						if(tmp > -1)
+						{
+							bullets[(iloscKul-1)*(j+1)+tmp-1]->setPosition(przeciwnicy[j].second->getPosition());
+							bullets[(iloscKul-1)*(j+1)+tmp-1]->addRotate(przeciwnicy[j].second->getRotation());
+						}
 					}
 				}
 			}
+		}
+		catch(std::exception &e)
+		{
+			std::string what = e.what();
 		}
 	}
 }
