@@ -92,8 +92,12 @@ Player players;
 void handleKeys(){
 	if(keys[27]) 
 	{
-		glutLeaveMainLoop();
+		//glutLeaveMainLoop();
+
+		for(int i=0;i<10;++i)
+			Connection::getInstance().sendByebye();
 		Connection::getInstance().Stop();
+		glutLeaveMainLoop();
 	}
 	////////////CAMERA
 	if(specialkeys[GLUT_KEY_LEFT]){
@@ -375,13 +379,22 @@ void sendAndRecv(int v)
 	}
 
 	// usuwanie przeciwnika jak zniknal
-	if(!czyPapa.empty())
+	if(czyPapa.size() != 0)
 		for(int i=0;i<czyPapa.size();++i)
 		{
 			for(int j=0;j<przeciwnicy.size();++j)
 			{
 				if(czyPapa[i].first == przeciwnicy[j].first && ( czyPapa[i].second == true ))
+				{
+					delete przeciwnicy[j].second;
 					przeciwnicy.erase(przeciwnicy.begin()+j);
+					players.erase(players.begin()+j);					
+					//for(int k=0;k<players.size();++k)
+					//{
+
+					//}
+
+				}
 			}
 		}
 
@@ -437,7 +450,7 @@ int main(int argc, char **argv)
 
 			
 
-	Connection::getInstance().Init("Bartek","192.168.1.105" , "1234");
+	Connection::getInstance().Init("Mi","192.168.1.105" , "1234");
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );

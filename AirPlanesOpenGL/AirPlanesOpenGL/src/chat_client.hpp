@@ -120,22 +120,24 @@ private:
 	  boost::split(strs, tmp, boost::is_any_of(","));
 
 	  // papa
-	  if(strs.size() < 3)  
-	  {
-		  if(czyPapa.empty())
-			  czyPapa.push_back(std::make_pair(strs[0],true));
-		  else
+	  
+	  if(strs.size() > 1 )  
+		  if(strs[1] == "papa")
 		  {
-			  bool is = false;
-			  for(int i=0;i<czyPapa.size();++i)
+			  if(czyPapa.empty())
+				  czyPapa.push_back(std::make_pair(strs[0],true));
+			  else
 			  {
-				  if(strs[0] == czyPapa[i].first)
-					  is = czyPapa[i].second = true;
+				  bool is = false;
+				  for(int i=0;i<czyPapa.size();++i)
+				  {
+					  if(strs[0] == czyPapa[i].first)
+						  is = czyPapa[i].second = true;
+				  }
+				  if(is == true)
+					czyPapa.push_back(std::make_pair(strs[0],true));
 			  }
-			  if(is == true)
-				czyPapa.push_back(std::make_pair(strs[0],true));
 		  }
-	  }
 
 	// play
 	  if(strs.size()>7 && cli_name != strs[0])
@@ -395,9 +397,9 @@ class Connection
 			//}
 		}
 
-		void Stop()
+		void sendByebye()
 		{
-						_sstr.str( std::string() );
+			_sstr.str( std::string() );
 			_sstr << cli_name << ',' << "papa";
 
 			//chat_message msg;
@@ -406,7 +408,10 @@ class Connection
 			_msg.encode_header();
 			//	boost::this_thread::sleep(boost::posix_time::milliseconds(10));
 			_c->write(_msg);
+		}
 
+		void Stop()
+		{
 			_c->close();
 			_t->join();
 		}
