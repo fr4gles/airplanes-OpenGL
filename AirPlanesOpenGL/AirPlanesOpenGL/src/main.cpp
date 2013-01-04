@@ -91,6 +91,14 @@ bool exitProgram = false;
 //
 //}
 
+template <typename T>
+void remove(std::vector<T>& vec, size_t pos)
+{
+    std::vector<T>::iterator it = vec.begin();
+    std::advance(it, pos);
+    vec.erase(it);
+}
+
 void handleKeys(){
 	if(keys[27]) 
 	{
@@ -397,8 +405,11 @@ void sendAndRecv(int v)
 				if(czyPapa[i].first == przeciwnicy[j].first && ( czyPapa[i].second == true ))
 				{
 					delete przeciwnicy[j].second;
-					przeciwnicy.erase(przeciwnicy.begin()+j);
-					players.erase(players.begin()+j);					
+					remove(przeciwnicy, j);
+					remove(players,j);
+
+					//przeciwnicy.erase(przeciwnicy.begin()+j);
+					//players.erase(players.begin()+j);					
 					//for(int k=0;k<players.size();++k)
 					//{
 

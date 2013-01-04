@@ -141,17 +141,18 @@ private:
 		  }
 	  }
 
-	  if(cli_name != strs[0])
-	  {
-		  std::cout << ',' << strs[0]; 
-		  for(int k=1;k<strs.size();++k)
-			std::cout << ',' << strs[k]; 
+	  //if(cli_name != strs[0])
+	  //{
+		 // std::cout << ',' << strs[0]; 
+		 // for(int k=1;k<strs.size();++k)
+			//std::cout << ',' << strs[k]; 
 		
-		  std::cout << std::endl; 
-	  }
+		 // std::cout << std::endl; 
+	  //}
 	// play
 	  if(strs.size()>7 && cli_name != strs[0])
 	  {  
+		  bool doNotApply = false;
 			try
 			{
 				tmp_OP[0] = boost::lexical_cast<double>(strs[1]);
@@ -164,10 +165,10 @@ private:
 			}
 			catch (boost::bad_lexical_cast &ex)
 			{
-
+				doNotApply = true;
 			}
 		
-		if(players.empty())
+			if( players.size() == 0 && !doNotApply)
 			players.push_back(std::make_pair(strs[0],tmp_OP));
 		else
 		{
@@ -390,8 +391,7 @@ class Connection
 			//  vec[3]+=0.2;
 			// -----------------------------
 
-			//_sstr.str( std::string() );
-			std::stringstream _sstr;
+			_sstr.str( std::string() );
 			_sstr << cli_name << ',' << 
 				tmp_Me[0] << ',' << tmp_Me[1] << ',' << tmp_Me[2] << ',' << 
 				tmp_Me[3] << ',' << tmp_Me[4] << ',' << tmp_Me[5];
@@ -410,8 +410,9 @@ class Connection
 
 		void sendByebye()
 		{
+			std::stringstream _sstr;
 			_sstr.str( std::string() );
-			_sstr << cli_name << ',' << "papa";
+			_sstr << cli_name << ',' << "papa,";
 
 			//chat_message msg;
 			_msg.body_length(_sstr.str().length());
@@ -447,7 +448,7 @@ private:
 		std::string			_ip;
 		std::string			_port;
 		std::string			_imie;
-		//std::stringstream	_sstr;
+		std::stringstream	_sstr;
 		chat_message			_msg;
  };
 
