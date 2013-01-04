@@ -394,8 +394,8 @@ void aktualizujPozycjeGracza()
 					int tmp = static_cast<int>(players[i].second[players.size()-1]);
 					if(tmp > 0)
 					{
-						bullets[iloscKul*(j+1)+tmp]->setPosition(przeciwnicy[j].second->getPosition());
-						bullets[iloscKul*(j+1)+tmp]->addRotate(przeciwnicy[j].second->getRotation());
+						bullets[(iloscKul-1)*(j+1)+tmp]->setPosition(przeciwnicy[j].second->getPosition());
+						bullets[(iloscKul-1)*(j+1)+tmp]->addRotate(przeciwnicy[j].second->getRotation());
 					}
 				}
 			}
@@ -481,7 +481,7 @@ int main(int argc, char **argv)
 
 			
 
-	Connection::getInstance().Init("Mi","192.168.1.105" , "1234");
+	Connection::getInstance().Init("Mci","192.168.1.105" , "1234");
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );
