@@ -55,6 +55,7 @@ bool exitProgram = false;
 bool strzelaj = false;
 int iloscKul = 20;
 
+// usuwanie elementu z wektora
 template <typename T>
 void remove(std::vector<T>& vec, size_t pos)
 {
@@ -91,6 +92,7 @@ void handleKeys(){
 	{
 		licznikStrzal++;
 
+		nrWystrzelonejKuli = licznikStrzal;
 		strzelaj = true;
 
 		if(licznikStrzal > iloscKul-2)
@@ -324,7 +326,15 @@ void drawScene()
 	glutPostRedisplay();
 }
 
-void sendAndRecv(int v)
+void push_backToPrzeciwnicy(std::string tmp1, RootObject* tmp2)
+{
+	przeciwnicy.push_back(std::make_pair(tmp1, tmp2));
+
+	for(int i=0;i<iloscKul;++i)
+		bullets.push_back(new Bullet());
+}
+
+void aktualizujPozycjeGracza()
 {
 	if(exitProgram)
 	{
@@ -333,6 +343,9 @@ void sendAndRecv(int v)
 
 		for(int i=3,j=0;i<6;++i,++j)
 			tmp_Me[i] = aircraft->getRotation()[j]+5000.0f;
+
+		//for(int i=0;i<iloscKul;++i)
+			
 
 		Connection::getInstance().Start();
 		Connection::getInstance().Stop();
@@ -352,7 +365,7 @@ void sendAndRecv(int v)
 
 	// dodawanie przeciwników
 	if(players.size() != 0 && przeciwnicy.size() == 0)
-		przeciwnicy.push_back(std::make_pair(players[0].first, new Aircraft(players[0].second)));
+		push_backToPrzeciwnicy(players[0].first,new Aircraft(players[0].second)); //przeciwnicy.push_back(std::make_pair(players[0].first, new Aircraft(players[0].second)));
 	else if (players.size() != 0 /*&& przeciwnicy.size() != 0*/)
 	{
 		bool isNot = true;
@@ -366,7 +379,8 @@ void sendAndRecv(int v)
 		}
 
 		if(isNot)
-			przeciwnicy.push_back(std::make_pair(players[players.size()-1].first, new Aircraft(players[players.size()-1].second)));
+			push_backToPrzeciwnicy(players[players.size()-1].first,new Aircraft(players[players.size()-1].second));
+			//przeciwnicy.push_back(std::make_pair(players[players.size()-1].first, new Aircraft(players[players.size()-1].second)));
 
 
 		for(int i=0;i<players.size();++i)
@@ -374,11 +388,25 @@ void sendAndRecv(int v)
 			for(int j=0;j<przeciwnicy.size();++j)
 			{
 				if(players[i].first == przeciwnicy[j].first)
+				{
 					przeciwnicy[j] = std::make_pair(players[i].first, new Aircraft(players[i].second));
+					
+					int tmp = static_cast<int>(players[i].second[players.size()-1]);
+					if(tmp > 0)
+					{
+						bullets[iloscKul*(j+1)+tmp]->setPosition(przeciwnicy[j].second->getPosition());
+						bullets[iloscKul*(j+1)+tmp]->addRotate(przeciwnicy[j].second->getRotation());
+					}
+				}
 			}
 		}
 	}
+}
 
+
+void sendAndRecv(int v)
+{
+	aktualizujPozycjeGracza();
 	glutTimerFunc(50, sendAndRecv, 0);
 }
 
@@ -390,6 +418,9 @@ void bulletTime(int v)
 		bullets[licznikStrzal]->addRotate(aircraft->getRotation());
 
 		strzelaj = false;
+
+		aktualizujPozycjeGracza();
+		nrWystrzelonejKuli = -1;
 	}
 
 	glutTimerFunc(500, bulletTime, 0);
@@ -413,7 +444,7 @@ void timer(int v)
 
 void initGame()
 {
-	for(int i=0;i<iloscKul;++i)
+	for(int i=0;i<(iloscKul);++i)
 		bullets.push_back(new Bullet());
 
 	aircraft = new Aircraft();

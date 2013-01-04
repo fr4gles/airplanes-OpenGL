@@ -40,6 +40,7 @@ typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
 extern Player players;
 
 int licznikStrzal = -1;
+int nrWystrzelonejKuli = -1;
 
 class chat_client
 {
@@ -114,7 +115,6 @@ private:
 	// play
 	  if(strs.size()>7 && cli_name != strs[0])
 	  {  
-		  bool doNotApply = false;
 			try
 			{
 				tmp_OP[0] = boost::lexical_cast<double>(strs[1]);
@@ -123,14 +123,14 @@ private:
 				tmp_OP[3] = boost::lexical_cast<double>(strs[4]);
 				tmp_OP[4] = boost::lexical_cast<double>(strs[5]);
 				tmp_OP[5] = boost::lexical_cast<double>(strs[6]);
-				tmp_OP[6] = boost::lexical_cast<double>(strs[7]);
+				tmp_OP[6] = static_cast<double>(boost::lexical_cast<int>(strs[7]));
 			}
 			catch (boost::bad_lexical_cast &ex)
 			{
-				doNotApply = true;
+
 			}
 		
-			if( players.size() == 0 && !doNotApply)
+		if( players.size() == 0)
 			players.push_back(std::make_pair(strs[0],tmp_OP));
 		else
 		{
@@ -224,7 +224,7 @@ class Connection
 			_sstr.str( std::string() );
 			_sstr << cli_name << ',' << 
 				tmp_Me[0] << ',' << tmp_Me[1] << ',' << tmp_Me[2] << ',' << 
-				tmp_Me[3] << ',' << tmp_Me[4] << ',' << tmp_Me[5] << ',' << licznikStrzal;
+				tmp_Me[3] << ',' << tmp_Me[4] << ',' << tmp_Me[5] << ',' << nrWystrzelonejKuli;
 
 			_msg.body_length(_sstr.str().length());
 			std::memcpy(_msg.body(), _sstr.str().c_str(), _msg.body_length());
