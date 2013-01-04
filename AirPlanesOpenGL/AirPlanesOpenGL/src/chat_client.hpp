@@ -129,6 +129,9 @@ private:
 			{
 
 			}
+
+		if(tmp_OP[6] > -1.0)
+			nrWystrzelonejKuli = -1;
 		
 		if( players.size() == 0)
 			players.push_back(std::make_pair(strs[0],tmp_OP));
@@ -225,6 +228,7 @@ class Connection
 			_sstr << cli_name << ',' << 
 				tmp_Me[0] << ',' << tmp_Me[1] << ',' << tmp_Me[2] << ',' << 
 				tmp_Me[3] << ',' << tmp_Me[4] << ',' << tmp_Me[5] << ',' << nrWystrzelonejKuli << ',';
+			
 			nrWystrzelonejKuli = -1;
 
 			_msg.body_length(_sstr.str().length());

@@ -53,7 +53,7 @@ Player players;
 
 bool exitProgram = false;
 bool strzelaj = false;
-int iloscKul = 20;
+int iloscKul = 100;
 
 // usuwanie elementu z wektora
 template <typename T>
@@ -390,8 +390,8 @@ void aktualizujPozycjeGracza()
 					int tmp = /*static_cast<int>*/(players[i].second[players[i].second.size()-1]);
 					if(tmp > -1)
 					{
-						bullets[(iloscKul-1)*(j+1)+tmp]->setPosition(przeciwnicy[j].second->getPosition());
-						bullets[(iloscKul-1)*(j+1)+tmp]->addRotate(przeciwnicy[j].second->getRotation());
+						bullets[(iloscKul-1)*(j+1)+tmp-1]->setPosition(przeciwnicy[j].second->getPosition());
+						bullets[(iloscKul-1)*(j+1)+tmp-1]->addRotate(przeciwnicy[j].second->getRotation());
 					}
 				}
 			}
@@ -415,12 +415,10 @@ void bulletTime(int v)
 
 		strzelaj = false;
 
-		aktualizujPozycjeGracza();
+		//aktualizujPozycjeGracza();
 	}
 
-	nrWystrzelonejKuli = -1;
-
-	glutTimerFunc(500, bulletTime, 0);
+	glutTimerFunc(50, bulletTime, 0);
 }
 
 
@@ -431,7 +429,7 @@ void timer(int v)
 	aircraft->doSth();
 	camera->doSth();
 	world->doSth();
-	
+
 	for(int i=0;i<bullets.size();++i)
 		bullets[i]->doSth();
 
