@@ -43,7 +43,7 @@ std::vector<double> tmp_OP(6,0.0f);
 typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
 extern Player players;
 
-std::vector<std::pair<std::string,bool>> czyPapa;
+//std::vector<std::pair<std::string,bool>> czyPapa;
 
 class chat_client
 {
@@ -120,26 +120,26 @@ private:
 
 	  // papa
 	  
-	  /*if(strs.size() > 1 )*/  
-	  for(int k=0;k<strs.size();++k)
-	  {
-		  if(strs[k] == "papa")
-		  {
-			  if(czyPapa.size() == 0)
-				  czyPapa.push_back(std::make_pair(strs[0],true));
-			  else
-			  {
-				  bool is = false;
-				  for(int i=0;i<czyPapa.size();++i)
-				  {
-					  if(strs[0] == czyPapa[i].first)
-						  is = czyPapa[i].second = true;
-				  }
-				  if(is == true)
-					czyPapa.push_back(std::make_pair(strs[0],true));
-			  }
-		  }
-	  }
+	  ///*if(strs.size() > 1 )*/  
+	  //for(int k=0;k<strs.size();++k)
+	  //{
+		 // if(strs[k] == "papa")
+		 // {
+			//  if(czyPapa.size() == 0)
+			//	  czyPapa.push_back(std::make_pair(strs[0],true));
+			//  else
+			//  {
+			//	  bool is = false;
+			//	  for(int i=0;i<czyPapa.size();++i)
+			//	  {
+			//		  if(strs[0] == czyPapa[i].first)
+			//			  is = czyPapa[i].second = true;
+			//	  }
+			//	  if(is == true)
+			//		czyPapa.push_back(std::make_pair(strs[0],true));
+			//  }
+		 // }
+	  //}
 
 	  //if(cli_name != strs[0])
 	  //{
@@ -179,14 +179,14 @@ private:
 			}
 		}
 
-		for(int i=0;i<players.size();++i)
-		{
-			for(int j=0;j<czyPapa.size();++j)
-			{
-				if(players[i].first == czyPapa[j].first)
-					czyPapa[j].second = false;
-			}
-		}
+		//for(int i=0;i<players.size();++i)
+		//{
+		//	for(int j=0;j<czyPapa.size();++j)
+		//	{
+		//		if(players[i].first == czyPapa[j].first)
+		//			czyPapa[j].second = false;
+		//	}
+		//}
 
 	  }
 	  //if(strs.size()>4 && cli_name != strs[0])

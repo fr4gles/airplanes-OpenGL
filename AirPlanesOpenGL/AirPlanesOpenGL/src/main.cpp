@@ -355,18 +355,27 @@ void sendAndRecv(int v)
 {
     if(exitProgram)
 	{
-		for(int i=0;i<4;++i)
-			Connection::getInstance().sendByebye();
-		Connection::getInstance().Stop();
+		for(int i=0;i<3;++i)
+			tmp_Me[i] = aircraft->getPosition()[i]+5000.0f;
+
+		for(int i=3,j=0;i<6;++i,++j)
+			tmp_Me[i] = aircraft->getRotation()[j]+5000.0f;
+
+		//for(int i=0;i<4;++i)
+		//	Connection::getInstance().sendByebye();
+		//Connection::getInstance().Stop();
 		glutLeaveMainLoop();
-		return;
+		//return;
+	}
+	else
+	{
+		for(int i=0;i<3;++i)
+			tmp_Me[i] = aircraft->getPosition()[i];
+
+		for(int i=3,j=0;i<6;++i,++j)
+			tmp_Me[i] = aircraft->getRotation()[j];
 	}
 
-	for(int i=0;i<3;++i)
-		tmp_Me[i] = aircraft->getPosition()[i];
-
-	for(int i=3,j=0;i<6;++i,++j)
-		tmp_Me[i] = aircraft->getRotation()[j];
 
 	Connection::getInstance().Start();
 
@@ -399,28 +408,29 @@ void sendAndRecv(int v)
 		}
 	}
 
-	// usuwanie przeciwnika jak zniknal
-	if(czyPapa.size() != 0)
-		for(int i=0;i<czyPapa.size();++i)
-		{
-			for(int j=0;j<przeciwnicy.size();++j)
-			{
-				if(czyPapa[i].first == przeciwnicy[j].first && ( czyPapa[i].second == true ))
-				{
-					delete przeciwnicy[j].second;
-					remove(przeciwnicy, j);
-					remove(players,j);
+	//// usuwanie przeciwnika jak zniknal
+	//if(czyPapa.size() != 0)
+	//	for(int i=0;i<czyPapa.size();++i)
+	//	{
+	//		for(int j=0;j<przeciwnicy.size();++j)
+	//		{
+	//			if(czyPapa[i].first == przeciwnicy[j].first && ( czyPapa[i].second == true ))
+	//			{
+	//				delete przeciwnicy[j].second;
+	//				remove(przeciwnicy, j);
+	//				remove(players,j);
 
-					//przeciwnicy.erase(przeciwnicy.begin()+j);
-					//players.erase(players.begin()+j);					
-					//for(int k=0;k<players.size();++k)
-					//{
+	//				boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
+	//				//przeciwnicy.erase(przeciwnicy.begin()+j);
+	//				//players.erase(players.begin()+j);					
+	//				//for(int k=0;k<players.size();++k)
+	//				//{
 
-					//}
+	//				//}
 
-				}
-			}
-		}
+	//			}
+	//		}
+	//	}
 
 	glutTimerFunc(50, sendAndRecv, 0);
 }
