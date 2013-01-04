@@ -270,9 +270,9 @@ void drawScene()
 	//	if(scale_scene>5.0f || scale_scene <-2.5f)
 	//		scale_scene = 0.0;
 	//}
-	/*float lightPos[4] = {0, 1000, 1000, 0};
+	float lightPos[4] = {0, 1000, 1000, 0};
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-	*/
+	
 	//glPushMatrix();
 	world->render();
 
