@@ -353,9 +353,12 @@ void drawScene()
 
 void sendAndRecv(int v)
 {
-	if(exitProgram)
+    if(exitProgram)
 	{
-		Connection::getInstance().sendByebye();
+		for(int i=0;i<4;++i)
+			Connection::getInstance().sendByebye();
+		Connection::getInstance().Stop();
+		glutLeaveMainLoop();
 		return;
 	}
 
