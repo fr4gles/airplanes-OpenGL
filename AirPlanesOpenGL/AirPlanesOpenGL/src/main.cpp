@@ -67,15 +67,9 @@ void remove(std::vector<T>& vec, size_t pos)
 void handleKeys(){
 	if(keys[27]) 
 	{
-		//glutLeaveMainLoop();
-
-		//for(int i=0;i<10;++i)
-		//	Connection::getInstance().sendByebye();
-		
 		exitProgram = true;
-
-//		glutLeaveMainLoop();
 	}
+
 	////////////CAMERA
 	if(specialkeys[GLUT_KEY_LEFT]){
 		camera->addDistance(0.0f,-0.1f,0.0f);
@@ -160,6 +154,9 @@ void keyUp(unsigned char key, int x, int y)
 void keyDown(unsigned char key, int x, int y)
 {
 	keys[key]=true;
+
+	if(keys[32])
+		boost::this_thread::sleep(boost::posix_time::milliseconds(100));
 
 	printf("%c\n",key);
 }
@@ -391,8 +388,8 @@ void aktualizujPozycjeGracza()
 				{
 					przeciwnicy[j] = std::make_pair(players[i].first, new Aircraft(players[i].second));
 					
-					int tmp = static_cast<int>(players[i].second[players.size()-1]);
-					if(tmp > 0)
+					int tmp = /*static_cast<int>*/(players[i].second[players[i].second.size()-1]);
+					if(tmp > -1)
 					{
 						bullets[(iloscKul-1)*(j+1)+tmp]->setPosition(przeciwnicy[j].second->getPosition());
 						bullets[(iloscKul-1)*(j+1)+tmp]->addRotate(przeciwnicy[j].second->getRotation());
@@ -412,7 +409,7 @@ void sendAndRecv(int v)
 
 void bulletTime(int v)
 {
-	if(licznikStrzal > -1 && strzelaj)
+	if(licznikStrzal > -1 && strzelaj == true)
 	{
 		bullets[licznikStrzal]->setPosition(aircraft->getPosition());
 		bullets[licznikStrzal]->addRotate(aircraft->getRotation());
@@ -420,8 +417,9 @@ void bulletTime(int v)
 		strzelaj = false;
 
 		aktualizujPozycjeGracza();
-		nrWystrzelonejKuli = -1;
 	}
+
+	nrWystrzelonejKuli = -1;
 
 	glutTimerFunc(500, bulletTime, 0);
 }
@@ -481,7 +479,7 @@ int main(int argc, char **argv)
 
 			
 
-	Connection::getInstance().Init("Mci","192.168.1.105" , "1234");
+	Connection::getInstance().Init("Mi","192.168.1.105" , "1234");
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );
