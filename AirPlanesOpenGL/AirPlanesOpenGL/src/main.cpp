@@ -18,6 +18,7 @@
 #include "World.h"
 #include "Camera.h"
 #include "Aircraft.h"
+#include "Bullet.h"
 
 bool keys[256], specialkeys[256];
 
@@ -37,12 +38,13 @@ int mouse_button,mouse_x,mouse_y; // ruchy mysza
 // textury
 GLuint texture[10],tex_num;
 
-const GLfloat accel = 0.05f;
+const GLfloat accel = 0.005f;
 
 // zmienne klas
 World* world;
 Camera *camera;
 Aircraft *aircraft;
+std::vector<Bullet*> bullets;
 
 std::vector<std::pair<std::string,Aircraft*>> przeciwnicy;
 
@@ -50,6 +52,9 @@ typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
 Player players;
 
 bool exitProgram = false;
+bool strzelaj = false;
+int licznikStrzal = -1;
+int iloscKul = 20;
 
 //void handleKeys()
 //{	
@@ -123,7 +128,17 @@ void handleKeys(){
 	else if(specialkeys[GLUT_KEY_DOWN])
 		camera->addDistance(-0.1f,0.0f,-0.1f);
 
-	////////////CAR
+	if(keys[32])
+	{
+		licznikStrzal++;
+
+		strzelaj = true;
+
+		if(licznikStrzal > iloscKul-2)
+			licznikStrzal = -1;
+	}
+
+	////////////AIRCRAFT
 
 	if(keys['a']||keys['A'])  {
 		aircraft->addRotate(0,0.8f,0);
@@ -297,7 +312,12 @@ void drawScene()
 	*/
 	//glPushMatrix();
 	world->render();
+
+	for(int i=0;i<bullets.size();++i)
+		bullets[i]->render();
+
 	aircraft->render();
+
 
 	//dodawanie przeciwników
 	if(przeciwnicy.size() != 0 )
@@ -337,7 +357,7 @@ void drawScene()
 	glDisable(GL_LINE_STIPPLE);
 
 
-	glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_DEPTH_TEST);
 	/*if(isLighting) {
 		glEnable(GL_LIGHTING);
 	}*/
@@ -433,6 +453,13 @@ void sendAndRecv(int v)
 	glutTimerFunc(50, sendAndRecv, 0);
 }
 
+void bulletTime(int v)
+{
+
+	glutTimerFunc(10, bulletTime, 0);
+}
+
+
 void timer(int v)
 {
 	handleKeys();
@@ -440,6 +467,17 @@ void timer(int v)
 	aircraft->doSth();
 	camera->doSth();
 	world->doSth();
+	
+	if(licznikStrzal > -1 && strzelaj)
+	{
+		bullets[licznikStrzal]->setPosition(aircraft->getPosition());
+		bullets[licznikStrzal]->addRotate(aircraft->getRotation());
+
+		strzelaj = false;
+	}
+
+	for(int i=0;i<bullets.size();++i)
+		bullets[i]->doSth();
 
 	glutTimerFunc(10, timer, 0);
 
@@ -447,6 +485,9 @@ void timer(int v)
 
 void initGame()
 {
+	for(int i=0;i<iloscKul;++i)
+		bullets.push_back(new Bullet());
+
 	aircraft = new Aircraft();
 	world = new World();
 	world->initLoad();
@@ -455,7 +496,6 @@ void initGame()
 	camera->setFollow(aircraft);
 	world->setFollow(aircraft);
 }
-
 
 
 int main(int argc, char **argv)
@@ -516,6 +556,7 @@ int main(int argc, char **argv)
 	// aktualizowanie pozycji gracza
 	glutTimerFunc(0, sendAndRecv, 0);
 	glutTimerFunc(0, timer, 0);
+	glutTimerFunc(0, bulletTime, 0);
 
 	glutMainLoop();
 

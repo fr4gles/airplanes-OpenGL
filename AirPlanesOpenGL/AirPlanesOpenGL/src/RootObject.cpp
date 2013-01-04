@@ -43,6 +43,12 @@ void RootObject::addRotate(GLfloat x, GLfloat y, GLfloat z)
 	_existence[1][2] += z;
 }
 
+void RootObject::addRotate(GLfloat rot[3]) 
+{
+	_existence[1][0] = rot[0];
+	_existence[1][1] = rot[1];
+	_existence[1][2] = rot[2];
+}
 
 RootObject::~RootObject(void)
 {
