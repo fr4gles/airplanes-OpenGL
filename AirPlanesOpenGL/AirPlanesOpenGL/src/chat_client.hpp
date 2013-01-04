@@ -45,7 +45,6 @@ extern Player players;
 
 std::vector<std::pair<std::string,bool>> czyPapa;
 
-
 class chat_client
 {
 public:
@@ -121,7 +120,7 @@ private:
 
 	  // papa
 	  
-	  if(strs.size() > 1 )  
+	  /*if(strs.size() > 1 )*/  
 		  if(strs[1] == "papa")
 		  {
 			  if(czyPapa.empty())

@@ -49,6 +49,8 @@ std::vector<std::pair<std::string,Aircraft*>> przeciwnicy;
 typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
 Player players;
 
+bool exit = false;
+
 //void handleKeys()
 //{	
 //	//if (keys['1']) figura=1;
@@ -94,10 +96,12 @@ void handleKeys(){
 	{
 		//glutLeaveMainLoop();
 
-		for(int i=0;i<10;++i)
-			Connection::getInstance().sendByebye();
-		Connection::getInstance().Stop();
-		glutLeaveMainLoop();
+		//for(int i=0;i<10;++i)
+		//	Connection::getInstance().sendByebye();
+		
+		exit = true;
+
+//		glutLeaveMainLoop();
 	}
 	////////////CAMERA
 	if(specialkeys[GLUT_KEY_LEFT]){
@@ -341,6 +345,12 @@ void drawScene()
 
 void sendAndRecv(int v)
 {
+	if(exit)
+	{
+		Connection::getInstance().sendByebye();
+		return;
+	}
+
 	for(int i=0;i<3;++i)
 		tmp_Me[i] = aircraft->getPosition()[i];
 
