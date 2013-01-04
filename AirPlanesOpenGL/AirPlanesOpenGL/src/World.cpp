@@ -40,18 +40,38 @@ void World::renderGround()
 		glBindTexture(GL_TEXTURE_2D, textureGround );
 		glPushMatrix();
 			glTranslated(floor(_existence[0][0]),/*-_groundSize/2*/0,floor(_existence[0][2]));
-			for(int i=-_groundSize/2;i<_groundSize/2;i+=5.0f)
-				for(int j=-_groundSize/2;j<_groundSize/2;j+=5.0f)
+			for(int i=-_groundSize/2;i<_groundSize/2;i+=1.0f)
+				for(int j=-_groundSize/2;j<_groundSize/2;j+=1.0f)
 				{
 					glBegin( GL_QUADS );
 						glTexCoord2d(0.0,0.0); glVertex3f(i		,0.0,j);
-						glTexCoord2d(1.0,0.0); glVertex3f(i+5.0	,0.0,j);
-						glTexCoord2d(1.0,1.0); glVertex3f(i+5.0	,0.0,j+5.0);
-						glTexCoord2d(0.0,1.0); glVertex3f(i		,0.0,j+5.0);
+						glTexCoord2d(1.0,0.0); glVertex3f(i+1.0	,0.0,j);
+						glTexCoord2d(1.0,1.0); glVertex3f(i+1.0	,0.0,j+1.0);
+						glTexCoord2d(0.0,1.0); glVertex3f(i		,0.0,j+1.0);
 					glEnd();
 				}
 		glPopMatrix();
 	glDisable( GL_TEXTURE_2D );
+}
+
+void World::expandGround(int &x, int &z)
+{
+	//glEnable(GL_TEXTURE_2D);
+	//	glBindTexture(GL_TEXTURE_2D, textureGround );
+	//	glPushMatrix();
+	//		//glTranslated(floor(_existence[0][0]),/*-_groundSize/2*/0,floor(_existence[0][2]));
+	//		for(int i=-x;i<x;i+=1.0f)
+	//			for(int j=-z;j<z;j+=1.0f)
+	//			{
+	//				glBegin( GL_QUADS );
+	//					glTexCoord2d(0.0,0.0); glVertex3f(i		,0.0,j);
+	//					glTexCoord2d(1.0,0.0); glVertex3f(i+5.0	,0.0,j);
+	//					glTexCoord2d(1.0,1.0); glVertex3f(i+5.0	,0.0,j+5.0);
+	//					glTexCoord2d(0.0,1.0); glVertex3f(i		,0.0,j+5.0);
+	//				glEnd();
+	//			}
+	//	glPopMatrix();
+	//glDisable( GL_TEXTURE_2D );
 }
 
 void World::renderSkybox()

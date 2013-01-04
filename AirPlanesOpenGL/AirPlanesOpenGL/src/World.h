@@ -20,6 +20,7 @@ public:
 	void render();
 
 	void renderGround();
+	void expandGround(int &x, int &z);
 	void renderSkybox();
 
 	~World(void);

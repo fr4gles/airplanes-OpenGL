@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <gl\GL.h>
 #include <string>
+#include <math.h>
 
 #include "freeglut/freeglut.h"
 
@@ -62,6 +63,11 @@ void remove(std::vector<T>& vec, size_t pos)
 	std::vector<T>::iterator it = vec.begin();
 	std::advance(it, pos);
 	vec.erase(it);
+}
+
+GLfloat odleglosc(const GLfloat* A,const GLfloat* B)
+{
+	return static_cast<GLfloat>(sqrt((A[0]-B[0])*(A[0]-B[0]) + (A[1]-B[1])*(A[1]-B[1]) + (A[2]-B[2])*(A[2]-B[2])));
 }
 
 void handleKeys(){
@@ -158,7 +164,7 @@ void keyDown(unsigned char key, int x, int y)
 	//if(keys[32])
 	//	boost::this_thread::sleep(boost::posix_time::milliseconds(100));
 
-	printf("%c\n",key);
+	//printf("%c\n",key);
 }
 
 void specialKeyDown(int key, int x, int y)
@@ -354,6 +360,13 @@ void aktualizujPozycjeGracza()
 
 		for(int i=3,j=0;i<6;++i,++j)
 			tmp_Me[i] = aircraft->getRotation()[j];
+
+		for(int i=0;i<bullets.size();++i)
+		{
+			if(odleglosc(bullets[i]->getPosition(),aircraft->getPosition()) < 0.5f)
+				std::cout << "zderzenie" << std::endl;
+		}
+
 	}
 
 
@@ -395,6 +408,7 @@ void aktualizujPozycjeGracza()
 				}
 			}
 		}
+
 	}
 }
 
