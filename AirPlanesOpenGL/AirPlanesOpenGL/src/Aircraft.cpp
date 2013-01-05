@@ -21,7 +21,7 @@ void Aircraft::render()
 	else
 	{
 		//zmiana tekstury na wybuch
-		glColor3f(0.0f,1.0f,1.0f);
+		glColor3f(0.9f,0.7f,0.0f);
 
 		glutSolidSphere(2.0f,10,10);
 	}
