@@ -484,9 +484,17 @@ void initGame()
 	world->setFollow(aircraft);
 }
 
+	void zakonczProgram () 
+	{
+		exitProgram = true;
+		std::cerr << "Koniec\n";
+		aktualizujPozycjeGracza();
 
-int main(int argc, char **argv)
-{	
+	  // forces abnormal termination
+	}
+
+	int main(int argc, char **argv)
+	{	
 	//std::string ip, port, name;
 	//std::cout << " Podaj NAZWE: " << std::endl;
 	//std::cin >> name;
@@ -509,7 +517,7 @@ int main(int argc, char **argv)
 
 			
 
-	Connection::getInstance().Init("Bartek","192.168.1.105" , "1234");
+	Connection::getInstance().Init("Michal","89.79.40.252" , "1234");
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );
@@ -533,6 +541,8 @@ int main(int argc, char **argv)
 	glutKeyboardUpFunc(keyUp);
 	glutSpecialFunc(specialKeyDown);
 	glutSpecialUpFunc(specialKeyUp);
+
+	glutCloseFunc(zakonczProgram);
 
 
 	glutMouseFunc(mouseButton);
