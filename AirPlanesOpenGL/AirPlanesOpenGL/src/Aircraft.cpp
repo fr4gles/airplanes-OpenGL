@@ -91,7 +91,7 @@ GLint Aircraft::generateRandomPosition()
 		init = true;
 	}
 
-  return rand()%(21-10)+10; 
+  return rand()%21-10; 
 }
 
 void Aircraft::attacked()
