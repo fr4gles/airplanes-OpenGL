@@ -34,7 +34,7 @@ double global_vec[4];
 std::string cli_name;
 
 static std::vector<double> tmp_Me(6,0.0f);
-std::vector<double> tmp_OP(8,0.0f);
+std::vector<double> tmp_OP(9,0.0f);
 
 typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
 extern Player players;

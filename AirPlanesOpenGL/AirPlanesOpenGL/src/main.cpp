@@ -363,7 +363,7 @@ void push_backToPrzeciwnicy(std::string tmp1, RootObject* tmp2)
 	przeciwnicy.push_back(std::make_pair(tmp1, dynamic_cast<Aircraft*>(tmp2)));
 
 	for(int i=0;i<iloscKul;++i)
-		bullets.push_back(new Bullet());
+		bullets.push_back(new Bullet(Color(1.0f,0.0f,0.0f)));
 }
 
 void aktualizujPozycjeGracza()
@@ -390,7 +390,7 @@ void aktualizujPozycjeGracza()
 		for(int i=3,j=0;i<6;++i,++j)
 			tmp_Me[i] = aircraft->getRotation()[j];
 
-		for(int i=/*iloscKul-1*/0;i<bullets.size();++i)
+		for(int i=iloscKul-1/*0*/;i<bullets.size();++i)
 		{
 			if(odleglosc(bullets[i]->getPosition(),aircraft->getPosition()) < 0.5f)
 			{	
@@ -445,7 +445,6 @@ void aktualizujPozycjeGracza()
 					int tmp = /*static_cast<int>*/(players[i].second[players[i].second.size()-1]);
 					if(tmp > -1)
 					{
-						bullets[(iloscKul-1)*(j+1)+tmp]->setColor(1.0f,0.0f,0.0f);
 						bullets[(iloscKul-1)*(j+1)+tmp]->setPosition(przeciwnicy[j].second->getPosition());
 						bullets[(iloscKul-1)*(j+1)+tmp]->addRotate(przeciwnicy[j].second->getRotation());
 					}

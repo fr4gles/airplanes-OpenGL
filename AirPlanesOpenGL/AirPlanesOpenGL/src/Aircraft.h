@@ -62,10 +62,10 @@ public:
 
 	GLint getHP() const;
 	void setHP(GLint newHP);
-	inline const GLfloat& getSpeed() const { return _speed; }
+	inline GLfloat getSpeed() const { return _speed; }
 
-	inline void setIsAlive(const int& isAlive){ _isAlive += isAlive; }
-	inline const int& IsAlive() const { return _isAlive; }
+	inline void setIsAlive(int isAlive){ _isAlive += isAlive; }
+	inline int IsAlive() const { return _isAlive; }
 
 	~Aircraft(){};
 
