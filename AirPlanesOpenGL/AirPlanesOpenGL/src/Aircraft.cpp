@@ -47,8 +47,9 @@ void Aircraft::doSth()
 		// po co to jest ?
 		//this->addRotate(-0.3f,0,0);
 		//speedUp(0.001);
-			_isAlive += 1;
+		_isAlive += 1;
 	}
+
 	if(_existence[0][1] < 0.2f)
 	{	// spadl
 		//_existence[1][0] = 0.2f;
@@ -83,15 +84,18 @@ void Aircraft::addRotate(GLfloat x, GLfloat y, GLfloat z)
 GLint Aircraft::generateRandomPosition()
 { 
 
-	static bool init = false;
+	//static bool init = false;
 
-	if (!init) 
-	{
-		srand(time(NULL));
-		init = true;
-	}
+	//if (!init) 
+	//{
+	//	srand(time(NULL));
+	//	init = true;
+	//}
 
-  return rand()%21-10; 
+ // return rand()%21-10; 
+
+	srand(time(NULL));
+	return rand()%21-10;
 }
 
 void Aircraft::attacked()

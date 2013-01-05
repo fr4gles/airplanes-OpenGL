@@ -125,11 +125,11 @@ private:
 				tmp_OP[4] = boost::lexical_cast<double>(strs[5]);
 				tmp_OP[5] = boost::lexical_cast<double>(strs[6]);
 				tmp_OP[6] = static_cast<double>(boost::lexical_cast<int>(strs[7]));
-				tmp_OP[7] = boost::lexical_cast<double>(strs[8]);
+				tmp_OP[7] = boost::lexical_cast<int>(strs[8]);
 			}
-			catch (boost::bad_lexical_cast &ex)
+			catch (std::exception &ex)
 			{
-
+				std::cerr << " ex: " << ex.what() << std::endl;
 			}
 
 		if(tmp_OP[6] > -1.0)

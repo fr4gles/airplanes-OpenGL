@@ -35,7 +35,8 @@ public:
 		_maxSpeed = 0.10f;
 		_minSpeed = 0.0f;
 		_move = std::vector<GLfloat>(3,0.0f);
-		_HP = 50;
+
+		_HP = tmp[7];
 
 		_color = Color(1.0f,0.0f,0.0f);
 

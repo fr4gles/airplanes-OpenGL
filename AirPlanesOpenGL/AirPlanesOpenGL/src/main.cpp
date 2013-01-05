@@ -453,16 +453,16 @@ void aktualizujPozycjeGracza()
 		}
 	}
 
-	// umieranie przeciwnika
-	for(int i=0;i<players.size();++i)
-	{
-		if(players[i].second[7] < 1)
-		{
-			for(int j=0;j<przeciwnicy.size();++j)
-				if(players[i].first == przeciwnicy[j].first)
-					przeciwnicy[j].second->dead();
-		}
-	}
+	//// umieranie przeciwnika
+	//for(int i=0;i<players.size();++i)
+	//{
+	//	if(players[i].second[7] < 1)
+	//	{
+	//		for(int j=0;j<przeciwnicy.size();++j)
+	//			if(players[i].first == przeciwnicy[j].first)
+	//				przeciwnicy[j].second->dead();
+	//	}
+	//}
 
 }
 
@@ -553,7 +553,7 @@ int main(int argc, char **argv)
 
 			
 
-	Connection::getInstance().Init("dasda","89.79.40.252" , "1234");
+	Connection::getInstance().Init("fds","89.79.40.252" , "1234");
 
 glutInit(&argc, argv);
 glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );
