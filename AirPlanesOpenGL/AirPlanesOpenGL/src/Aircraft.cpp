@@ -4,13 +4,18 @@
 void Aircraft::render()
 {
 	glPushMatrix();
+	glEnable(GL_COLOR_MATERIAL);
 
 	glTranslatef(_existence[0][0],_existence[0][1],_existence[0][2]);	
-		glRotatef(-_existence[1][0], 1,0,0 );
-		glRotatef(_existence[1][1], 0, cos(_existence[1][0] * 3.1415/180.0),sin(_existence[1][0] * 3.1415/180.0) );
-		glRotatef(_existence[1][2],0,0,1);
+	glRotatef(-_existence[1][0], 1,0,0 );
+	glRotatef(_existence[1][1], 0, cos(_existence[1][0] * 3.1415/180.0),sin(_existence[1][0] * 3.1415/180.0) );
+	glRotatef(_existence[1][2],0,0,1);
+	glColor3f(_color.red,_color.green,_color.blue);
+	
 	glutSolidCone(0.1f,1.0f, 4, 5);
 
+	glColor4f(1.0,1.0,1.0,1.0);
+	glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
 
@@ -47,4 +52,10 @@ void Aircraft::speedDown(GLfloat newSpeed)
 void Aircraft::addRotate(GLfloat x, GLfloat y, GLfloat z)
 {
 	RootObject::addRotate(x, y, z);
+}
+
+GLint Aircraft::generateRandomPosition()
+{ 
+	srand(time(NULL));
+	return rand()%21-10;
 }

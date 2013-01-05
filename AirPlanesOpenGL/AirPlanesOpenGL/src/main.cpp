@@ -133,23 +133,23 @@ void handleKeys(){
 		aircraft->speedDown(accel);
 
 	/////////////EXTRA VIEW
-	if(keys['1']) {
-		camera->setExtraRotation(0.0f,0.0f,0.0f);
-	}
-	if(keys['2']) {
+	if(keys['.']) {
 		camera->setExtraRotation(0.0f,-90.f,0.0f);
 	}
-	if(keys['3']) { 
+	else if(keys['b']||keys['B']) { 
 		camera->setExtraRotation(0.0f,180.f,0.0f);
 	}
-	if(keys['4']) {
+	else if(keys[',']) {
 		camera->setExtraRotation(0.0f,90.f,0.0f);
 	}
-	if(keys['5']) {
+	else {
+		camera->setExtraRotation(0.0f,0.0f,0.0f);
+	}
+	if(keys['4']) {
 		if(fogDensity<1.0)
 			fogDensity+=0.005f;
 	}
-	if(keys['6']) {
+	if(keys['5']) {
 		if(fogDensity>0.0)
 			fogDensity-=0.005f;
 	}
@@ -163,11 +163,6 @@ void keyUp(unsigned char key, int x, int y)
 void keyDown(unsigned char key, int x, int y)
 {
 	keys[key]=true;
-
-	//if(keys[32])
-	//	boost::this_thread::sleep(boost::posix_time::milliseconds(100));
-
-	//printf("%c\n",key);
 }
 
 void specialKeyDown(int key, int x, int y)
@@ -236,15 +231,12 @@ void initOpenGL()
 {
 	glClearColor(1.0f,1.0f,1.0f,0.0f);
 	glEnable(GL_NORMALIZE);
-	//glEnable(GL_LIGHTING);
-	//glLightModelf(G, GL_TRUE);
-	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT0);	
 }
 
 void renderFog()
 {
 	GLfloat fogColor[] = {0.8f, 0.8f, 0.8f, 1.0f};
-						//{ 0.2f, 0.2f, 0.2f, 1.0f };
 	glEnable(GL_FOG);
 
 	glFogfv(GL_FOG_COLOR, fogColor);
@@ -252,7 +244,6 @@ void renderFog()
 	glFogf(GL_FOG_START, 10.0f);
 	glFogf(GL_FOG_END, 50.0f);
 	glHint(GL_FOG_HINT, GL_NICEST);
-	//glFogi(GL_FOG_MODE, GL_LINEAR);
 	glFogi( GL_FOG_MODE, GL_EXP );
 }
 
@@ -290,8 +281,14 @@ void drawScene()
 	//	if(scale_scene>5.0f || scale_scene <-2.5f)
 	//		scale_scene = 0.0;
 	//}
+	GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};     // Define highlight properties
+	GLfloat mat_shininess[]= {50.0};                   // Define shininess of surface
 	float lightPos[4] = {0, 1000, 1000, 0};
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+	glShadeModel(GL_SMOOTH);                           // Smooth transitions between edges
+	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);   // Set material properties
+	glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess); // Set material properties
+	glColorMaterial(GL_FRONT,GL_DIFFUSE);                // Set Color Capability
 	
 	//glPushMatrix();
 	world->render();
@@ -300,7 +297,6 @@ void drawScene()
 		bullets[i]->render();
 
 	aircraft->render();
-
 
 	//dodawanie przeciwników
 	if(przeciwnicy.size() != 0 )
@@ -523,7 +519,7 @@ void initGame()
 
 			
 
-	Connection::getInstance().Init("Michal","89.79.40.252" , "1234");
+	Connection::getInstance().Init("Lump","89.79.40.252" , "1234");
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );

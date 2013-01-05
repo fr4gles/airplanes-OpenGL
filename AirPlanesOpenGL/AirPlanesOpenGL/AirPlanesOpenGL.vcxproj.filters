@@ -82,6 +82,9 @@
     <ClInclude Include="src\Bullet.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\utils.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\freeglut.dll">
