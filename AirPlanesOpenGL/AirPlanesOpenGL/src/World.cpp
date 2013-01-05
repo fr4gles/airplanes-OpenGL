@@ -1,6 +1,6 @@
 #include "World.h"
-#include "targa.h"
 #include <iostream>
+#include "targa.h"
 
 World::World(int groundSize) : _groundSize(groundSize)
 {

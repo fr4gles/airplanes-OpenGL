@@ -7,6 +7,8 @@ class Aircraft :
 	public RootObject
 {
 public:
+	GLuint AIRCRAFT_MODEL;
+
 	Aircraft(): RootObject()
 	{
 		_speed = 0.0f;
@@ -41,6 +43,10 @@ public:
 
 	void speedUp(GLfloat newSpeed);
 	void speedDown(GLfloat newSpeed);
+	void attacked();
+	void dead();
+
+	GLint getHP() const;
 	inline GLfloat getSpeed() const { return _speed; }
 
 	~Aircraft(){};

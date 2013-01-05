@@ -16,10 +16,10 @@
 
 #include "freeglut/freeglut.h"
 
-#include "World.h"
 #include "Camera.h"
 #include "Aircraft.h"
 #include "Bullet.h"
+#include "World.h"
 
 bool keys[256], specialkeys[256];
 
@@ -48,7 +48,7 @@ Camera *camera;
 Aircraft *aircraft;
 std::vector<Bullet*> bullets;
 
-std::vector<std::pair<std::string,RootObject*>> przeciwnicy;
+std::vector<std::pair<std::string,Aircraft*>> przeciwnicy;
 
 typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
 Player players;
@@ -101,37 +101,38 @@ void handleKeys(){
 	}
 
 	////////////AIRCRAFT
+	if(aircraft->getHP() > 0)
+	{
+		if(keys['a']||keys['A'])  {
+			aircraft->addRotate(0,0.8f,0);
+			//aircraft->setTurn(11.0f);
+			//camera->setExtraRotation(0.0f,-12.0f,0.0f);
+		}
+		if(keys['d']||keys['D']) {
+			aircraft->addRotate(0,-0.8f,0);
+			//aircraft->setTurn(-11.0f);
+			//camera->setExtraRotation(0.0f,12.0f,0.0f);
+		}
+		if(keys['w']||keys['W']) {
+			aircraft->addRotate(-0.5f,0,0);
+			//aircraft->setTurn(-11.0f);
+			//camera->setExtraRotation(0.0f,12.0f,0.0f);
+		}
+		if(keys['s']||keys['S']) {
+			aircraft->addRotate(0.5f,0,0);
+			//aircraft->setTurn(-11.0f);
+			//camera->setExtraRotation(0.0f,12.0f,0.0f);
+		}
+		/*else{
+			//aircraft->setTurn(0.0f);
+			//camera->setExtraRotation(0.0f,0.0f,0.0f);
+		}*/
 
-	if(keys['a']||keys['A'])  {
-		aircraft->addRotate(0,0.8f,0);
-		//aircraft->setTurn(11.0f);
-		//camera->setExtraRotation(0.0f,-12.0f,0.0f);
+		if(keys['r']||keys['R'])
+			aircraft->speedUp(accel);
+		if(keys['f']||keys['F'])
+			aircraft->speedDown(accel);
 	}
-	if(keys['d']||keys['D']) {
-		aircraft->addRotate(0,-0.8f,0);
-		//aircraft->setTurn(-11.0f);
-		//camera->setExtraRotation(0.0f,12.0f,0.0f);
-	}
-	if(keys['w']||keys['W']) {
-		aircraft->addRotate(-0.5f,0,0);
-		//aircraft->setTurn(-11.0f);
-		//camera->setExtraRotation(0.0f,12.0f,0.0f);
-	}
-	if(keys['s']||keys['S']) {
-		aircraft->addRotate(0.5f,0,0);
-		//aircraft->setTurn(-11.0f);
-		//camera->setExtraRotation(0.0f,12.0f,0.0f);
-	}
-	/*else{
-		//aircraft->setTurn(0.0f);
-		//camera->setExtraRotation(0.0f,0.0f,0.0f);
-	}*/
-
-	if(keys['r']||keys['R'])
-		aircraft->speedUp(accel);
-	if(keys['f']||keys['F'])
-		aircraft->speedDown(accel);
-
 	/////////////EXTRA VIEW
 	if(keys['.']) {
 		camera->setExtraRotation(0.0f,-90.f,0.0f);
@@ -347,7 +348,7 @@ void drawScene()
 
 void push_backToPrzeciwnicy(std::string tmp1, RootObject* tmp2)
 {
-	przeciwnicy.push_back(std::make_pair(tmp1, tmp2));
+	przeciwnicy.push_back(std::make_pair(tmp1, dynamic_cast<Aircraft*>(tmp2)));
 
 	for(int i=0;i<iloscKul;++i)
 		bullets.push_back(new Bullet());
@@ -380,13 +381,20 @@ void aktualizujPozycjeGracza()
 		for(int i=0;i<bullets.size();++i)
 		{
 			if(odleglosc(bullets[i]->getPosition(),aircraft->getPosition()) < 0.5f)
+			{	
 				std::cout << "zderzenie z kul¹ nr:" << i << std::endl;
+				aircraft->attacked();
+			}
 		}
 
 		for(int i=0;i<przeciwnicy.size();++i)
 		{
 			if(odleglosc(przeciwnicy[i].second->getPosition(),aircraft->getPosition()) < 0.5f)
+			{	
 				std::cout << "zderzenie z przeciwnikiem nr:" << i << std::endl;
+				aircraft->dead();
+				przeciwnicy[i].second->dead();
+			}
 		}
 
 	}
@@ -424,9 +432,9 @@ void aktualizujPozycjeGracza()
 					int tmp = /*static_cast<int>*/(players[i].second[players[i].second.size()-1]);
 					if(tmp > -1)
 					{
-						bullets[(iloscKul-1)*(j+1)+tmp-1]->setColor(1.0f,0.0f,0.0f);
-						bullets[(iloscKul-1)*(j+1)+tmp-1]->setPosition(przeciwnicy[j].second->getPosition());
-						bullets[(iloscKul-1)*(j+1)+tmp-1]->addRotate(przeciwnicy[j].second->getRotation());
+						bullets[(iloscKul-1)*(j+1)+tmp]->setColor(1.0f,0.0f,0.0f);
+						bullets[(iloscKul-1)*(j+1)+tmp]->setPosition(przeciwnicy[j].second->getPosition());
+						bullets[(iloscKul-1)*(j+1)+tmp]->addRotate(przeciwnicy[j].second->getRotation());
 					}
 				}
 			}
@@ -475,6 +483,8 @@ void timer(int v)
 
 void initGame()
 {
+	//load_obj("obiekty/F-2/F-2.obj", aircraft->AIRCRAFT_MODEL ,texture,tex_num);
+
 	for(int i=0;i<(iloscKul);++i)
 		bullets.push_back(new Bullet());
 
