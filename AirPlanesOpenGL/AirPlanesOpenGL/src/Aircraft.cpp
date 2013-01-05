@@ -41,16 +41,21 @@ void Aircraft::doSth()
 	_existence[0][1] -= _move[1]*_speed;
 	_existence[0][2] -= _move[2]*_speed;
 
-	if(_HP<=0 && _existence[0][1] > 0.2f)
+	if(_HP < 1 && _existence[0][1] > 0.2f)
 	{
-		this->addRotate(-0.3f,0,0);
-		speedUp(0.001);
+		// zestrzelony kulami
+		// po co to jest ?
+		//this->addRotate(-0.3f,0,0);
+		//speedUp(0.001);
+			_isAlive += 1;
 	}
 	if(_existence[0][1] < 0.2f)
-	{
-		_existence[1][0] = 0.2f;
+	{	// spadl
+		//_existence[1][0] = 0.2f;
 		dead();				//wybuch bo wpad³ w ziemiê
 		speedDown(0.01);
+
+		_isAlive += 1;
 	}
 	else if(_existence[0][1] > 50.0f)
 		_existence[1][0] = -_existence[1][0];
@@ -77,8 +82,16 @@ void Aircraft::addRotate(GLfloat x, GLfloat y, GLfloat z)
 
 GLint Aircraft::generateRandomPosition()
 { 
-	srand(time(NULL));
-	return rand()%21-10;
+
+	static bool init = false;
+
+	if (!init) 
+	{
+		srand(time(NULL));
+		init = true;
+	}
+
+  return rand()%(21-10)+10; 
 }
 
 void Aircraft::attacked()
@@ -108,10 +121,15 @@ void Aircraft::respawn()
 	_minSpeed = 0.0f;
 	_move = std::vector<GLfloat>(3,0.0f);
 	_HP = 50;
-	_color = Color(0.0f,0.0f,1.0f);
+	
 
 	_existence[0][0] = static_cast<GLfloat>(generateRandomPosition());
 	_existence[0][1] = 0.35f;
 	_existence[0][2] = static_cast<GLfloat>(generateRandomPosition());
+	
+	_existence[1][0] = 0.0f;
 	_existence[1][1] = 0.0f;
+	_existence[1][2] = 0.0f;
+
+	_isAlive = 0;
 }
