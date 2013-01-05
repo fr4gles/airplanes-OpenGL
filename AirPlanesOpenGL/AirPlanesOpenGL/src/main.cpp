@@ -361,16 +361,16 @@ void aktualizujPozycjeGracza()
 {
 	if(exitProgram)
 	{
-		for(int i=0;i<3;++i)
-			tmp_Me[i] = aircraft->getPosition()[i]+5000.0f;
+		//for(int i=0;i<3;++i)
+		//	tmp_Me[i] = aircraft->getPosition()[i]+5000.0f;
 
-		for(int i=3,j=0;i<6;++i,++j)
-			tmp_Me[i] = aircraft->getRotation()[j]+5000.0f;
+		//for(int i=3,j=0;i<6;++i,++j)
+		//	tmp_Me[i] = aircraft->getRotation()[j]+5000.0f;
 
-		for(int i=0;i<10;++i)
-			Connection::getInstance().Start();
-		
-		Connection::getInstance().Stop();
+		//for(int i=0;i<10;++i)
+		//	Connection::getInstance().Start();
+		//
+		//Connection::getInstance().Stop();
 		glutLeaveMainLoop();
 	}
 	else
@@ -490,80 +490,80 @@ void initGame()
 	world->setFollow(aircraft);
 }
 
-	void zakonczProgram () 
-	{
-		exitProgram = true;
-		std::cerr << "Koniec\n";
-		aktualizujPozycjeGracza();
+void zakonczProgram () 
+{
+	exitProgram = true;
+	std::cerr << "Koniec\n";
+	aktualizujPozycjeGracza();
 
-	  // forces abnormal termination
-	}
+	// forces abnormal termination
+}
 
-	int main(int argc, char **argv)
-	{	
-	//std::string ip, port, name;
-	//std::cout << " Podaj NAZWE: " << std::endl;
-	//std::cin >> name;
-	//std::cout << " Podaj IP: " << std::endl;
-	//std::cin >> ip;
-	//std::cout << " Podaj PORT: " << std::endl;
-	//std::cin >> port;
+int main(int argc, char **argv)
+{	
+//std::string ip, port, name;
+//std::cout << " Podaj NAZWE: " << std::endl;
+//std::cin >> name;
+//std::cout << " Podaj IP: " << std::endl;
+//std::cin >> ip;
+//std::cout << " Podaj PORT: " << std::endl;
+//std::cin >> port;
 
-	//Connection::getInstance().Init(name,ip , port);
+//Connection::getInstance().Init(name,ip , port);
 
-			  //  try
-		//{
-		//        monkey = new CModel3DS("obj/Airplane HARR/Airplane HARR.3ds");
-		//}
-		//catch(std::string error_str)
-		//{
-		//        std::cerr << "Error: " << error_str << std::endl;
-		//        exit(1);
-		//}
+			//  try
+	//{
+	//        monkey = new CModel3DS("obj/Airplane HARR/Airplane HARR.3ds");
+	//}
+	//catch(std::string error_str)
+	//{
+	//        std::cerr << "Error: " << error_str << std::endl;
+	//        exit(1);
+	//}
 
 			
 
-	Connection::getInstance().Init("Michal","89.79.40.252" , "1234");
+Connection::getInstance().Init("sweqw","89.79.40.252" , "1234");
 
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );
-	glutInitWindowSize(800,600);
-	glutInitWindowPosition(100,100);
-	glutCreateWindow("Air DESTROYYYYYER");
-
-
-	initOpenGL();
-	InitVSync();
-
-	SetVSyncState(1);
-
-	glewInit();
-
-	initGame();
-
-	glutDisplayFunc(drawScene);
-	glutReshapeFunc(reshapeSceen);
-	glutKeyboardFunc(keyDown);
-	glutKeyboardUpFunc(keyUp);
-	glutSpecialFunc(specialKeyDown);
-	glutSpecialUpFunc(specialKeyUp);
-
-	glutCloseFunc(zakonczProgram);
+glutInit(&argc, argv);
+glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );
+glutInitWindowSize(800,600);
+glutInitWindowPosition(100,100);
+glutCreateWindow("Air DESTROYYYYYER");
 
 
-	glutMouseFunc(mouseButton);
-	glutMotionFunc(mouseMotion);
-	glutMouseWheelFunc(mouseWheel);
+initOpenGL();
+InitVSync();
+
+SetVSyncState(1);
+
+glewInit();
+
+initGame();
+
+glutDisplayFunc(drawScene);
+glutReshapeFunc(reshapeSceen);
+glutKeyboardFunc(keyDown);
+glutKeyboardUpFunc(keyUp);
+glutSpecialFunc(specialKeyDown);
+glutSpecialUpFunc(specialKeyUp);
+
+glutCloseFunc(zakonczProgram);
 
 
-	// aktualizowanie pozycji gracza
-	glutTimerFunc(0, sendAndRecv, 0);
-	glutTimerFunc(0, timer, 0);
-	glutTimerFunc(0, bulletTime, 0);
+glutMouseFunc(mouseButton);
+glutMotionFunc(mouseMotion);
+glutMouseWheelFunc(mouseWheel);
 
-	glutMainLoop();
 
-	Connection::getInstance().Stop();
+// aktualizowanie pozycji gracza
+glutTimerFunc(0, sendAndRecv, 0);
+glutTimerFunc(0, timer, 0);
+glutTimerFunc(0, bulletTime, 0);
 
-	return 0;
+glutMainLoop();
+
+Connection::getInstance().Stop();
+
+return 0;
 }
