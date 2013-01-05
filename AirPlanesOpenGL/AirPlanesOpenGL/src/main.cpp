@@ -384,7 +384,13 @@ void aktualizujPozycjeGracza()
 		for(int i=0;i<bullets.size();++i)
 		{
 			if(odleglosc(bullets[i]->getPosition(),aircraft->getPosition()) < 0.5f)
-				std::cout << "zderzenie" << std::endl;
+				std::cout << "zderzenie z kul¹ nr:" << i << std::endl;
+		}
+
+		for(int i=0;i<przeciwnicy.size();++i)
+		{
+			if(odleglosc(przeciwnicy[i].second->getPosition(),aircraft->getPosition()) < 0.5f)
+				std::cout << "zderzenie z przeciwnikiem nr:" << i << std::endl;
 		}
 
 	}
