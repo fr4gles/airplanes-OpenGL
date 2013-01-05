@@ -11,17 +11,7 @@ public:
 
 	Aircraft(): RootObject()
 	{
-		_speed = 0.0f;
-		_maxSpeed = 0.10f;
-		_minSpeed = 0.0f;
-		_move = std::vector<GLfloat>(3,0.0f);
-		_HP = 50;
-		_color = Color(0.0f,0.0f,1.0f);
-
-		_existence[0][0] = static_cast<GLfloat>(generateRandomPosition());
-		_existence[0][1] = 0.35f;
-		_existence[0][2] = static_cast<GLfloat>(generateRandomPosition());
-		_existence[1][1] = 0.0f;
+		respawn();
 	}
 
 	Aircraft(std::vector<double> &tmp): RootObject()
@@ -45,8 +35,10 @@ public:
 	void speedDown(GLfloat newSpeed);
 	void attacked();
 	void dead();
+	void respawn();
 
 	GLint getHP() const;
+	void setHP(GLint newHP);
 	inline GLfloat getSpeed() const { return _speed; }
 
 	~Aircraft(){};
