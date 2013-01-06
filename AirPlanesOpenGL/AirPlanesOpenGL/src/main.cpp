@@ -389,7 +389,7 @@ void push_backToPrzeciwnicy(std::string tmp1, RootObject* tmp2)
 {
 	przeciwnicy.push_back(std::make_pair(tmp1, dynamic_cast<Aircraft*>(tmp2)));
 	//load_obj("obiekty/F-2/F-2.obj", przeciwnicy[przeciwnicy.size()-1].second->AIRCRAFT_MODEL ,texture2,tex_num2);
-	przeciwnicy[przeciwnicy.size()-1].second->setHP(50);
+	//przeciwnicy[przeciwnicy.size()-1].second->setHP(50);
 
 	for(int i=0;i<iloscKul;++i)
 		bullets.push_back(new Bullet());
@@ -502,10 +502,10 @@ void sendAndRecv(int v)
 	glutTimerFunc(50, sendAndRecv, 0);
 }
 
-void bulletTime(int v)
-{
-	//glutTimerFunc(50, bulletTime, 0);
-}
+//void bulletTime(int v)
+//{
+//	//glutTimerFunc(50, bulletTime, 0);
+//}
 
 
 void timer(int v)
@@ -615,7 +615,7 @@ glutMouseWheelFunc(mouseWheel);
 // aktualizowanie pozycji gracza
 glutTimerFunc(0, sendAndRecv, 0);
 glutTimerFunc(0, timer, 0);
-glutTimerFunc(0, bulletTime, 0);
+//glutTimerFunc(0, bulletTime, 0);
 
 glutMainLoop();
 

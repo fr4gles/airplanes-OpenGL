@@ -100,12 +100,7 @@ void Aircraft::dead()
 	_HP = 0;
 }
 
-GLint Aircraft::getHP() const
-{
-	return _HP;
-}
-
-void Aircraft::setHP(GLint newHP)
+void Aircraft::setHP(const GLint& newHP)
 {
 	_HP = newHP;
 }

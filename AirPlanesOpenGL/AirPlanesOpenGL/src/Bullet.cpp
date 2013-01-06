@@ -29,7 +29,7 @@ void Bullet::doSth()
 		_existence[1][0] = -_existence[1][0];
 }
 
-void Bullet::setColor(GLfloat red, GLfloat green, GLfloat blue)
+void Bullet::setColor(const GLfloat &red,const GLfloat &green,const GLfloat &blue)
 {
 	_color.red = red;
 	_color.green = green;

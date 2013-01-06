@@ -37,9 +37,9 @@ public:
 	void dead();
 	void respawn();
 
-	GLint getHP() const;
-	void setHP(GLint newHP);
-	inline GLfloat getSpeed() const { return _speed; }
+	inline const GLint& getHP() const { return _HP; }
+	void setHP(const GLint &newHP);
+	inline const GLfloat &getSpeed() const { return _speed; }
 
 	~Aircraft(){};
 
