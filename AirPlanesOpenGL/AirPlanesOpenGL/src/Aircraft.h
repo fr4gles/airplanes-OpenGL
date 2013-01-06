@@ -14,13 +14,25 @@ public:
 
 		_isAlive = 0;
 
+		_speed = 0.0f;
+		_maxSpeed = 0.10f;
+		_minSpeed = 0.0f;
+		_move = std::vector<GLfloat>(3,0.0f);
+		_HP = 50;
+
 		respawn();
 	}
 
-	Aircraft(std::vector<double> &tmp): RootObject()
+	Aircraft(const std::vector<double> &tmp): RootObject()
 	{
-		Aircraft();
+		_speed = 0.0f;
+		_maxSpeed = 0.10f;
+		_minSpeed = 0.0f;
+		_move = std::vector<GLfloat>(3,0.0f);
+		_HP = 50;
+		_blowUp = 2.0f;
 
+		_isAlive = 0;
 		_color = Color(1.0f,0.0f,0.0f);
 		
 		_existence[0][0] = tmp[0];
@@ -43,6 +55,7 @@ public:
 	void dead();
 	void respawn();
 
+	void setBlowUp(const GLfloat& newBlow);
 	inline const GLint& getHP() const { return _HP; }
 	void setHP(const GLint &newHP);
 	inline const GLfloat &getSpeed() const { return _speed; }
@@ -58,5 +71,6 @@ private:
 	GLint _HP;
 	Color _color;
 	GLint _isAlive;
+	GLfloat _blowUp;
 };
 

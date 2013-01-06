@@ -52,6 +52,7 @@ Aircraft *aircraft;
 std::vector<Bullet*> bullets;
 
 std::vector<std::pair<std::string,Aircraft*>> przeciwnicy;
+std::vector<GLfloat> blowUpVec; 
 
 typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
 Player players;
@@ -344,9 +345,7 @@ void drawScene()
 
 	if(aircraft->getIsAlive() == 1)
 		if(aircraft->getHP() < 1)
-		{
 			glutTimerFunc(5000, respawnMe, 0);
-		}
 
 	//dodawanie przeciwników
 	if(przeciwnicy.size() != 0 )
@@ -401,6 +400,7 @@ void push_backToPrzeciwnicy(std::string tmp1, RootObject* tmp2)
 	przeciwnicy.push_back(std::make_pair(tmp1, dynamic_cast<Aircraft*>(tmp2)));
 	//load_obj("obiekty/F-2/F-2.obj", przeciwnicy[przeciwnicy.size()-1].second->AIRCRAFT_MODEL ,texture2,tex_num2);
 	//przeciwnicy[przeciwnicy.size()-1].second->setHP(50);
+	blowUpVec.push_back(0.45f);
 
 	for(int i=0;i<iloscKul;++i)
 		bullets.push_back(new Bullet(Color(1.0f,0.0f,0.0f)));
@@ -516,7 +516,6 @@ void sendAndRecv(int v)
 
 	// 
 	aktualizujPozycjeGracza();
-	
 	glutTimerFunc(50, sendAndRecv, 0);
 }
 

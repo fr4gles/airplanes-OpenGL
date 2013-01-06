@@ -30,7 +30,9 @@ void Aircraft::render()
 		//zmiana tekstury na wybuch
 		glColor3f(0.9f,0.7f,0.0f);
 
-		glutSolidSphere(2.0f,10,10);
+		glutSolidSphere(_blowUp,10,10);
+		if(_blowUp < 2.0f)
+			_blowUp += 0.01f;
 	}
 	
 	glColor4f(1.0,1.0,1.0,1.0);
@@ -50,11 +52,13 @@ void Aircraft::doSth()
 	_existence[0][1] -= _move[1]*_speed;
 	_existence[0][2] -= _move[2]*_speed;
 
+
+
 	if(_HP < 1 && _existence[0][1] > 0.2f)
 	{
 		//this->addRotate(0.f-0.3f,0);
 		//speedUp(0.001);
-
+		
 		_isAlive +=1;
 
 	}
@@ -112,12 +116,6 @@ void Aircraft::setHP(const GLint& newHP)
 
 void Aircraft::respawn()
 {
-	_speed = 0.0f;
-	_maxSpeed = 0.10f;
-	_minSpeed = 0.0f;
-	_move = std::vector<GLfloat>(3,0.0f);
-	_HP = 50;
-
 	_existence[0][0] = static_cast<GLfloat>(generateRandomPosition());
 	_existence[0][1] = 1.35f;
 	_existence[0][2] = static_cast<GLfloat>(generateRandomPosition());
@@ -126,5 +124,12 @@ void Aircraft::respawn()
 	_existence[1][1] = 0.0f;
 	_existence[1][2] = 0.0f;
 
+	_blowUp = 0.45f;
+	_HP = 50;
 	_isAlive = 0;
+}
+
+void Aircraft::setBlowUp(const GLfloat& newBlow)
+{
+	_blowUp = 0.45f;
 }
