@@ -52,8 +52,8 @@ void Aircraft::doSth()
 
 	if(_HP<=0 && _existence[0][1] > 0.2f)
 	{
-		this->addRotate(-0.3f,0,0);
-		speedUp(0.001);
+		//this->addRotate(0.f-0.3f,0);
+		//speedUp(0.001);
 	}
 	if(_existence[0][1] < 0.3f)
 	{
