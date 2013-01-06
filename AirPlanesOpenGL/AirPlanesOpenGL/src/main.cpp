@@ -118,20 +118,20 @@ void handleKeys(){
 	else if(specialkeys[GLUT_KEY_DOWN])
 		camera->addDistance(-0.1f,0.0f,-0.1f);
 
-	if(keys[32])
-	{
-		licznikStrzal++;
-
-		nrWystrzelonejKuli = licznikStrzal;
-		strzelaj = true;
-
-		if(licznikStrzal > iloscKul-2)
-			licznikStrzal = -1;
-	}
-
 	////////////AIRCRAFT
 	if(aircraft->getHP() > 0)
 	{
+		if(keys[32])
+		{
+			licznikStrzal++;
+
+			nrWystrzelonejKuli = licznikStrzal;
+			strzelaj = true;
+
+			if(licznikStrzal > iloscKul-2)
+				licznikStrzal = -1;
+		}
+
 		if(keys['a']||keys['A'])  {
 			aircraft->addRotate(0,0.8f,0);
 			//aircraft->setTurn(11.0f);
