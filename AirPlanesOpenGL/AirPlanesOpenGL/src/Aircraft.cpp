@@ -7,7 +7,6 @@ void Aircraft::render()
 {
 	glPushMatrix();
 	glEnable(GL_COLOR_MATERIAL);
-	//glEnable(GL_LIGHTING);
 
 	glTranslatef(_existence[0][0],_existence[0][1],_existence[0][2]);	
 	glRotatef(-_existence[1][0], 1,0,0 );
@@ -19,7 +18,7 @@ void Aircraft::render()
 		// tekstura samolotu
 		glColor3f(_color.red,_color.green,_color.blue);
 	
-		//glutSolidCone(0.1f,1.0f, 4, 5);
+		//glutSolidCone(0.1f,1.0f, 4, 5); KIJAAAANKA
 		glScalef(0.1f,0.1f,0.1f);
 		glRotatef(-90.0f,1,0,0);
 		glCallList(AIRCRAFT_MODEL);
@@ -37,7 +36,6 @@ void Aircraft::render()
 	
 	glColor4f(1.0,1.0,1.0,1.0);
 	
-	//glDisable(GL_LIGHTING);
 	glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
@@ -56,11 +54,7 @@ void Aircraft::doSth()
 
 	if(_HP < 1 && _existence[0][1] > 0.2f)
 	{
-		//this->addRotate(0.f-0.3f,0);
-		//speedUp(0.001);
-		
 		_isAlive +=1;
-
 	}
 	if(_existence[0][1] < 0.3f)
 	{

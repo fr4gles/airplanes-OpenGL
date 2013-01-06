@@ -26,7 +26,5 @@ private:
 							_extraRot;
 
 	RootObject *_follow;
-
-
 };
 

@@ -52,21 +52,6 @@ void Camera::addDistance(GLfloat x,GLfloat y,GLfloat z)
 	_distance[0]+=x;
 	_distance[1]+=y;
 	_distance[2]+=z;
-
-	//if(_distance[0] < minDistance)
-	//	_distance[0] = minDistance;
-	//else if(_distance[0] > maxDistance)
-	//	_distance[0] = maxDistance;
-
-	//if(_distance[1] < minDistance)
-	//	_distance[1] = minDistance;
-	//else if(_distance[1] > maxDistance)
-	//	_distance[1] = maxDistance;
-
-	//if(_distance[2] < minDistance)
-	//	_distance[2] = minDistance;
-	//else if(_distance[2] > maxDistance)
-	//	_distance[2] = maxDistance;
 }
 
 void Camera::setExtraRotation(GLfloat x,GLfloat y,GLfloat z)

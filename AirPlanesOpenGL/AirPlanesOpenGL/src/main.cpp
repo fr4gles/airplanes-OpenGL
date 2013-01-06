@@ -52,7 +52,6 @@ Aircraft *aircraft;
 std::vector<Bullet*> bullets;
 
 std::vector<std::pair<std::string,Aircraft*>> przeciwnicy;
-std::vector<GLfloat> blowUpVec; 
 
 typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
 Player players;
@@ -135,28 +134,16 @@ void handleKeys(){
 
 		if(keys['a']||keys['A'])  {
 			aircraft->addRotate(0,0.8f,0);
-			//aircraft->setTurn(11.0f);
-			//camera->setExtraRotation(0.0f,-12.0f,0.0f);
 		}
 		if(keys['d']||keys['D']) {
 			aircraft->addRotate(0,-0.8f,0);
-			//aircraft->setTurn(-11.0f);
-			//camera->setExtraRotation(0.0f,12.0f,0.0f);
-		}
-		if(keys['w']||keys['W']) {
-			aircraft->addRotate(-0.5f,0,0);
-			//aircraft->setTurn(-11.0f);
-			//camera->setExtraRotation(0.0f,12.0f,0.0f);
 		}
 		if(keys['s']||keys['S']) {
-			aircraft->addRotate(0.5f,0,0);
-			//aircraft->setTurn(-11.0f);
-			//camera->setExtraRotation(0.0f,12.0f,0.0f);
+			aircraft->addRotate(-0.5f,0,0);
 		}
-		/*else{
-			//aircraft->setTurn(0.0f);
-			//camera->setExtraRotation(0.0f,0.0f,0.0f);
-		}*/
+		if(keys['w']||keys['W']) {
+			aircraft->addRotate(0.5f,0,0);
+		}
 
 		if(keys['r']||keys['R'])
 			aircraft->speedUp(accel);
@@ -264,15 +251,11 @@ void initOpenGL()
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHTING);
-	//glEnable(GL_LIGHT1);
 	GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};     // Define highlight properties
 	GLfloat mat_shininess[]= {50.0};                   // Define shininess of surface
 	float lightPos[4] = {0, 10, 10, 0};
-	//GLfloat mat_ambient[] = {0.1, 0.1, 0.1, 0.1};
-	//glLightfv(GL_LIGHT0, GL_SPECULAR, lightPos);
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
 	glShadeModel(GL_SMOOTH);                           // Smooth transitions between edges
-	//glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);   // Set material properties
 	glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess); // Set material properties
 	glColorMaterial(GL_FRONT_AND_BACK,GL_EMISSION);                // Set Color Capability
@@ -302,40 +285,17 @@ void drawScene()
 {
 	glClearColor(1.0,1.0,1.0,1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glEnable(GL_LIGHTING);
-	
 	glLoadIdentity();
 
-	/*float lightPos[4] = {0, 10, 10, 0};
-	glLightfv(GL_LIGHT0, GL_SPECULAR, lightPos);*/
-	//renderFog();
-
-	//GLboolean isLighting;
-	 //glGetBooleanv(GL_LIGHTING,&isLighting);
-	 
+	renderFog();
+ 
 	GLfloat *p = camera->getPosition();
 
 	gluLookAt(
 		p[0], p[1], p[2],
 		camera->getLookAt()[0], camera->getLookAt()[1],  camera->getLookAt()[2],
 		0,1,0);
-	/*gluLookAt(
-		camera_distance*cos(camera_theta)*cos(camera_fi),
-		camera_distance*sin(camera_theta),
-		camera_distance*cos(camera_theta)*sin(camera_fi),
-		0.0,0.0,0.0,
-		camera_distance*cos(camera_theta+0.1)*cos(camera_fi),
-		camera_distance*sin(camera_theta+0.1),
-		camera_distance*cos(camera_theta+0.1)*sin(camera_fi));
-	*/
-	//if(scale_scene)
-	//{
-	//	glScalef(scale_scene, scale_scene, scale_scene);
-	//	if(scale_scene>5.0f || scale_scene <-2.5f)
-	//		scale_scene = 0.0;
-	//}
 	
-	//glPushMatrix();
 	world->render();
 
 	for(int i=0;i<bullets.size();++i)
@@ -385,12 +345,6 @@ void drawScene()
 	glDisable(GL_LINE_STIPPLE);
 	glEnable(GL_LIGHTING);
 
-	//glDisable(GL_DEPTH_TEST);
-	/*if(isLighting) {
-		glEnable(GL_LIGHTING);
-	}*/
-	//glFlush ();
-	//glDisable(GL_LIGHTING);
 	glutSwapBuffers ();
 	glutPostRedisplay();
 }
@@ -398,10 +352,7 @@ void drawScene()
 void push_backToPrzeciwnicy(std::string tmp1, RootObject* tmp2)
 {
 	przeciwnicy.push_back(std::make_pair(tmp1, dynamic_cast<Aircraft*>(tmp2)));
-	//load_obj("obiekty/F-2/F-2.obj", przeciwnicy[przeciwnicy.size()-1].second->AIRCRAFT_MODEL ,texture2,tex_num2);
-	//przeciwnicy[przeciwnicy.size()-1].second->setHP(50);
-	blowUpVec.push_back(0.45f);
-
+	
 	for(int i=0;i<iloscKul;++i)
 		bullets.push_back(new Bullet(Color(1.0f,0.0f,0.0f)));
 }
@@ -450,13 +401,12 @@ void aktualizujPozycjeGracza()
 
 	}
 
-
 	Connection::getInstance().Start();
 
 	// dodawanie przeciwników
 	if(players.size() != 0 && przeciwnicy.size() == 0)
-		push_backToPrzeciwnicy(players[0].first,new Aircraft(players[0].second)); //przeciwnicy.push_back(std::make_pair(players[0].first, new Aircraft(players[0].second)));
-	else if (players.size() != 0 /*&& przeciwnicy.size() != 0*/)
+		push_backToPrzeciwnicy(players[0].first,new Aircraft(players[0].second));
+	else if (players.size() != 0)
 	{
 		bool isNot = true;
 		for(int i=0;i<players.size();++i)
@@ -470,9 +420,7 @@ void aktualizujPozycjeGracza()
 
 		if(isNot)
 			push_backToPrzeciwnicy(players[players.size()-1].first,new Aircraft(players[players.size()-1].second));
-			//przeciwnicy.push_back(std::make_pair(players[players.size()-1].first, new Aircraft(players[players.size()-1].second)));
-		/////////
-
+			
 		// aktualizacja przeciwników
 		for(int i=0;i<players.size();++i)
 		{
@@ -484,7 +432,7 @@ void aktualizujPozycjeGracza()
 					
 					przeciwnicy[j].second->setHP(players[i].second[7]);
 
-					int tmp = ceil(/*static_cast<int>(*/players[i].second[players[i].second.size()-2]/*)*/);
+					int tmp = ceil(players[i].second[players[i].second.size()-2]);
 					if(tmp > -1)
 					{
 						bullets[(iloscKul-1)*(j+1)+tmp]->setColor(1.0f,0.0f,0.0f);
@@ -507,8 +455,6 @@ void sendAndRecv(int v)
 		bullets[licznikStrzal]->addRotate(aircraft->getRotation());
 
 		strzelaj = false;
-
-		//aktualizujPozycjeGracza();
 	}
 	
 	// aktualizowanie hp
@@ -518,12 +464,6 @@ void sendAndRecv(int v)
 	aktualizujPozycjeGracza();
 	glutTimerFunc(50, sendAndRecv, 0);
 }
-
-//void bulletTime(int v)
-//{
-//	//glutTimerFunc(50, bulletTime, 0);
-//}
-
 
 void timer(int v)
 {
@@ -556,7 +496,6 @@ void initGame()
 		bullets.push_back(new Bullet());
 
 	world = new World();
-	//world->initLoad();
 
 	camera = new Camera();
 	camera->setFollow(aircraft);
@@ -570,35 +509,21 @@ void zakonczProgram ()
 	aktualizujPozycjeGracza();
 
 	Connection::getInstance().Stop();
-
-	// forces abnormal termination
 }
 
 int main(int argc, char **argv)
 {	
-//std::string ip, port, name;
-//std::cout << " Podaj NAZWE: " << std::endl;
-//std::cin >> name;
-//std::cout << " Podaj IP: " << std::endl;
-//std::cin >> ip;
+std::string ip, port, name;
+std::cout << " Podaj NAZWE: " << std::endl;
+std::cin >> name;
+std::cout << " Podaj IP: " << std::endl;
+std::cin >> ip;
 //std::cout << " Podaj PORT: " << std::endl;
 //std::cin >> port;
 
-//Connection::getInstance().Init(name,ip , port);
+Connection::getInstance().Init(name,ip);
 
-			//  try
-	//{
-	//        monkey = new CModel3DS("obj/Airplane HARR/Airplane HARR.3ds");
-	//}
-	//catch(std::string error_str)
-	//{
-	//        std::cerr << "Error: " << error_str << std::endl;
-	//        exit(1);
-	//}
-
-			
-
-	Connection::getInstance().Init("efawefwaefawe","192.168.1.101"/*"89.79.40.252"*/ , "1234");
+//Connection::getInstance().Init("asdhygh","192.168.1.101"/*"89.79.40.252"*/ , "1234");
 
 glutInit(&argc, argv);
 glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );
