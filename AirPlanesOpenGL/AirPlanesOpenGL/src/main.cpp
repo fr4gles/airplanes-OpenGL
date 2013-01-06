@@ -470,7 +470,7 @@ void aktualizujPozycjeGracza()
 				{
 					przeciwnicy[j] = std::make_pair(players[i].first, new Aircraft(players[i].second));
 					
-					int tmp = /*static_cast<int>*/(players[i].second[players[i].second.size()-1]);
+					int tmp = /*static_cast<int>*/(players[i].second[players[i].second.size()-2]);
 					if(tmp > -1)
 					{
 						bullets[(iloscKul-1)*(j+1)+tmp]->setColor(1.0f,0.0f,0.0f);
@@ -496,15 +496,16 @@ void sendAndRecv(int v)
 
 		//aktualizujPozycjeGracza();
 	}
-
+	
 	aktualizujPozycjeGracza();
+	
 	glutTimerFunc(50, sendAndRecv, 0);
 }
 
-//void bulletTime(int v)
-//{
-//	glutTimerFunc(50, bulletTime, 0);
-//}
+void bulletTime(int v)
+{
+	//glutTimerFunc(50, bulletTime, 0);
+}
 
 
 void timer(int v)
@@ -519,7 +520,6 @@ void timer(int v)
 		bullets[i]->doSth();
 
 	glutTimerFunc(10, timer, 0);
-
 }
 
 void initGame()
@@ -615,7 +615,7 @@ glutMouseWheelFunc(mouseWheel);
 // aktualizowanie pozycji gracza
 glutTimerFunc(0, sendAndRecv, 0);
 glutTimerFunc(0, timer, 0);
-//glutTimerFunc(0, bulletTime, 0);
+glutTimerFunc(0, bulletTime, 0);
 
 glutMainLoop();
 

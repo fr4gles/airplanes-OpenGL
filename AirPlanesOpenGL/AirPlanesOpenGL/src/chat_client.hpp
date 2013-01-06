@@ -125,7 +125,7 @@ private:
 				tmp_OP[4] = boost::lexical_cast<double>(strs[5]);
 				tmp_OP[5] = boost::lexical_cast<double>(strs[6]);
 				tmp_OP[6] = static_cast<double>(boost::lexical_cast<int>(strs[7]));
-				tmp_OP[7] = boost::lexical_cast<int>(strs[8]);
+				tmp_OP[7] = static_cast<double>(boost::lexical_cast<int>(strs[8]));
 			}
 			catch (boost::bad_lexical_cast &ex)
 			{
@@ -230,7 +230,7 @@ class Connection
 			_sstr << cli_name << ',' << 
 				tmp_Me[0] << ',' << tmp_Me[1] << ',' << tmp_Me[2] << ',' << 
 				tmp_Me[3] << ',' << tmp_Me[4] << ',' << tmp_Me[5] << ',' <<
-				nrWystrzelonejKuli << ',' <<  myHP << ',';
+				nrWystrzelonejKuli << ','<<  myHP << ',';
 			
 			nrWystrzelonejKuli = -1;
 
