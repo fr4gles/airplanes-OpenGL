@@ -54,12 +54,17 @@ void Aircraft::doSth()
 	{
 		//this->addRotate(0.f-0.3f,0);
 		//speedUp(0.001);
+
+		_isAlive +=1;
+
 	}
 	if(_existence[0][1] < 0.3f)
 	{
 		_existence[1][0] = 0.2f;
 		dead();				//wybuch bo wpad³ w ziemiê
 		speedDown(0.01);
+
+		_isAlive += 1;
 	}
 	else if(_existence[0][1] > 50.0f)
 		_existence[1][0] = -_existence[1][0];

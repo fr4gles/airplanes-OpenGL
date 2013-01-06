@@ -292,6 +292,11 @@ void renderFog()
 	glFogi( GL_FOG_MODE, GL_EXP );
 }
 
+void respawnMe(int v = 0)
+{
+	aircraft->respawn();
+}
+
 void drawScene()
 {
 	glClearColor(1.0,1.0,1.0,1.0);
@@ -336,6 +341,10 @@ void drawScene()
 		bullets[i]->render();
 	
 	aircraft->render();
+
+	if(aircraft->getIsAlive() == 1)
+		if(aircraft->getHP() < 1)
+			glutTimerFunc(5000, respawnMe, 0);
 
 	//dodawanie przeciwników
 	if(przeciwnicy.size() != 0 )
