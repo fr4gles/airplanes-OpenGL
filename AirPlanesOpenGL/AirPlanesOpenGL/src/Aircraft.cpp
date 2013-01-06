@@ -125,4 +125,6 @@ void Aircraft::respawn()
 	_existence[1][0] = 0.0f;
 	_existence[1][1] = 0.0f;
 	_existence[1][2] = 0.0f;
+
+	_isAlive = 0;
 }

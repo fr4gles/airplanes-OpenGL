@@ -344,7 +344,9 @@ void drawScene()
 
 	if(aircraft->getIsAlive() == 1)
 		if(aircraft->getHP() < 1)
+		{
 			glutTimerFunc(5000, respawnMe, 0);
+		}
 
 	//dodawanie przeciwników
 	if(przeciwnicy.size() != 0 )
