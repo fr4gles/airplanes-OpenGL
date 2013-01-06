@@ -399,16 +399,15 @@ void aktualizujPozycjeGracza()
 {
 	if(exitProgram)
 	{
-		//for(int i=0;i<3;++i)
-		//	tmp_Me[i] = aircraft->getPosition()[i]+5000.0f;
+		for(int i=0;i<3;++i)
+			tmp_Me[i] = aircraft->getPosition()[i]+5000.0f;
 
-		//for(int i=3,j=0;i<6;++i,++j)
-		//	tmp_Me[i] = aircraft->getRotation()[j]+5000.0f;
+		for(int i=3,j=0;i<6;++i,++j)
+			tmp_Me[i] = aircraft->getRotation()[j]+5000.0f;
 
-		//for(int i=0;i<10;++i)
-		//	Connection::getInstance().Start();
-		//
-		//Connection::getInstance().Stop();
+		for(int i=0;i<10;++i)
+			Connection::getInstance().Start();
+
 		glutLeaveMainLoop();
 	}
 	else
@@ -558,6 +557,8 @@ void zakonczProgram ()
 	exitProgram = true;
 	std::cerr << "Koniec\n";
 	aktualizujPozycjeGracza();
+
+	Connection::getInstance().Stop();
 
 	// forces abnormal termination
 }
