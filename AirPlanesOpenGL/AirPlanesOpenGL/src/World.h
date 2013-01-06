@@ -12,7 +12,7 @@ public:
 	void initLoad();
 
 	// ladowanie tekstur
-	void load_texture(char *fn, GLuint &texture);
+	//void load_texture(int w, int h, GLenum format, GLenum type, GLvoid* data, GLuint &texture);
 
 	void setFollow(RootObject *root);
 
@@ -25,7 +25,7 @@ public:
 
 	~World(void);
 private:
-	GLuint textureGround, textureSky[5];
+	//GLuint textureGround, textureSky[5];
 	RootObject *_follow;
 	int _groundSize;
 };

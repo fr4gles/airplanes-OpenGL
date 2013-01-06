@@ -20,11 +20,6 @@ public:
 		_existence[1][2] =  0.0f;
 	}
 
-	Bullet(Color color)
-	{
-		Bullet();
-		_color = color;
-	}
 	void doSth();
 	void render();
 	void setColor(GLfloat red, GLfloat green, GLfloat blue);

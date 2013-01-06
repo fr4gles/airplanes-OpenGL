@@ -1,6 +1,7 @@
 #include "World.h"
 #include <iostream>
-#include "targa.h"
+//#include "targa.h"
+extern GLuint textureGround, textureSky[5];
 
 World::World(int groundSize) : _groundSize(groundSize)
 {
@@ -13,13 +14,13 @@ World::World(int groundSize) : _groundSize(groundSize)
 void World::initLoad()
 {
 	// tu bedzie ladowanie
-	load_texture("textures/ground.tga",textureGround);
+	/*load_texture("textures/ground.tga",textureGround);
 
 	load_texture("textures/front.tga",textureSky[0]);
 	load_texture("textures/left.tga",textureSky[1]);
 	load_texture("textures/back.tga",textureSky[2]);
 	load_texture("textures/right.tga",textureSky[3]);
-	load_texture("textures/top.tga",textureSky[4]);
+	load_texture("textures/top.tga",textureSky[4]);*/
 }
 
 void World::setFollow(RootObject *root)
@@ -110,13 +111,13 @@ void World::renderSkybox()
 	glPopMatrix();
 }
 
-void World::load_texture(char *fn, GLuint &texture)
+/*void World::load_texture(int w, int h, GLenum format, GLenum type, GLvoid* data, GLuint &texture)
 {
 	int w,h;
 	GLenum format, type;
 	GLvoid *data;
-
-	load_targa(fn, w,h, format, type, data);
+	
+	//load_targa(fn, w,h, format, type, data);
 	glGenTextures(1,&texture); //  !!!!!!!!!!!!!!!!!!!!!!
 	glBindTexture( GL_TEXTURE_2D, texture );
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -130,8 +131,8 @@ void World::load_texture(char *fn, GLuint &texture)
 
 	gluBuild2DMipmaps( GL_TEXTURE_2D, 3, w, h, format, type, data );
 
-	delete data;
-}
+	//delete data;
+}*/
 
 World::~World(void)
 {

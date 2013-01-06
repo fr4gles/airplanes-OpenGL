@@ -34,14 +34,13 @@ double global_vec[4];
 std::string cli_name;
 
 static std::vector<double> tmp_Me(6,0.0f);
-std::vector<double> tmp_OP(9,0.0f);
+std::vector<double> tmp_OP(7,0.0f);
 
 typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
 extern Player players;
 
 int licznikStrzal = -1;
 int nrWystrzelonejKuli = -1;
-int myHPLeft = -1;
 
 class chat_client
 {
@@ -114,7 +113,7 @@ private:
 	  boost::split(strs, tmp, boost::is_any_of(","));
 
 	// play
-	  if(strs.size()>8 && cli_name != strs[0])
+	  if(strs.size()>7 && cli_name != strs[0])
 	  {  
 			try
 			{
@@ -125,11 +124,10 @@ private:
 				tmp_OP[4] = boost::lexical_cast<double>(strs[5]);
 				tmp_OP[5] = boost::lexical_cast<double>(strs[6]);
 				tmp_OP[6] = static_cast<double>(boost::lexical_cast<int>(strs[7]));
-				tmp_OP[7] = boost::lexical_cast<int>(strs[8]);
 			}
-			catch (std::exception &ex)
+			catch (boost::bad_lexical_cast &ex)
 			{
-				std::cerr << " ex: " << ex.what() << std::endl;
+
 			}
 
 		if(tmp_OP[6] > -1.0)
@@ -229,8 +227,7 @@ class Connection
 			_sstr.str( std::string() );
 			_sstr << cli_name << ',' << 
 				tmp_Me[0] << ',' << tmp_Me[1] << ',' << tmp_Me[2] << ',' << 
-				tmp_Me[3] << ',' << tmp_Me[4] << ',' << tmp_Me[5] << ',' << 
-				nrWystrzelonejKuli << ',' << myHPLeft << ",";
+				tmp_Me[3] << ',' << tmp_Me[4] << ',' << tmp_Me[5] << ',' << nrWystrzelonejKuli << ',';
 			
 			nrWystrzelonejKuli = -1;
 

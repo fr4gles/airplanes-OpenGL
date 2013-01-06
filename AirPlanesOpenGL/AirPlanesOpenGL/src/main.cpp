@@ -15,6 +15,8 @@
 #include <math.h>
 
 #include "freeglut/freeglut.h"
+#include "targa.h"
+#include "obj.h"
 
 #include "Camera.h"
 #include "Aircraft.h"
@@ -37,7 +39,8 @@ float rot_x=0.0,rot_y=0.0,rot_z=0.0; // rotacja xyz
 int mouse_button,mouse_x,mouse_y; // ruchy mysza
 
 // textury
-GLuint texture[10],tex_num;
+GLuint texture[10], texture2[10],tex_num, tex_num2;
+GLuint textureGround, textureSky[5];
 
 const GLfloat accel = 0.005f;
 GLfloat fogDensity = 0.045f;
@@ -71,10 +74,29 @@ GLfloat odleglosc(const GLfloat* A,const GLfloat* B)
 	return static_cast<GLfloat>(sqrt((A[0]-B[0])*(A[0]-B[0]) + (A[1]-B[1])*(A[1]-B[1]) + (A[2]-B[2])*(A[2]-B[2])));
 }
 
-void respawnAircraft(int i)
+void load_texture(char *fn, GLuint &texture)
 {
-	aircraft->respawn();
+	int w,h;
+	GLenum format, type;
+	GLvoid *data;
+
+	load_targa(fn, w,h, format, type, data);
+	glGenTextures(1,&texture); //  !!!!!!!!!!!!!!!!!!!!!!
+	glBindTexture( GL_TEXTURE_2D, texture );
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+	
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+	gluBuild2DMipmaps( GL_TEXTURE_2D, 3, w, h, format, type, data );
+
+	delete data;
 }
+
 
 void handleKeys(){
 	if(keys[27]) 
@@ -235,9 +257,24 @@ void reshapeSceen(int w, int h)
 
 void initOpenGL()
 {
-	glClearColor(1.0f,1.0f,1.0f,0.0f);
+	glClearColor(1.0f,1.0f,1.0f,1.0f);
 	glEnable(GL_NORMALIZE);
-	glEnable(GL_LIGHT0);	
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHT1);
+	GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};     // Define highlight properties
+	GLfloat mat_shininess[]= {50.0};                   // Define shininess of surface
+	float lightPos[4] = {0, 10, 10, 0};
+	//GLfloat mat_ambient[] = {0.1, 0.1, 0.1, 0.1};
+	//glLightfv(GL_LIGHT0, GL_SPECULAR, lightPos);
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+	glShadeModel(GL_SMOOTH);                           // Smooth transitions between edges
+	//glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);   // Set material properties
+	glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess); // Set material properties
+	glColorMaterial(GL_FRONT_AND_BACK,GL_EMISSION);                // Set Color Capability
+
+	glEnable(GL_DEPTH_TEST);
 }
 
 void renderFog()
@@ -257,15 +294,17 @@ void drawScene()
 {
 	glClearColor(1.0,1.0,1.0,1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_LIGHTING);
+	
 	glLoadIdentity();
 
-	renderFog();
+	/*float lightPos[4] = {0, 10, 10, 0};
+	glLightfv(GL_LIGHT0, GL_SPECULAR, lightPos);*/
+	//renderFog();
 
-	/* GLboolean isLighting;
-	 glGetBooleanv(GL_LIGHTING,&isLighting);
-	 */
+	//GLboolean isLighting;
+	 //glGetBooleanv(GL_LIGHTING,&isLighting);
+	 
 	GLfloat *p = camera->getPosition();
 
 	gluLookAt(
@@ -287,28 +326,13 @@ void drawScene()
 	//	if(scale_scene>5.0f || scale_scene <-2.5f)
 	//		scale_scene = 0.0;
 	//}
-	GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};     // Define highlight properties
-	GLfloat mat_shininess[]= {50.0};                   // Define shininess of surface
-	float lightPos[4] = {0, 1000, 1000, 0};
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-	glShadeModel(GL_SMOOTH);                           // Smooth transitions between edges
-	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);   // Set material properties
-	glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess); // Set material properties
-	glColorMaterial(GL_FRONT,GL_DIFFUSE);                // Set Color Capability
 	
 	//glPushMatrix();
 	world->render();
 
 	for(int i=0;i<bullets.size();++i)
 		bullets[i]->render();
-
-	if(aircraft->IsAlive() == 1)
-		if(aircraft->getHP()<1)
-		{
-			aircraft->setIsAlive(10);
-			glutTimerFunc(5000,respawnAircraft,0);
-		}
-
+	
 	aircraft->render();
 
 	//dodawanie przeciwników
@@ -347,13 +371,14 @@ void drawScene()
 
 	glEnd ();
 	glDisable(GL_LINE_STIPPLE);
-
+	glEnable(GL_LIGHTING);
 
 	//glDisable(GL_DEPTH_TEST);
 	/*if(isLighting) {
 		glEnable(GL_LIGHTING);
 	}*/
 	//glFlush ();
+	//glDisable(GL_LIGHTING);
 	glutSwapBuffers ();
 	glutPostRedisplay();
 }
@@ -361,9 +386,10 @@ void drawScene()
 void push_backToPrzeciwnicy(std::string tmp1, RootObject* tmp2)
 {
 	przeciwnicy.push_back(std::make_pair(tmp1, dynamic_cast<Aircraft*>(tmp2)));
+	load_obj("obiekty/F-2/F-2.obj", przeciwnicy[przeciwnicy.size()-1].second->AIRCRAFT_MODEL ,texture2,tex_num2);
 
 	for(int i=0;i<iloscKul;++i)
-		bullets.push_back(new Bullet(Color(1.0f,0.0f,0.0f)));
+		bullets.push_back(new Bullet());
 }
 
 void aktualizujPozycjeGracza()
@@ -390,19 +416,18 @@ void aktualizujPozycjeGracza()
 		for(int i=3,j=0;i<6;++i,++j)
 			tmp_Me[i] = aircraft->getRotation()[j];
 
-		for(int i=iloscKul-1/*0*/;i<bullets.size();++i)
+		for(int i=iloscKul-1;i<bullets.size();++i)
 		{
-			if(odleglosc(bullets[i]->getPosition(),aircraft->getPosition()) < 0.5f)
+			if(odleglosc(bullets[i]->getPosition(),aircraft->getPosition()) < 0.7f)
 			{	
 				std::cout << "zderzenie z kul¹ nr:" << i << std::endl;
 				aircraft->attacked();
-				myHPLeft = aircraft->getHP();
 			}
 		}
 
 		for(int i=0;i<przeciwnicy.size();++i)
 		{
-			if(odleglosc(przeciwnicy[i].second->getPosition(),aircraft->getPosition()) < 0.5f)
+			if(odleglosc(przeciwnicy[i].second->getPosition(),aircraft->getPosition()) < 0.7f)
 			{	
 				std::cout << "zderzenie z przeciwnikiem nr:" << i << std::endl;
 				aircraft->dead();
@@ -445,25 +470,15 @@ void aktualizujPozycjeGracza()
 					int tmp = /*static_cast<int>*/(players[i].second[players[i].second.size()-1]);
 					if(tmp > -1)
 					{
+						bullets[(iloscKul-1)*(j+1)+tmp]->setColor(1.0f,0.0f,0.0f);
 						bullets[(iloscKul-1)*(j+1)+tmp]->setPosition(przeciwnicy[j].second->getPosition());
 						bullets[(iloscKul-1)*(j+1)+tmp]->addRotate(przeciwnicy[j].second->getRotation());
 					}
 				}
 			}
 		}
+
 	}
-
-	//// umieranie przeciwnika
-	//for(int i=0;i<players.size();++i)
-	//{
-	//	if(players[i].second[7] < 1)
-	//	{
-	//		for(int j=0;j<przeciwnicy.size();++j)
-	//			if(players[i].first == przeciwnicy[j].first)
-	//				przeciwnicy[j].second->dead();
-	//	}
-	//}
-
 }
 
 
@@ -506,14 +521,22 @@ void timer(int v)
 
 void initGame()
 {
-	//load_obj("obiekty/F-2/F-2.obj", aircraft->AIRCRAFT_MODEL ,texture,tex_num);
+	aircraft = new Aircraft();
+	load_obj("obiekty/F-2/F-2.obj", aircraft->AIRCRAFT_MODEL ,texture,tex_num);
+
+	load_texture("textures/ground.tga",textureGround);
+
+	load_texture("textures/front.tga",textureSky[0]);
+	load_texture("textures/left.tga",textureSky[1]);
+	load_texture("textures/back.tga",textureSky[2]);
+	load_texture("textures/right.tga",textureSky[3]);
+	load_texture("textures/top.tga",textureSky[4]);
 
 	for(int i=0;i<(iloscKul);++i)
 		bullets.push_back(new Bullet());
 
-	aircraft = new Aircraft();
 	world = new World();
-	world->initLoad();
+	//world->initLoad();
 
 	camera = new Camera();
 	camera->setFollow(aircraft);
@@ -553,7 +576,7 @@ int main(int argc, char **argv)
 
 			
 
-	Connection::getInstance().Init("fds","89.79.40.252" , "1234");
+	Connection::getInstance().Init("Bart","192.168.1.101"/*"89.79.40.252"*/ , "1234");
 
 glutInit(&argc, argv);
 glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );

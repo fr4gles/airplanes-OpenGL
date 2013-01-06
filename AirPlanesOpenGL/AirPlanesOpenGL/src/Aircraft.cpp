@@ -5,6 +5,7 @@ void Aircraft::render()
 {
 	glPushMatrix();
 	glEnable(GL_COLOR_MATERIAL);
+	//glEnable(GL_LIGHTING);
 
 	glTranslatef(_existence[0][0],_existence[0][1],_existence[0][2]);	
 	glRotatef(-_existence[1][0], 1,0,0 );
@@ -12,11 +13,15 @@ void Aircraft::render()
 	glRotatef(_existence[1][2],0,0,1);
 	if(_HP>0)
 	{
+		glDisable(GL_TEXTURE_2D);
 		// tekstura samolotu
 		glColor3f(_color.red,_color.green,_color.blue);
 	
-		glutSolidCone(0.1f,1.0f, 4, 5);
-		//glCallList(AIRCRAFT_MODEL);		//problem z includami, jak siê uda skonsolidowaæ powinno dzia³aæ
+		//glutSolidCone(0.1f,1.0f, 4, 5);
+		glScalef(0.1f,0.1f,0.1f);
+		glRotatef(-90.0f,1,0,0);
+		glCallList(AIRCRAFT_MODEL);
+		glEnable(GL_TEXTURE_2D);
 	}
 	else
 	{
@@ -27,6 +32,8 @@ void Aircraft::render()
 	}
 	
 	glColor4f(1.0,1.0,1.0,1.0);
+	
+	//glDisable(GL_LIGHTING);
 	glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
@@ -41,22 +48,16 @@ void Aircraft::doSth()
 	_existence[0][1] -= _move[1]*_speed;
 	_existence[0][2] -= _move[2]*_speed;
 
-	if(_HP < 1 && _existence[0][1] > 0.2f)
+	if(_HP<=0 && _existence[0][1] > 0.2f)
 	{
-		// zestrzelony kulami
-		// po co to jest ?
-		//this->addRotate(-0.3f,0,0);
-		//speedUp(0.001);
-		_isAlive += 1;
+		this->addRotate(-0.3f,0,0);
+		speedUp(0.001);
 	}
-
-	if(_existence[0][1] < 0.2f)
-	{	// spadl
-		//_existence[1][0] = 0.2f;
+	if(_existence[0][1] < 0.3f)
+	{
+		_existence[1][0] = 0.2f;
 		dead();				//wybuch bo wpad³ w ziemiê
 		speedDown(0.01);
-
-		_isAlive += 1;
 	}
 	else if(_existence[0][1] > 50.0f)
 		_existence[1][0] = -_existence[1][0];
@@ -83,17 +84,6 @@ void Aircraft::addRotate(GLfloat x, GLfloat y, GLfloat z)
 
 GLint Aircraft::generateRandomPosition()
 { 
-
-	//static bool init = false;
-
-	//if (!init) 
-	//{
-	//	srand(time(NULL));
-	//	init = true;
-	//}
-
- // return rand()%21-10; 
-
 	srand(time(NULL));
 	return rand()%21-10;
 }
@@ -125,15 +115,10 @@ void Aircraft::respawn()
 	_minSpeed = 0.0f;
 	_move = std::vector<GLfloat>(3,0.0f);
 	_HP = 50;
-	
+	_color = Color(0.0f,0.0f,1.0f);
 
 	_existence[0][0] = static_cast<GLfloat>(generateRandomPosition());
 	_existence[0][1] = 0.35f;
 	_existence[0][2] = static_cast<GLfloat>(generateRandomPosition());
-	
-	_existence[1][0] = 0.0f;
 	_existence[1][1] = 0.0f;
-	_existence[1][2] = 0.0f;
-
-	_isAlive = 0;
 }
