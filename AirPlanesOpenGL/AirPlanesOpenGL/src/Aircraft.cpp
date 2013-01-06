@@ -116,6 +116,7 @@ void Aircraft::setHP(const GLint& newHP)
 
 void Aircraft::respawn()
 {
+	_speed = 0.0f;
 	_existence[0][0] = static_cast<GLfloat>(generateRandomPosition());
 	_existence[0][1] = 1.35f;
 	_existence[0][2] = static_cast<GLfloat>(generateRandomPosition());
