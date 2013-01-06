@@ -484,9 +484,10 @@ void aktualizujPozycjeGracza()
 					
 					przeciwnicy[j].second->setHP(players[i].second[7]);
 
-					int tmp = /*static_cast<int>*/(players[i].second[players[i].second.size()-2]);
+					int tmp = ceil(/*static_cast<int>(*/players[i].second[players[i].second.size()-2]/*)*/);
 					if(tmp > -1)
 					{
+						bullets[(iloscKul-1)*(j+1)+tmp]->setColor(1.0f,0.0f,0.0f);
 						bullets[(iloscKul-1)*(j+1)+tmp]->setPosition(przeciwnicy[j].second->getPosition());
 						bullets[(iloscKul-1)*(j+1)+tmp]->addRotate(przeciwnicy[j].second->getRotation());
 					}
@@ -598,7 +599,7 @@ int main(int argc, char **argv)
 
 			
 
-	Connection::getInstance().Init("kdjask","192.168.1.101"/*"89.79.40.252"*/ , "1234");
+	Connection::getInstance().Init("asdf","192.168.1.101"/*"89.79.40.252"*/ , "1234");
 
 glutInit(&argc, argv);
 glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );
