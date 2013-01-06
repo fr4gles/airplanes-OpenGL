@@ -1,6 +1,8 @@
 #include "Aircraft.h"
 #include "freeglut\glut.h"
 
+extern GLuint AIRCRAFT_MODEL;
+
 void Aircraft::render()
 {
 	glPushMatrix();
@@ -11,8 +13,8 @@ void Aircraft::render()
 	glRotatef(-_existence[1][0], 1,0,0 );
 	glRotatef(_existence[1][1], 0, cos(_existence[1][0] * 3.1415/180.0),sin(_existence[1][0] * 3.1415/180.0) );
 	glRotatef(_existence[1][2],0,0,1);
-	if(_HP>0)
-	{
+	//if(_HP>0)
+	//{
 		glDisable(GL_TEXTURE_2D);
 		// tekstura samolotu
 		glColor3f(_color.red,_color.green,_color.blue);
@@ -22,14 +24,14 @@ void Aircraft::render()
 		glRotatef(-90.0f,1,0,0);
 		glCallList(AIRCRAFT_MODEL);
 		glEnable(GL_TEXTURE_2D);
-	}
-	else
-	{
-		//zmiana tekstury na wybuch
-		glColor3f(0.9f,0.7f,0.0f);
+	//}
+	//else
+	//{
+	//	//zmiana tekstury na wybuch
+	//	glColor3f(0.9f,0.7f,0.0f);
 
-		glutSolidSphere(2.0f,10,10);
-	}
+	//	glutSolidSphere(2.0f,10,10);
+	//}
 	
 	glColor4f(1.0,1.0,1.0,1.0);
 	

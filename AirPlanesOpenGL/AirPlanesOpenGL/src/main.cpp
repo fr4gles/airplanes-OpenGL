@@ -60,6 +60,8 @@ bool exitProgram = false;
 bool strzelaj = false;
 int iloscKul = 100;
 
+GLuint AIRCRAFT_MODEL;
+
 // usuwanie elementu z wektora
 template <typename T>
 void remove(std::vector<T>& vec, size_t pos)
@@ -386,7 +388,7 @@ void drawScene()
 void push_backToPrzeciwnicy(std::string tmp1, RootObject* tmp2)
 {
 	przeciwnicy.push_back(std::make_pair(tmp1, dynamic_cast<Aircraft*>(tmp2)));
-	load_obj("obiekty/F-2/F-2.obj", przeciwnicy[przeciwnicy.size()-1].second->AIRCRAFT_MODEL ,texture2,tex_num2);
+	//load_obj("obiekty/F-2/F-2.obj", przeciwnicy[przeciwnicy.size()-1].second->AIRCRAFT_MODEL ,texture2,tex_num2);
 
 	for(int i=0;i<iloscKul;++i)
 		bullets.push_back(new Bullet());
@@ -522,7 +524,7 @@ void timer(int v)
 void initGame()
 {
 	aircraft = new Aircraft();
-	load_obj("obiekty/F-2/F-2.obj", aircraft->AIRCRAFT_MODEL ,texture,tex_num);
+	load_obj("obiekty/F-2/F-2.obj", AIRCRAFT_MODEL ,texture,tex_num);
 
 	load_texture("textures/ground.tga",textureGround);
 
@@ -576,7 +578,7 @@ int main(int argc, char **argv)
 
 			
 
-	Connection::getInstance().Init("Bart","192.168.1.101"/*"89.79.40.252"*/ , "1234");
+	Connection::getInstance().Init("kdjask","192.168.1.101"/*"89.79.40.252"*/ , "1234");
 
 glutInit(&argc, argv);
 glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );

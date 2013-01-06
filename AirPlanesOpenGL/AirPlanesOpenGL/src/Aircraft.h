@@ -7,7 +7,6 @@ class Aircraft :
 	public RootObject
 {
 public:
-	GLuint AIRCRAFT_MODEL;
 
 	Aircraft(): RootObject()
 	{
