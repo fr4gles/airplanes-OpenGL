@@ -392,7 +392,7 @@ void push_backToPrzeciwnicy(std::string tmp1, RootObject* tmp2)
 	//przeciwnicy[przeciwnicy.size()-1].second->setHP(50);
 
 	for(int i=0;i<iloscKul;++i)
-		bullets.push_back(new Bullet());
+		bullets.push_back(new Bullet(Color(1.0f,0.0f,0.0f)));
 }
 
 void aktualizujPozycjeGracza()
@@ -461,7 +461,9 @@ void aktualizujPozycjeGracza()
 		if(isNot)
 			push_backToPrzeciwnicy(players[players.size()-1].first,new Aircraft(players[players.size()-1].second));
 			//przeciwnicy.push_back(std::make_pair(players[players.size()-1].first, new Aircraft(players[players.size()-1].second)));
+		/////////
 
+		// aktualizacja przeciwników
 		for(int i=0;i<players.size();++i)
 		{
 			for(int j=0;j<przeciwnicy.size();++j)
@@ -470,10 +472,11 @@ void aktualizujPozycjeGracza()
 				{
 					przeciwnicy[j] = std::make_pair(players[i].first, new Aircraft(players[i].second));
 					
+					przeciwnicy[j].second->setHP(players[i].second[7]);
+
 					int tmp = /*static_cast<int>*/(players[i].second[players[i].second.size()-2]);
 					if(tmp > -1)
 					{
-						bullets[(iloscKul-1)*(j+1)+tmp]->setColor(1.0f,0.0f,0.0f);
 						bullets[(iloscKul-1)*(j+1)+tmp]->setPosition(przeciwnicy[j].second->getPosition());
 						bullets[(iloscKul-1)*(j+1)+tmp]->addRotate(przeciwnicy[j].second->getRotation());
 					}
@@ -497,6 +500,10 @@ void sendAndRecv(int v)
 		//aktualizujPozycjeGracza();
 	}
 	
+	// aktualizowanie hp
+	myHP = aircraft->getHP();
+
+	// 
 	aktualizujPozycjeGracza();
 	
 	glutTimerFunc(50, sendAndRecv, 0);
