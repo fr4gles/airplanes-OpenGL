@@ -598,7 +598,7 @@ int main(int argc, char **argv)
 
 			
 
-	Connection::getInstance().Init("asdf","192.168.1.101"/*"89.79.40.252"*/ , "1234");
+	Connection::getInstance().Init("efawefwaefawe","192.168.1.101"/*"89.79.40.252"*/ , "1234");
 
 glutInit(&argc, argv);
 glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );
