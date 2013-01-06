@@ -7,7 +7,7 @@ class Bullet :
 public:
 	Bullet(): RootObject()
 	{
-		_speed = 0.4f;
+		_speed = 0.8f;
 		_move = std::vector<GLfloat>(3,0.0f);
 		_color = Color(0.0f,0.0f,1.0f);
 		//pos
@@ -22,7 +22,7 @@ public:
 
 	Bullet(const Color &color): RootObject()
 	{
-		_speed = 0.4f;
+		_speed = 0.8f;
 		_move = std::vector<GLfloat>(3,0.0f);
 		_color = color;
 		//pos
