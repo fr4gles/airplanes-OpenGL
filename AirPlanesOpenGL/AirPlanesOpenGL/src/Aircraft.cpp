@@ -13,8 +13,8 @@ void Aircraft::render()
 	glRotatef(-_existence[1][0], 1,0,0 );
 	glRotatef(_existence[1][1], 0, cos(_existence[1][0] * 3.1415/180.0),sin(_existence[1][0] * 3.1415/180.0) );
 	glRotatef(_existence[1][2],0,0,1);
-	//if(_HP>0)
-	//{
+	if(_HP > static_cast<GLint>(0))
+	{
 		glDisable(GL_TEXTURE_2D);
 		// tekstura samolotu
 		glColor3f(_color.red,_color.green,_color.blue);
@@ -24,14 +24,14 @@ void Aircraft::render()
 		glRotatef(-90.0f,1,0,0);
 		glCallList(AIRCRAFT_MODEL);
 		glEnable(GL_TEXTURE_2D);
-	//}
-	//else
-	//{
-	//	//zmiana tekstury na wybuch
-	//	glColor3f(0.9f,0.7f,0.0f);
+	}
+	else
+	{
+		//zmiana tekstury na wybuch
+		glColor3f(0.9f,0.7f,0.0f);
 
-	//	glutSolidSphere(2.0f,10,10);
-	//}
+		glutSolidSphere(2.0f,10,10);
+	}
 	
 	glColor4f(1.0,1.0,1.0,1.0);
 	
@@ -50,7 +50,7 @@ void Aircraft::doSth()
 	_existence[0][1] -= _move[1]*_speed;
 	_existence[0][2] -= _move[2]*_speed;
 
-	if(_HP<=0 && _existence[0][1] > 0.2f)
+	if(_HP < 1 && _existence[0][1] > 0.2f)
 	{
 		//this->addRotate(0.f-0.3f,0);
 		//speedUp(0.001);
@@ -117,10 +117,12 @@ void Aircraft::respawn()
 	_minSpeed = 0.0f;
 	_move = std::vector<GLfloat>(3,0.0f);
 	_HP = 50;
-	_color = Color(0.0f,0.0f,1.0f);
 
 	_existence[0][0] = static_cast<GLfloat>(generateRandomPosition());
-	_existence[0][1] = 0.35f;
+	_existence[0][1] = 1.35f;
 	_existence[0][2] = static_cast<GLfloat>(generateRandomPosition());
+	
+	_existence[1][0] = 0.0f;
 	_existence[1][1] = 0.0f;
+	_existence[1][2] = 0.0f;
 }
