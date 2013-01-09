@@ -292,7 +292,17 @@ void aktualizujPozycjeGracza()
 
 					przeciwnicy[j].second->setWingsRot(players[i].second[8]);
 
-					int tmp = ceil(players[i].second[6/*players[i].second.size()-3*/]);
+					int tmp = -1;
+					try
+					{
+						tmp = ceil(players[i].second.at(6/*players[i].second.size()-3*/));
+					}
+					catch(std::exception &e)
+					{
+						std::cerr << "BLAD ASSERSION !!" << std::endl;
+						tmp = -1;
+					}
+
 					if(tmp > -1)
 					{
 						bullets[(iloscKul-1)*(j+1)+tmp]->setColor(1.0f,0.0f,0.0f);
