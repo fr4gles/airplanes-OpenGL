@@ -107,6 +107,7 @@
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\chat_client.hpp" />
     <ClInclude Include="src\chat_message.hpp" />
+    <ClInclude Include="src\obsluga_myszy_i_klawiatury.h" />
     <ClInclude Include="src\RootObject.h" />
     <ClInclude Include="src\targa.h" />
     <ClInclude Include="src\utils.h" />

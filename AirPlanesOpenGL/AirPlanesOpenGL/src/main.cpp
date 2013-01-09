@@ -23,27 +23,21 @@
 #include "Bullet.h"
 #include "World.h"
 
+#include "obsluga_myszy_i_klawiatury.h"
+
 bool keys[256], specialkeys[256];
-
-int figura=1;
-float scale_scene = 0.0f;
-
-float	camera_distance=10.0f,
-		camera_theta=0.2f,
-		camera_fi=1.2f; // ustawienia kamery
 
 float pos_x=0.0,pos_y=0.0,pos_z=0.0; // pozycja xyz
 float scale_x=1.0,scale_y=1.0,scale_z=1.0; // skala xyz
 float rot_x=0.0,rot_y=0.0,rot_z=0.0; // rotacja xyz
 
-int mouse_button,mouse_x,mouse_y; // ruchy mysza
-
-// textury
 GLuint texture[10], texture2[10],tex_num, tex_num2;
 GLuint textureGround, textureSky[5];
 
 const GLfloat accel = 0.005f;
 GLfloat fogDensity = 0.045f;
+
+GLuint AIRCRAFT_MODEL;
 
 // zmienne klas
 World* world;
@@ -56,11 +50,11 @@ std::vector<std::pair<std::string,Aircraft*>> przeciwnicy;
 typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
 Player players;
 
+
 bool exitProgram = false;
 bool strzelaj = false;
 int iloscKul = 100;
 
-GLuint AIRCRAFT_MODEL;
 
 // usuwanie elementu z wektora
 template <typename T>
@@ -97,144 +91,6 @@ void load_texture(char *fn, GLuint &texture)
 	gluBuild2DMipmaps( GL_TEXTURE_2D, 3, w, h, format, type, data );
 
 	delete data;
-}
-
-
-void handleKeys(){
-	if(keys[27]) 
-	{
-		exitProgram = true;
-	}
-
-	////////////CAMERA
-	if(specialkeys[GLUT_KEY_LEFT]){
-		camera->addDistance(0.0f,-0.1f,0.0f);
-	}
-	else if(specialkeys[GLUT_KEY_RIGHT]){
-		camera->addDistance(0.0f,0.1f,0.0f);
-	}
-	if(specialkeys[GLUT_KEY_UP])
-		camera->addDistance(0.1f,0.0f,0.1f);
-	else if(specialkeys[GLUT_KEY_DOWN])
-		camera->addDistance(-0.1f,0.0f,-0.1f);
-
-	////////////AIRCRAFT
-	if(aircraft->getHP() > 0)
-	{
-		if(keys[32])
-		{
-			licznikStrzal++;
-
-			nrWystrzelonejKuli = licznikStrzal;
-			strzelaj = true;
-
-			if(licznikStrzal > iloscKul-2)
-				licznikStrzal = -1;
-		}
-
-		if(keys['a']||keys['A'])  {
-			aircraft->addRotate(0,0.8f,0);
-			aircraft->setWingsRot(1.0f);
-		}
-		if(keys['d']||keys['D']) {
-			aircraft->addRotate(0,-0.8f,0);
-			aircraft->setWingsRot(-1.0f);
-		}
-		if(keys['s']||keys['S']) {
-			aircraft->addRotate(-0.5f,0,0);
-		}
-		if(keys['w']||keys['W']) {
-			aircraft->addRotate(0.5f,0,0);
-		}
-
-		if(keys['r']||keys['R'])
-			aircraft->speedUp(accel);
-		if(keys['f']||keys['F'])
-			aircraft->speedDown(accel);
-	}
-	/////////////EXTRA VIEW
-	if(keys['.']) {
-		camera->setExtraRotation(0.0f,-90.f,0.0f);
-	}
-	else if(keys['b']||keys['B']) { 
-		camera->setExtraRotation(0.0f,180.f,0.0f);
-	}
-	else if(keys[',']) {
-		camera->setExtraRotation(0.0f,90.f,0.0f);
-	}
-	else {
-		camera->setExtraRotation(0.0f,0.0f,0.0f);
-	}
-	if(keys['4']) {
-		if(fogDensity<1.0)
-			fogDensity+=0.005f;
-	}
-	if(keys['5']) {
-		if(fogDensity>0.0)
-			fogDensity-=0.005f;
-	}
-}
-
-void keyUp(unsigned char key, int x, int y)
-{
-	keys[key]=false;	
-}
-
-void keyDown(unsigned char key, int x, int y)
-{
-	keys[key]=true;
-}
-
-void specialKeyDown(int key, int x, int y)
-{
-	specialkeys[key]=true;
-}
-
-void specialKeyUp(int key, int x, int y)
-{
-	specialkeys[key]=false;
-}
-
-void mouseButton (int button,int state,int x,int y)
-{
-	mouse_button=-1;
-	if (button==GLUT_LEFT_BUTTON)
-	{
-		mouse_button=button;
-		if (state==GLUT_DOWN)
-		{
-			mouse_x=x;
-			mouse_y=y;
-		}
-	}
-}
-
-void mouseMotion (int x,int y)
-{
-	if (mouse_button==GLUT_LEFT_BUTTON)
-	{
-		camera_fi += float(2.0/glutGet(GLUT_WINDOW_WIDTH)*(x-mouse_x));
-		camera_theta -= float(2.0/glutGet(GLUT_WINDOW_HEIGHT)*(mouse_y-y));
-		mouse_x=x;
-		mouse_y=y;
-		glutPostRedisplay ();
-	}
-}
-
-void mouseWheel(int button, int dir, int x, int y)
-{
-	if (dir > 0)
-	{
-		// Zoom in
-		camera_distance -= 0.25;
-	}
-	else
-	{
-		// Zoom out
-		camera_distance += 0.25;
-	}
-
-	return;
 }
 
 void reshapeSceen(int w, int h)
@@ -436,7 +292,7 @@ void aktualizujPozycjeGracza()
 
 					przeciwnicy[j].second->setWingsRot(players[i].second[8]);
 
-					int tmp = ceil(players[i].second[players[i].second.size()-3]);
+					int tmp = ceil(players[i].second[6/*players[i].second.size()-3*/]);
 					if(tmp > -1)
 					{
 						bullets[(iloscKul-1)*(j+1)+tmp]->setColor(1.0f,0.0f,0.0f);
@@ -446,10 +302,9 @@ void aktualizujPozycjeGracza()
 				}
 			}
 		}
-
+		       
 	}
 }
-
 
 void sendAndRecv(int v)
 {
@@ -483,6 +338,15 @@ void timer(int v)
 	glutTimerFunc(10, timer, 0);
 }
 
+void zakonczProgram () 
+{
+	exitProgram = true;
+	std::cerr << "Koniec\n";
+	aktualizujPozycjeGracza();
+
+	Connection::getInstance().Stop();
+}
+
 void initGame()
 {
 	aircraft = new Aircraft();
@@ -506,68 +370,53 @@ void initGame()
 	world->setFollow(aircraft);
 }
 
-void zakonczProgram () 
-{
-	exitProgram = true;
-	std::cerr << "Koniec\n";
-	aktualizujPozycjeGracza();
-
-	Connection::getInstance().Stop();
-}
-
 int main(int argc, char **argv)
 {	
-std::string ip, port, name;
-std::cout << " Podaj NAZWE: " << std::endl;
-std::cin >> name;
-std::cout << " Podaj IP: " << std::endl;
-std::cin >> ip;
-//std::cout << " Podaj PORT: " << std::endl;
-//std::cin >> port;
+	std::string ip, port, name;
+	std::cout << " Podaj NAZWE: " << std::endl;
+	std::cin >> name;
+	std::cout << " Podaj IP: " << std::endl;
+	std::cin >> ip;
+	//std::cout << " Podaj PORT: " << std::endl;
+	//std::cin >> port;
 
-Connection::getInstance().Init(name,ip);
+	Connection::getInstance().Init(name,ip);
 
-//Connection::getInstance().Init("asdhygh","192.168.1.101"/*"89.79.40.252"*/ , "1234");
+	//Connection::getInstance().Init("asdhygh","192.168.1.101"/*"89.79.40.252"*/ , "1234");
 
-glutInit(&argc, argv);
-glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );
-glutInitWindowSize(800,600);
-glutInitWindowPosition(100,100);
-glutCreateWindow("Air DESTROYYYYYER");
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH );
+	glutInitWindowSize(800,600);
+	glutInitWindowPosition(100,100);
+	glutCreateWindow("Air DESTROYYYYYER");
 
+	initOpenGL();		// inicjalizacja opengl
 
-initOpenGL();
-InitVSync();
+	InitVSync();		// inicjalizacja VSync
+	SetVSyncState(1);	// VSync w³¹czony
 
-SetVSyncState(1);
+	glewInit();			// inicjalizacja glewa
 
-glewInit();
+	initGame();			// inicjalizacja obiektów w grze
 
-initGame();
+	glutDisplayFunc(drawScene);
+	glutReshapeFunc(reshapeSceen);
+	glutKeyboardFunc(keyDown);
+	glutKeyboardUpFunc(keyUp);
+	glutSpecialFunc(specialKeyDown);
+	glutSpecialUpFunc(specialKeyUp);
 
-glutDisplayFunc(drawScene);
-glutReshapeFunc(reshapeSceen);
-glutKeyboardFunc(keyDown);
-glutKeyboardUpFunc(keyUp);
-glutSpecialFunc(specialKeyDown);
-glutSpecialUpFunc(specialKeyUp);
+	glutCloseFunc(zakonczProgram); // pod³¹czenie funkcji do wy³¹czenie programu, g³ownie po to by daæ znaæ, przeciwnikowi, ¿e zakoñczy³o siê grê
 
-glutCloseFunc(zakonczProgram);
+	// timer aktualizuj¹cy pozycji gracza
+	glutTimerFunc(0, sendAndRecv, 0);
 
+	// czas w grze
+	glutTimerFunc(0, timer, 0);
 
-glutMouseFunc(mouseButton);
-glutMotionFunc(mouseMotion);
-glutMouseWheelFunc(mouseWheel);
+	glutMainLoop();
 
+	Connection::getInstance().Stop();
 
-// aktualizowanie pozycji gracza
-glutTimerFunc(0, sendAndRecv, 0);
-glutTimerFunc(0, timer, 0);
-//glutTimerFunc(0, bulletTime, 0);
-
-glutMainLoop();
-
-Connection::getInstance().Stop();
-
-return 0;
+	return 0;
 }

@@ -58,6 +58,7 @@ public:
 
 	void setWingsRot(const GLfloat& newRot);
 	void setBlowUp(const GLfloat& newBlow);
+	inline const GLfloat& getBlowUP() const { return _blowUp; };
 	inline const GLint& getHP() const { return _HP; }
 	void setHP(const GLint &newHP);
 	inline const GLfloat &getSpeed() const { return _speed; }
