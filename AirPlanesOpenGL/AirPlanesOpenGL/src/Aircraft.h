@@ -30,7 +30,7 @@ public:
 		_minSpeed = 0.0f;
 		_move = std::vector<GLfloat>(3,0.0f);
 		_HP = 50;
-		//_blowUp = 2.0f;
+		_blowUp = 2.0f;
 		_wingsRot = 0.0f;
 
 		_isAlive = 0;
