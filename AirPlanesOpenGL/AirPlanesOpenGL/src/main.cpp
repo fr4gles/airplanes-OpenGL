@@ -434,7 +434,9 @@ void aktualizujPozycjeGracza()
 					
 					przeciwnicy[j].second->setHP(players[i].second[7]);
 
-					int tmp = ceil(players[i].second[players[i].second.size()-2]);
+					przeciwnicy[j].second->setWingsRot(players[i].second[8]);
+
+					int tmp = ceil(players[i].second[players[i].second.size()-3]);
 					if(tmp > -1)
 					{
 						bullets[(iloscKul-1)*(j+1)+tmp]->setColor(1.0f,0.0f,0.0f);
@@ -464,7 +466,7 @@ void sendAndRecv(int v)
 
 	// 
 	aktualizujPozycjeGracza();
-	glutTimerFunc(50, sendAndRecv, 0);
+	glutTimerFunc(40, sendAndRecv, 0);
 }
 
 void timer(int v)
