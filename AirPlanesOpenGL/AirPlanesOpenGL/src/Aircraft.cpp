@@ -50,7 +50,18 @@ void Aircraft::doSth()
 	_existence[0][1] -= _move[1]*_speed;
 	_existence[0][2] -= _move[2]*_speed;
 
+	_rotSpeed = 1.0f;
 
+	if(fabs(_wingsRot) > 0.f)
+	{
+		_existence[1][2] += _wingsRot*_rotSpeed;
+
+		if(_existence[1][2] > 20.f) 
+			_existence[1][2] = 20.f;
+		
+		if(_existence[1][2] < -20.f) 
+			_existence[1][2] = -20.f;		
+	}
 
 	if(_HP < 1 && _existence[0][1] > 0.2f)
 	{
@@ -66,6 +77,11 @@ void Aircraft::doSth()
 	}
 	else if(_existence[0][1] > 50.0f)
 		_existence[1][0] = -_existence[1][0];
+
+	if(_existence[1][2] != 0.0f && _wingsRot == 0.0f) 
+		_existence[1][2]+= -_rotSpeed*(_existence[1][2]/fabs(_existence[1][2]));
+
+	_wingsRot = 0.0f;
 }
 
 void Aircraft::speedUp(GLfloat newSpeed)
@@ -122,9 +138,15 @@ void Aircraft::respawn()
 	_blowUp = 0.45f;
 	_HP = 50;
 	_isAlive = 0;
+	_wingsRot = 0.0f;
 }
 
 void Aircraft::setBlowUp(const GLfloat& newBlow)
 {
 	_blowUp = 0.45f;
+}
+
+void Aircraft::setWingsRot(const GLfloat& newRot)
+{
+	_wingsRot = newRot;
 }

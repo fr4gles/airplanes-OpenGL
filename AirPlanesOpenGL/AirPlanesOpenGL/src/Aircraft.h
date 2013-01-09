@@ -31,6 +31,7 @@ public:
 		_move = std::vector<GLfloat>(3,0.0f);
 		_HP = 50;
 		_blowUp = 2.0f;
+		_wingsRot = 0.0f;
 
 		_isAlive = 0;
 		_color = Color(1.0f,0.0f,0.0f);
@@ -55,6 +56,7 @@ public:
 	void dead();
 	void respawn();
 
+	void setWingsRot(const GLfloat& newRot);
 	void setBlowUp(const GLfloat& newBlow);
 	inline const GLint& getHP() const { return _HP; }
 	void setHP(const GLint &newHP);
@@ -71,6 +73,6 @@ private:
 	GLint _HP;
 	Color _color;
 	GLint _isAlive;
-	GLfloat _blowUp;
+	GLfloat _blowUp, _wingsRot, _rotSpeed;
 };
 

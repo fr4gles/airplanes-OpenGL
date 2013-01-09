@@ -134,9 +134,11 @@ void handleKeys(){
 
 		if(keys['a']||keys['A'])  {
 			aircraft->addRotate(0,0.8f,0);
+			aircraft->setWingsRot(1.0f);
 		}
 		if(keys['d']||keys['D']) {
 			aircraft->addRotate(0,-0.8f,0);
+			aircraft->setWingsRot(-1.0f);
 		}
 		if(keys['s']||keys['S']) {
 			aircraft->addRotate(-0.5f,0,0);
