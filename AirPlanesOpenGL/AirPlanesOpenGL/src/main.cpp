@@ -369,7 +369,7 @@ void aktualizujPozycjeGracza()
 		for(int i=3,j=0;i<6;++i,++j)
 			tmp_Me[i] = aircraft->getRotation()[j]+5000.0f;
 
-		for(int i=0;i<10;++i)
+		for(int i=0;i<40;++i) // 40 dla pewnoœci, ¿e komunikat doszed³, mo¿na oczywiœcie daæ sleepa ale komu by ci siê chcia³o
 			Connection::getInstance().Start();
 
 		glutLeaveMainLoop();
