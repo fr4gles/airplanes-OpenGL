@@ -126,7 +126,7 @@ void Aircraft::setHP(const GLint& newHP)
 
 void Aircraft::respawn()
 {
-	_speed = 0.0f;
+	_speed = 1.0f/5.0f * _maxSpeed;
 	_existence[0][0] = static_cast<GLfloat>(generateRandomPosition());
 	_existence[0][1] = 0.35f;
 	_existence[0][2] = static_cast<GLfloat>(generateRandomPosition());
@@ -143,7 +143,8 @@ void Aircraft::respawn()
 
 void Aircraft::setBlowUp(const GLfloat& newBlow)
 {
-	_blowUp = 0.45f;
+	//_blowUp = 0.45f;
+	_blowUp += newBlow;
 }
 
 void Aircraft::setWingsRot(const GLfloat& newRot)

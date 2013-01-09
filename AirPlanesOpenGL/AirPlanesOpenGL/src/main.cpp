@@ -50,7 +50,6 @@ std::vector<std::pair<std::string,Aircraft*>> przeciwnicy;
 typedef std::vector<std::pair<std::string,std::vector<double>>> Player;
 Player players;
 
-
 bool exitProgram = false;
 bool strzelaj = false;
 int iloscKul = 100;
@@ -68,6 +67,14 @@ void remove(std::vector<T>& vec, size_t pos)
 GLfloat odleglosc(const GLfloat* A,const GLfloat* B)
 {
 	return static_cast<GLfloat>(sqrt((A[0]-B[0])*(A[0]-B[0]) + (A[1]-B[1])*(A[1]-B[1]) + (A[2]-B[2])*(A[2]-B[2])));
+}
+
+void push_backToPrzeciwnicy(std::string tmp1, RootObject* tmp2)
+{
+	przeciwnicy.push_back(std::make_pair(tmp1, dynamic_cast<Aircraft*>(tmp2)));
+	
+	for(int i=0;i<iloscKul;++i)
+		bullets.push_back(new Bullet(Color(1.0f,0.0f,0.0f)));
 }
 
 void load_texture(char *fn, GLuint &texture)
@@ -207,13 +214,7 @@ void drawScene()
 	glutPostRedisplay();
 }
 
-void push_backToPrzeciwnicy(std::string tmp1, RootObject* tmp2)
-{
-	przeciwnicy.push_back(std::make_pair(tmp1, dynamic_cast<Aircraft*>(tmp2)));
-	
-	for(int i=0;i<iloscKul;++i)
-		bullets.push_back(new Bullet(Color(1.0f,0.0f,0.0f)));
-}
+
 
 void aktualizujPozycjeGracza()
 {
@@ -279,6 +280,8 @@ void aktualizujPozycjeGracza()
 		if(isNot)
 			push_backToPrzeciwnicy(players[players.size()-1].first,new Aircraft(players[players.size()-1].second));
 			
+		int tmp = -1;
+
 		// aktualizacja przeciwników
 		for(int i=0;i<players.size();++i)
 		{
@@ -292,10 +295,10 @@ void aktualizujPozycjeGracza()
 
 					przeciwnicy[j].second->setWingsRot(players[i].second[8]);
 
-					int tmp = -1;
+					
 					try
 					{
-						tmp = ceil(players[i].second.at(6/*players[i].second.size()-3*/));
+						tmp = players[i].second.at(6/*players[i].second.size()-3*/);
 					}
 					catch(std::exception &e)
 					{

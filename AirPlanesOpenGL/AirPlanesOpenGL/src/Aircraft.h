@@ -14,7 +14,7 @@ public:
 
 		_isAlive = 0;
 
-		_speed = 0.0f;
+		_speed = 1.0f/5.0f * _maxSpeed;
 		_maxSpeed = 0.10f;
 		_minSpeed = 0.0f;
 		_move = std::vector<GLfloat>(3,0.0f);
@@ -25,12 +25,12 @@ public:
 
 	Aircraft(const std::vector<double> &tmp): RootObject()
 	{
-		_speed = 0.0f;
+		_speed = 1.0f/5.0f * _maxSpeed;
 		_maxSpeed = 0.10f;
 		_minSpeed = 0.0f;
 		_move = std::vector<GLfloat>(3,0.0f);
 		_HP = 50;
-		_blowUp = 2.0f;
+		//_blowUp = 2.0f;
 		_wingsRot = 0.0f;
 
 		_isAlive = 0;
