@@ -241,7 +241,7 @@ void aktualizujPozycjeGracza()
 
 		for(int i=iloscKul-1;i<bullets.size();++i)
 		{
-			if(odleglosc(bullets[i]->getPosition(),aircraft->getPosition()) < 0.7f)
+			if(odleglosc(bullets[i]->getPosition(),aircraft->getPosition()) < 1.0f)
 			{	
 				std::cout << "zderzenie z kul¹ nr:" << i << std::endl;
 				aircraft->attacked();
